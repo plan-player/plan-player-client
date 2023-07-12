@@ -8,6 +8,8 @@ import Player from './screens/Player';
 import Playlist from './screens/Playlist';
 import Schedule from './screens/Schedule';
 import Statistics from './screens/Statistics';
+import CategoryGroup from './screens/CategoryGroup';
+import CategoryDetail from './screens/CategoryDetail';
 
 const router = createBrowserRouter([
   {
@@ -33,16 +35,24 @@ const router = createBrowserRouter([
             element: <Playlist />,
           },
           {
-            path: '/player',
-            element: <Player />,
-          },
-          {
             path: '/schedule',
             element: <Schedule />,
           },
           {
+            path:'/category',
+            element:<CategoryGroup/>,
+          },
+          {
+            path:'/category/:id',
+            element:<CategoryDetail/>
+          },
+          {
             path: '/statistics',
             element: <Statistics />,
+          },
+          {
+            path: '/player',
+            element: <Player />,
           },
         ],
       },

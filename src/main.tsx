@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import './index.css';
 
 const { PLA_SENTRY } = import.meta.env;
 
