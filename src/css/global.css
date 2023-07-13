@@ -60,7 +60,12 @@ nav {
 }
 
 /* heading */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 800;
 }
 
@@ -188,6 +193,14 @@ h6 {
 }
 
 /* margin */
+.mx-auto {
+  margin: 0 auto;
+}
+
+.mx-md {
+  margin: 0 1rem;
+}
+
 .mb-md {
   margin-bottom: 1rem;
 }
@@ -203,6 +216,10 @@ h6 {
 /* width */
 .w-100 {
   width: 100%;
+}
+
+.w-50 {
+  width: 50%;
 }
 
 /* rounded */
@@ -303,6 +320,10 @@ h6 {
   justify-content: space-around;
 }
 
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
 .items-center {
   align-items: center;
 }
@@ -319,4 +340,9 @@ h6 {
 .grid-cols-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* word */
+.break-word {
+  word-break: break-word;
 }

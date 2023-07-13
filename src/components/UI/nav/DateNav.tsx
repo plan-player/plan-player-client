@@ -4,7 +4,6 @@ import { styled } from 'styled-components';
 
 const DateNavWrapper = styled.div`
   width: 50vw;
-  margin: 0 auto;
 `;
 
 const DateNav = () => {
@@ -34,7 +33,7 @@ const DateNav = () => {
   };
 
   return (
-    <DateNavWrapper className="flex justify-between items-center">
+    <DateNavWrapper className="w-50 flex justify-between items-center mx-auto">
       <FaBackwardStep onClick={backPrevDate} />
       <h3 style={{ lineHeight: '0.2rem' }}>{today}</h3>
       <FaForwardStep onClick={goNextDate} />

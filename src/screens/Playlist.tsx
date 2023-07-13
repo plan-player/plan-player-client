@@ -6,7 +6,7 @@ const DUMMY_TODOS: TodoListItemProps[] = [
   {
     cover: '🖇',
     category: 'Category Name 1',
-    title: 'Main Title Main Todo 1',
+    title: 'Long Main Title Main Todo 1',
     time: '00:00:00',
   },
   {
@@ -24,19 +24,18 @@ const DUMMY_TODOS: TodoListItemProps[] = [
   {
     cover: '💻',
     category: 'Category Name 4',
-    title: 'Main Title Main Todo 4',
+    title: 'IfLongLongLongLongMainTitleMainTodo4',
     time: '00:00:00',
   },
 ];
 
 const PlaylistWrapper = styled.div`
   width: 85%;
-  margin: 0 auto;
 `;
 
 const Playlist = () => {
   return (
-    <PlaylistWrapper className="flex-column gap-3xl">
+    <PlaylistWrapper className="flex-column gap-3xl mx-auto">
       <DateNav />
       {/* TODO: DraggableList 컴포넌트 개발 */}
       <ol className="flex-column gap-md">

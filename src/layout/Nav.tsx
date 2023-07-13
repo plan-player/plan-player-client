@@ -5,17 +5,7 @@ import { FaClock, FaFolder } from 'react-icons/fa6';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import { Outlet, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import Setting from '../components/UI/nav/Setting';
-
-const NavWrapper = styled.nav`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
-  height: var(--nav-h);
-  background-color: var(--primary);
-`;
 
 type NavItemType = {
   path: string;
@@ -61,13 +51,13 @@ const Nav: React.FC = () => {
         <Setting />
         <Outlet />
       </main>
-      <NavWrapper>
+      <nav className="w-100 flex justify-evenly items-center bg-primary">
         {NAV_DATA.map(({ path, icon }) => (
           <IconContext.Provider key={path} value={getClass(path)}>
             <Link to={path}>{icon}</Link>
           </IconContext.Provider>
         ))}
-      </NavWrapper>
+      </nav>
     </>
   );
 };
