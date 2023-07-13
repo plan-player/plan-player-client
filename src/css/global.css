@@ -1,0 +1,171 @@
+@import url('https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css');
+
+:root {
+  /* layout */
+  --nav-h: 5.875rem;
+
+  /* font-size */
+  --text-xxl: 2.75rem;
+  --text-3xl: 2rem;
+  --text-2xl: 1.75rem;
+  --text-xl: 1.5rem;
+  --text-lg: 1.25rem;
+  --text-root: 1rem;
+  --text-md: 0.875rem;
+  --text-sm: 0.75rem;
+  --text-xs: 0.625rem;
+  --text-2xs: 0.5rem;
+  --text-3xs: 0.375rem;
+  --text-xxs: 0.25rem;
+
+  /* round */
+  --round-lg: 1rem;
+  --round-md: 0.5rem;
+  --round-sm: 0.375rem;
+  --round-xs: 0.25rem;
+
+  /* circle, square size */
+  --size-2xxl: 264px;
+  --size-xxl: 10rem;
+  --size-lg: 44px;
+  --size-md: 2rem;
+  --size-sm: 1.5rem;
+  --size-xs: 18px;
+
+  /* velocity */
+  --fast-in: cubic-bezier(0.4, 0.39, 0.08, 1.02);
+  --slow-in: cubic-bezier(0.56, -0.01, 0.56, 0.89);
+}
+
+/* layout */
+body {
+  height: 100%;
+  font-family: 'SUIT Variable', SUIT, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  width: 100vw;
+  height: calc(100vh - var(--nav-h));
+}
+
+nav {
+  height: var(--nav-h);
+}
+
+/* classes - font */
+.text-xxl {
+  font-size: var(--text-xxl);
+}
+
+.text-3xl {
+  font-size: var(--text-3xl);
+}
+
+.text-2xl {
+  font-size: var(--text-2xl);
+}
+
+.text-xl {
+  font-size: var(--text-xl);
+}
+
+.text-lg {
+  font-size: var(--text-lg);
+}
+
+.text-root {
+  font-size: var(--text-root);
+}
+
+.text-md {
+  font-size: var(--text-md);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+.text-xs {
+  font-size: var(--text-xs);
+}
+
+.text-2xs {
+  font-size: var(--text-2xs);
+}
+
+.text-3xs {
+  font-size: var(--text-3xs);
+}
+
+.text-xxs {
+  font-size: var(--text-xxs);
+}
+
+/* classes - size */
+/* --round-lg: 1rem;
+  --round-md: 0.5rem;
+  --round-sm: 0.375rem;
+  --round-xs: 0.25rem; */
+
+/* classes - flex */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-start {
+  justify-content: start;
+}
+
+.justify-end {
+  justify-content: end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-start {
+  align-items: start;
+}
+
+.items-end {
+  align-items: end;
+}
+
+/* classes - grid */
+.grid-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}

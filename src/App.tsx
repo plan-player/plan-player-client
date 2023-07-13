@@ -1,15 +1,17 @@
 import { ErrorBoundary } from '@sentry/react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import './App.css';
+import './css/color.css';
+import './css/global.css';
+import './css/reset.css';
 import Nav from './layout/Nav';
 import Root from './layout/Root';
+import CategoryDetail from './screens/CategoryDetail';
+import CategoryGroup from './screens/CategoryGroup';
 import Landing from './screens/Landing';
 import Player from './screens/Player';
 import Playlist from './screens/Playlist';
 import Schedule from './screens/Schedule';
 import Statistics from './screens/Statistics';
-import CategoryGroup from './screens/CategoryGroup';
-import CategoryDetail from './screens/CategoryDetail';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +29,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/',
-            element: <Navigate to="/playlist" />
+            element: <Navigate to="/playlist" />,
           },
           {
             path: '/playlist',
@@ -39,12 +41,12 @@ const router = createBrowserRouter([
             element: <Schedule />,
           },
           {
-            path:'/category',
-            element:<CategoryGroup/>,
+            path: '/category',
+            element: <CategoryGroup />,
           },
           {
-            path:'/category/:id',
-            element:<CategoryDetail/>
+            path: '/category/:id',
+            element: <CategoryDetail />,
           },
           {
             path: '/statistics',
