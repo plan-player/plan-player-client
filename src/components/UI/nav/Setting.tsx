@@ -1,19 +1,17 @@
-import { styled } from 'styled-components';
 import { FaGear } from 'react-icons/fa6';
+import { styled } from 'styled-components';
 
 const SettingWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
   svg {
     margin-right: 1.875rem;
     margin-top: 1.565rem;
+    margin-bottom: 5vh;
   }
 `;
 
 const Setting = () => {
   return (
-    <SettingWrapper>
+    <SettingWrapper className="w-100 flex justify-end">
       <FaGear color="" />
     </SettingWrapper>
   );
