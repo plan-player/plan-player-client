@@ -1,0 +1,64 @@
+:root {
+  /* grayscale */
+  --black: #313338;
+  --gray-500: #42444a;
+  --gray-400: #5a5d64;
+  --gray-300: #7c7f86;
+  --gray-200: #b0b3bc;
+  --gray-100: #d9dbe0;
+  --gray-50: #f6f6f6;
+  --white: #fff;
+
+  /* color */
+  --primary: var(--black);
+  --background: var(--gray-50);
+}
+
+/* classes - color */
+.text-black {
+  color: var(--black);
+}
+
+.text-white {
+  color: var(--white);
+}
+
+.text-gray-50 {
+  color: var(--gray-50);
+}
+
+.text-gray-100 {
+  color: var(--gray-100);
+}
+
+.text-gray-200 {
+  color: var(--gray-200);
+}
+
+.text-gray-300 {
+  color: var(--gray-300);
+}
+
+.text-gray-400 {
+  color: var(--gray-400);
+}
+
+.text-gray-500 {
+  color: var(--gray-500);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg {
+  background-color: var(--background);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-white {
+  background-color: var(--white);
+}
