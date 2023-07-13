@@ -1,10 +1,6 @@
-import Setting from '../components/UI/nav/Setting';
 
 const Playlist = () => {
-  return <div>
-    <Setting/>
-    Playlist
-    </div>;
+  return <div>Playlist</div>;
 };
 
 export default Playlist;

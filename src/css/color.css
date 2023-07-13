@@ -14,6 +14,10 @@
   --background: var(--gray-50);
 }
 
+* {
+  color: var(--black);
+}
+
 /* classes - color */
 .text-black {
   color: var(--black);
@@ -61,4 +65,41 @@
 
 .bg-white {
   background-color: var(--white);
+}
+
+
+.fill-black {
+  fill: var(--black);
+}
+
+.fill-white {
+  fill: var(--white);
+}
+
+.fill-gray-50 {
+  fill: var(--gray-50);
+}
+
+.fill-gray-100 {
+  fill: var(--gray-100);
+}
+
+.fill-gray-200 {
+  fill: var(--gray-200);
+}
+
+.fill-gray-300 {
+  fill: var(--gray-300);
+}
+
+.fill-gray-400 {
+  fill: var(--gray-400);
+}
+
+.fill-gray-500 {
+  fill: var(--gray-500);
+}
+
+.fill-primary {
+  fill: var(--primary);
 }

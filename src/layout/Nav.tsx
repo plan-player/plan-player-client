@@ -1,62 +1,71 @@
+import React, { ReactNode } from 'react';
+import { IconContext } from 'react-icons';
+import { FaChartBar } from 'react-icons/fa';
+import { FaClock, FaFolder } from 'react-icons/fa6';
+import { RiPlayList2Fill } from 'react-icons/ri';
 import { Outlet, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  PlaylistIcon,
-  PlaylistIcon_Dark,
-  ScheduleIcon,
-  ScheduleIcon_Dark,
-  CategoryIcon,
-  CategoryIcon_Dark,
-  StatisticsIcon,
-  StatisticsIcon_Dark,
-} from '../svg/svg';
-import { ReactNode } from 'react';
-import React from 'react';
+import Setting from '../components/UI/nav/Setting';
 
-const NavWrapper = styled.div`
-  background-color: #313338;
-  display: flex;
-  width: 100vw;
-  height: 5.875rem;
-  postion: fixed;
+const NavWrapper = styled.nav`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  width: 100%;
+  height: var(--nav-h);
+  background-color: var(--primary);
 `;
 
-type IconP = {
+type NavItemType = {
   path: string;
   icon: ReactNode;
-  darkIcon: ReactNode;
 };
 
-const icons = [
-  { path: '/playlist', icon: <PlaylistIcon />, darkIcon: <PlaylistIcon_Dark /> },
-  { path: '/schedule', icon: <ScheduleIcon />, darkIcon: <ScheduleIcon_Dark /> },
-  { path: '/category', icon: <CategoryIcon />, darkIcon: <CategoryIcon_Dark /> },
-  { path: '/statistics', icon: <StatisticsIcon />, darkIcon: <StatisticsIcon_Dark /> },
+const ACTIVE_COLOR = 'fill-white';
+const DEFAULT_COLOR = 'fill-gray-500';
+const SIZE = 'text-xl';
+
+const NAV_DATA: NavItemType[] = [
+  {
+    path: '/playlist',
+    icon: <RiPlayList2Fill />,
+  },
+  {
+    path: '/schedule',
+    icon: <FaClock />,
+  },
+  {
+    path: '/category',
+    icon: <FaFolder />,
+  },
+  {
+    path: '/statistics',
+    icon: <FaChartBar />,
+  },
 ];
 
 const Nav: React.FC = () => {
-  const location = useLocation(),
-    nowPath = location.pathname;
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-  const renderIcon = ({ path, icon, darkIcon }: IconP) => {
-    return nowPath.startsWith(path) ? icon : <Link to={path}>{darkIcon}</Link>;
+  const getClass = (path: string) => {
+    const colorClass = currentPath.startsWith(path) ? ACTIVE_COLOR : DEFAULT_COLOR;
+    const sizeClass = SIZE;
+    return { className: [colorClass, sizeClass].join(' ') };
   };
 
   return (
     <>
-      <main className="wrapper">
+      <main>
+        <Setting />
         <Outlet />
       </main>
-
       <NavWrapper>
-        {icons.map(({ path, icon, darkIcon }) => (
-          <React.Fragment key={path}>
-            {renderIcon({ path, icon, darkIcon })}
-          </React.Fragment>
+        {NAV_DATA.map(({ path, icon }) => (
+          <IconContext.Provider key={path} value={getClass(path)}>
+            <Link to={path}>{icon}</Link>
+          </IconContext.Provider>
         ))}
       </NavWrapper>
     </>
