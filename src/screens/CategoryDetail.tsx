@@ -3,7 +3,7 @@ import Setting from '../components/UI/nav/Setting';
 
 const CategoryDetail = () => {
   return(
-  <div className='wrapper'>
+  <div>
     <Setting/>
     CategoryDetail
   </div>

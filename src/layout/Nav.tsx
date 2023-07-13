@@ -1,68 +1,53 @@
 import { Outlet, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import '../reset.css';
+import { PlaylistIcon, PlaylistIcon_Dark,ScheduleIcon,ScheduleIcon_Dark, CategoryIcon, CategoryIcon_Dark, StatisticsIcon, StatisticsIcon_Dark } from "../svg/svg";
+import { ReactNode } from "react";
+import React from "react";
 
 const NavWrapper = styled.div`
-  background-color: #313338;;
+  background-color: #313338;
   display:flex;
-  width:24.475rem ;
-  height:5.625rem;
+  width:100vw;
+  height:5.875rem;
   postion:fixed;
-  flex-shrink: 0;
   display:flex;
   justify-content:space-evenly;
   align-items:center;
 `;
 
+type IconP = {
+  path:string;
+  icon:ReactNode;
+  darkIcon:ReactNode;
+}
+
+const icons = [
+  { path: '/playlist', icon: <PlaylistIcon />, darkIcon: <PlaylistIcon_Dark /> },
+  { path: '/schedule', icon: <ScheduleIcon />, darkIcon: <ScheduleIcon_Dark /> },
+  { path: '/category', icon: <CategoryIcon />, darkIcon: <CategoryIcon_Dark /> },
+  { path: '/statistics', icon: <StatisticsIcon />, darkIcon: <StatisticsIcon_Dark /> },
+];
+
 const Nav:React.FC = () => {
-  const location = useLocation();
-  const nowPath = location.pathname;
+  const location = useLocation(), nowPath = location.pathname;
+
+  const renderIcon = ({path, icon, darkIcon}:IconP) => {
+    return nowPath.startsWith(path) ? icon : <Link to={path}>{darkIcon}</Link>;
+  };
 
   return <>
-    <Outlet />
+    <main className="wrapper">
+    <Outlet/>
+    </main>
+
     <NavWrapper>
-        {nowPath.startsWith('/playlist')?
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="22" viewBox="0 0 28 22" fill="none">
-        <rect x="14" y="1" width="14" height="3.5" rx="1.5" fill="white"/>
-        <rect x="16" y="10" width="12" height="3.5" rx="1.5" fill="white"/>
-        <rect x="4" y="18" width="24" height="3.5" rx="1.5" fill="white"/>
-        <path d="M13.5 6.63398C14.1667 7.01888 14.1667 7.98113 13.5 8.36603L5.25 13.1292C4.58333 13.5141 3.75 13.0329 3.75 12.2631L3.75 2.73686C3.75 1.96706 4.58333 1.48593 5.25 1.87083L13.5 6.63398Z" fill="white"/>
-        </svg>
-        :<Link to={'/playlist'}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="22" viewBox="0 0 28 22" fill="none">
-        <rect x="14" y="1" width="14" height="3.5" rx="1.5" fill="#5A5C60"/>
-        <rect x="16" y="10" width="12" height="3.5" rx="1.5" fill="#5A5C60"/>
-        <rect x="4" y="18" width="24" height="3.5" rx="1.5" fill="#5A5C60"/>
-        <path d="M13.5 6.63398C14.1667 7.01888 14.1667 7.98113 13.5 8.36603L5.25 13.1292C4.58333 13.5141 3.75 13.0329 3.75 12.2631L3.75 2.73686C3.75 1.96706 4.58333 1.48593 5.25 1.87083L13.5 6.63398Z" fill="#5A5C60"/>
-        </svg></Link>
-        }
-
-        {nowPath.startsWith('/schedule')?
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M12 0C15.1826 0 18.2348 1.26428 20.4853 3.51472C22.7357 5.76516 24 8.8174 24 12C24 15.1826 22.7357 18.2348 20.4853 20.4853C18.2348 22.7357 15.1826 24 12 24C8.8174 24 5.76516 22.7357 3.51472 20.4853C1.26428 18.2348 0 15.1826 0 12C0 8.8174 1.26428 5.76516 3.51472 3.51472C5.76516 1.26428 8.8174 0 12 0ZM10.875 5.625V12C10.875 12.375 11.0625 12.7266 11.3766 12.9375L15.8766 15.9375C16.3922 16.2844 17.0906 16.1437 17.4375 15.6234C17.7844 15.1031 17.6437 14.4094 17.1234 14.0625L13.125 11.4V5.625C13.125 5.00156 12.6234 4.5 12 4.5C11.3766 4.5 10.875 5.00156 10.875 5.625Z" fill="white"/>
-        </svg>
-        :<Link to={'/schedule'}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path opacity="0.2" d="M12 0C15.1826 0 18.2348 1.26428 20.4853 3.51472C22.7357 5.76516 24 8.8174 24 12C24 15.1826 22.7357 18.2348 20.4853 20.4853C18.2348 22.7357 15.1826 24 12 24C8.8174 24 5.76516 22.7357 3.51472 20.4853C1.26428 18.2348 0 15.1826 0 12C0 8.8174 1.26428 5.76516 3.51472 3.51472C5.76516 1.26428 8.8174 0 12 0ZM10.875 5.625V12C10.875 12.375 11.0625 12.7266 11.3766 12.9375L15.8766 15.9375C16.3922 16.2844 17.0906 16.1437 17.4375 15.6234C17.7844 15.1031 17.6437 14.4094 17.1234 14.0625L13.125 11.4V5.625C13.125 5.00156 12.6234 4.5 12 4.5C11.3766 4.5 10.875 5.00156 10.875 5.625Z" fill="white"/>
-        </svg></Link>}
-
-        {nowPath.startsWith('/category')?
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-        <path d="M3 21.8182H21C22.6547 21.8182 24 20.4205 24 18.7013V6.23377C24 4.51461 22.6547 3.11688 21 3.11688H13.5C13.0266 3.11688 12.5812 2.88799 12.3 2.49351L11.4 1.24675C10.8328 0.462662 9.94219 0 9 0H3C1.34531 0 0 1.39773 0 3.11688V18.7013C0 20.4205 1.34531 21.8182 3 21.8182Z" fill="white"/>
-        </svg>
-        :<Link to={'/category'}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-        <path opacity="0.2" d="M3 21.8182H21C22.6547 21.8182 24 20.4205 24 18.7013V6.23377C24 4.51461 22.6547 3.11688 21 3.11688H13.5C13.0266 3.11688 12.5812 2.88799 12.3 2.49351L11.4 1.24675C10.8328 0.462662 9.94219 0 9 0H3C1.34531 0 0 1.39773 0 3.11688V18.7013C0 20.4205 1.34531 21.8182 3 21.8182Z" fill="white"/>
-        </svg></Link>}
-
-        {nowPath.startsWith('/statistics') ? 
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M8.57143 2.48571C8.57143 1.11339 9.72321 0 11.1429 0H12.8571C14.2768 0 15.4286 1.11339 15.4286 2.48571V20.7143C15.4286 22.0866 14.2768 23.2 12.8571 23.2H11.1429C9.72321 23.2 8.57143 22.0866 8.57143 20.7143V2.48571ZM0 12.4286C0 11.0563 1.15179 9.94286 2.57143 9.94286H4.28571C5.70536 9.94286 6.85714 11.0563 6.85714 12.4286V20.7143C6.85714 22.0866 5.70536 23.2 4.28571 23.2H2.57143C1.15179 23.2 0 22.0866 0 20.7143V12.4286ZM19.7143 3.31429H21.4286C22.8482 3.31429 24 4.42768 24 5.8V20.7143C24 22.0866 22.8482 23.2 21.4286 23.2H19.7143C18.2946 23.2 17.1429 22.0866 17.1429 20.7143V5.8C17.1429 4.42768 18.2946 3.31429 19.7143 3.31429Z" fill="white"/>
-        </svg>
-        :<Link to={'/statistics'}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path opacity="0.2" d="M8.57143 2.48571C8.57143 1.11339 9.72321 0 11.1429 0H12.8571C14.2768 0 15.4286 1.11339 15.4286 2.48571V20.7143C15.4286 22.0866 14.2768 23.2 12.8571 23.2H11.1429C9.72321 23.2 8.57143 22.0866 8.57143 20.7143V2.48571ZM0 12.4286C0 11.0563 1.15179 9.94286 2.57143 9.94286H4.28571C5.70536 9.94286 6.85714 11.0563 6.85714 12.4286V20.7143C6.85714 22.0866 5.70536 23.2 4.28571 23.2H2.57143C1.15179 23.2 0 22.0866 0 20.7143V12.4286ZM19.7143 3.31429H21.4286C22.8482 3.31429 24 4.42768 24 5.8V20.7143C24 22.0866 22.8482 23.2 21.4286 23.2H19.7143C18.2946 23.2 17.1429 22.0866 17.1429 20.7143V5.8C17.1429 4.42768 18.2946 3.31429 19.7143 3.31429Z" fill="white"/>
-        </svg></Link>}
-
+    {icons.map(({ path, icon, darkIcon }) => (
+    <React.Fragment key={path}>
+      {renderIcon({ path, icon, darkIcon })}
+    </React.Fragment>
+    ))}
     </NavWrapper>
   </>;
 };

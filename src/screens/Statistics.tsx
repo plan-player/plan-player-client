@@ -1,8 +1,9 @@
 import '../App.css';
 import Setting from '../components/UI/nav/Setting';
+import '../App.css';
 
 const Statistics = () => {
-  return <div className='wrapper'>
+  return <div>
     <Setting/>
     Statistics
     </div>;
