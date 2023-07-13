@@ -33,9 +33,9 @@ const DateNav = () => {
   };
 
   return (
-    <DateNavWrapper className="w-50 flex justify-between items-center mx-auto">
+    <DateNavWrapper className="flex j-between i-center mx-auto">
       <FaBackwardStep onClick={backPrevDate} />
-      <h3 style={{ lineHeight: '0.2rem' }}>{today}</h3>
+      <h3>{today}</h3>
       <FaForwardStep onClick={goNextDate} />
     </DateNavWrapper>
   );

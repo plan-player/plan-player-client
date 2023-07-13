@@ -11,7 +11,7 @@ const SettingWrapper = styled.div`
 
 const Setting = () => {
   return (
-    <SettingWrapper className="w-100 flex justify-end">
+    <SettingWrapper className="w-100 flex j-end">
       <FaGear color="" />
     </SettingWrapper>
   );

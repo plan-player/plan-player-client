@@ -23,7 +23,7 @@ const MainSubTitle = ({ main, sub, size }: MainSubTitleProps) => {
       break;
     default:
       mainClass = 'text-md';
-      subClass = 'text-sm';
+      subClass = 'text-xs';
       break;
   }
   return (

@@ -51,7 +51,7 @@ const Nav: React.FC = () => {
         <Setting />
         <Outlet />
       </main>
-      <nav className="w-100 flex justify-evenly items-center bg-primary">
+      <nav className="w-100 flex j-evenly i-center bg-primary">
         {NAV_DATA.map(({ path, icon }) => (
           <IconContext.Provider key={path} value={getClass(path)}>
             <Link to={path}>{icon}</Link>

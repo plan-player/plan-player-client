@@ -14,15 +14,15 @@ export interface TodoListItemProps {
 const TodoListItem = ({ cover, category, title, time }: TodoListItemProps) => {
   // TODO: DraggableItem 개발
   return (
-    <li className="flex gap-sm items-center">
+    <li className="flex i-center gap-sm">
       <PlayPauseButton />
-      <div className="flex justify-between w-100">
-        <div className="flex gap-sm items-center break-word">
+      <div className="w-100 flex j-between">
+        <div className="flex i-center gap-sm break-word">
           <IconImageHolder>{cover}</IconImageHolder>
           <MainSubTitle main={title} sub={category} />
         </div>
         <div className="flex">
-          <span className="flex-center text-sm mx-md">{time}</span>
+          <span className="text-sm mx-md flex i-center shrink-0">{time}</span>
           <ContextButton />
         </div>
       </div>
