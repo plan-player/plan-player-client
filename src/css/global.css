@@ -25,9 +25,12 @@
   --round-xs: 0.25rem;
 
   /* circle, square size */
-  --size-2xxl: 264px;
-  --size-xxl: 10rem;
-  --size-lg: 44px;
+  --size-3xxl: 16.5rem;
+  --size-2xxl: 10rem;
+  --size-xxl: 5.25rem;
+  --size-2xl: 3rem;
+  --size-xl: 2.75rem;
+  --size-lg: 2.5rem;
   --size-md: 2rem;
   --size-sm: 1.5rem;
   --size-xs: 18px;
@@ -54,6 +57,35 @@ main {
 
 nav {
   height: var(--nav-h);
+}
+
+/* heading */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+}
+
+h1 {
+  font-size: var(--text-3xl);
+}
+
+h2 {
+  font-size: var(--text-2xl);
+}
+
+h3 {
+  font-size: var(--text-xl);
+}
+
+h4 {
+  font-size: var(--text-lg);
+}
+
+h5 {
+  font-size: var(--text-root);
+}
+
+h6 {
+  font-size: var(--text-md);
 }
 
 /* classes - font */
@@ -105,18 +137,105 @@ nav {
   font-size: var(--text-xxs);
 }
 
+.font-bold {
+  font-weight: 700;
+}
+
 /* classes - size */
-/* --round-lg: 1rem;
-  --round-md: 0.5rem;
-  --round-sm: 0.375rem;
-  --round-xs: 0.25rem; */
+.size-3xxl {
+  width: var(--size-3xxl);
+  height: var(--size-3xxl);
+}
+
+.size-2xxl {
+  width: var(--size-2xxl);
+  height: var(--size-2xxl);
+}
+
+.size-xxl {
+  width: var(--size-xxl);
+  height: var(--size-xxl);
+}
+
+.size-2xl {
+  width: var(--size-2xl);
+  height: var(--size-2xl);
+}
+
+.size-xl {
+  width: var(--size-xl);
+  height: var(--size-xl);
+}
+
+.size-lg {
+  width: var(--size-lg);
+  height: var(--size-lg);
+}
+
+.size-md {
+  width: var(--size-md);
+  height: var(--size-md);
+}
+
+.size-sm {
+  width: var(--size-sm);
+  height: var(--size-sm);
+}
+
+.size-xs {
+  width: var(--size-xs);
+  height: var(--size-xs);
+}
+
+/* margin */
+.mb-md {
+  margin-bottom: 1rem;
+}
+
+.mb-sm {
+  margin-bottom: 0.5rem;
+}
+
+.mb-xs {
+  margin-bottom: 0.25rem;
+}
+
+/* width */
+.w-100 {
+  width: 100%;
+}
+
+/* rounded */
+.circle {
+  border-radius: 100%;
+}
+
+.square {
+  border-radius: 0%;
+}
+
+.round-lg {
+  border-radius: var(--round-lg);
+}
+
+.round-md {
+  border-radius: var(--round-md);
+}
+
+.round-sm {
+  border-radius: var(--round-sm);
+}
+
+.round-xs {
+  border-radius: var(--round-xs);
+}
 
 /* classes - flex */
 .flex {
   display: flex;
 }
 
-.flex-col {
+.flex-column {
   display: flex;
   flex-direction: column;
 }
@@ -130,6 +249,38 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.gap-3xl {
+  gap: 3rem;
+}
+
+.gap-2xl {
+  gap: 2.5rem;
+}
+
+.gap-xl {
+  gap: 2rem;
+}
+
+.gap-lg {
+  gap: 1.5rem;
+}
+
+.gap-md {
+  gap: 1rem;
+}
+
+.gap-sm {
+  gap: 0.5rem;
+}
+
+.gap-xs {
+  gap: 0.25rem;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
 }
 
 .justify-center {

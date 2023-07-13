@@ -11,6 +11,7 @@
 
   /* color */
   --primary: var(--black);
+  --gray: var(--gray-100);
   --background: var(--gray-50);
 }
 
@@ -18,7 +19,7 @@
   color: var(--black);
 }
 
-/* classes - color */
+/* text */
 .text-black {
   color: var(--black);
 }
@@ -55,6 +56,7 @@
   color: var(--primary);
 }
 
+/* bg */
 .bg {
   background-color: var(--background);
 }
@@ -67,7 +69,54 @@
   background-color: var(--white);
 }
 
+/* buttons */
+.button-primary {
+  color: var(--white);
+  background-color: var(--primary);
+}
 
+.button-primary * {
+  fill: var(--white);
+}
+
+.button-extra {
+  color: var(--primary);
+  background-color: transparent;
+}
+
+.button-extra * {
+  fill: var(--primary);
+}
+
+.button-extra-black {
+  color: var(--black);
+  background-color: transparent;
+}
+
+.button-extra-black * {
+  fill: var(--black);
+}
+
+.button-white {
+  color: var(--primary);
+  background-color: var(--white);
+}
+
+.button-white * {
+  fill: var(--primary);
+}
+
+.buttons-gray {
+  color: var(--white);
+  background-color: var(--gray);
+}
+
+.button-gray * {
+  fill: var(--white);
+}
+
+
+/* fill */
 .fill-black {
   fill: var(--black);
 }

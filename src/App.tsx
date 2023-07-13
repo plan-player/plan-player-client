@@ -1,8 +1,8 @@
 import { ErrorBoundary } from '@sentry/react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import './css/reset.css';
 import './css/color.css';
 import './css/global.css';
-import './css/reset.css';
 import Nav from './layout/Nav';
 import Root from './layout/Root';
 import CategoryDetail from './screens/CategoryDetail';
