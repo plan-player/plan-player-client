@@ -1,12 +1,50 @@
-import '../App.css';
-import Setting from '../components/UI/nav/Setting';
-import '../App.css';
+import { styled } from 'styled-components';
+import TodoListItem, { TodoListItemProps } from '../components/Todo/TodoListItem';
+import DateNav from '../components/UI/nav/DateNav';
+
+const DUMMY_TODOS: TodoListItemProps[] = [
+  {
+    cover: '🖇',
+    category: 'Category Name 1',
+    title: 'Long Main Title Main Todo 1',
+    time: '00:00:00',
+  },
+  {
+    cover: '📑',
+    category: 'Category Name 2',
+    title: 'Main Title Main Todo 2',
+    time: '00:00:00',
+  },
+  {
+    cover: '📚',
+    category: 'Category Name 3',
+    title: 'Main Title Main Todo 3',
+    time: '00:00:00',
+  },
+  {
+    cover: '💻',
+    category: 'Category Name 4',
+    title: 'IfLongLongLongLongMainTitleMainTodo4',
+    time: '00:00:00',
+  },
+];
+
+const PlaylistWrapper = styled.div`
+  width: 85%;
+`;
 
 const Playlist = () => {
-  return <div>
-    <Setting/>
-    Playlist
-    </div>;
+  return (
+    <PlaylistWrapper className="flex-column gap-3xl mx-auto">
+      <DateNav />
+      {/* TODO: DraggableList 컴포넌트 개발 */}
+      <ol className="flex-column gap-md">
+        {DUMMY_TODOS.map((todo) => (
+          <TodoListItem {...todo} />
+        ))}
+      </ol>
+    </PlaylistWrapper>
+  );
 };
 
 export default Playlist;

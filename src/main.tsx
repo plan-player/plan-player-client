@@ -2,11 +2,11 @@ import * as Sentry from '@sentry/react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 
-const { PLA_SENTRY } = import.meta.env;
+const { PLOTT_SENTRY } = import.meta.env;
 
 if (import.meta.env.MODE === 'production') {
   Sentry.init({
-    dsn: PLA_SENTRY as string,
+    dsn: PLOTT_SENTRY as string,
     integrations: [
       new Sentry.BrowserTracing({
         // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled

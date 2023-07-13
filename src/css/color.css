@@ -11,10 +11,15 @@
 
   /* color */
   --primary: var(--black);
+  --gray: var(--gray-100);
   --background: var(--gray-50);
 }
 
-/* classes - color */
+* {
+  color: var(--black);
+}
+
+/* text */
 .text-black {
   color: var(--black);
 }
@@ -51,6 +56,7 @@
   color: var(--primary);
 }
 
+/* bg */
 .bg {
   background-color: var(--background);
 }
@@ -61,4 +67,88 @@
 
 .bg-white {
   background-color: var(--white);
+}
+
+/* buttons */
+.button-primary {
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+.button-primary * {
+  fill: var(--white);
+}
+
+.button-extra {
+  color: var(--primary);
+  background-color: transparent;
+}
+
+.button-extra * {
+  fill: var(--primary);
+}
+
+.button-extra-black {
+  color: var(--black);
+  background-color: transparent;
+}
+
+.button-extra-black * {
+  fill: var(--black);
+}
+
+.button-white {
+  color: var(--primary);
+  background-color: var(--white);
+}
+
+.button-white * {
+  fill: var(--primary);
+}
+
+.buttons-gray {
+  color: var(--white);
+  background-color: var(--gray);
+}
+
+.button-gray * {
+  fill: var(--white);
+}
+
+
+/* fill */
+.fill-black {
+  fill: var(--black);
+}
+
+.fill-white {
+  fill: var(--white);
+}
+
+.fill-gray-50 {
+  fill: var(--gray-50);
+}
+
+.fill-gray-100 {
+  fill: var(--gray-100);
+}
+
+.fill-gray-200 {
+  fill: var(--gray-200);
+}
+
+.fill-gray-300 {
+  fill: var(--gray-300);
+}
+
+.fill-gray-400 {
+  fill: var(--gray-400);
+}
+
+.fill-gray-500 {
+  fill: var(--gray-500);
+}
+
+.fill-primary {
+  fill: var(--primary);
 }
