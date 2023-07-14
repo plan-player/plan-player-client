@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.label`
   font-size: var(--text-lg);
   background-color: var(--white);
   width: 22.125rem;
@@ -25,6 +25,10 @@ const InputWrapper = styled.div`
       font-weight: 400;
       line-height: normal;
     }
+  }
+  input:focus {
+    outline: none;
+    font-size: var(--text-xl);
   }
   button {
     width: 2.875rem;
@@ -56,7 +60,7 @@ const AddCategory = () => {
     >
       <InputWrapper>
         <input placeholder="●  Add New Category" />
-        <button className="button-white">Add</button>
+        <button>Add</button>
       </InputWrapper>
     </nav>
   );

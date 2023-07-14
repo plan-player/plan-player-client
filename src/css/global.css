@@ -1,8 +1,22 @@
-@import url('https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css');
+@import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css");
 
 :root {
   /* layout */
   --nav-h: 5.875rem;
+
+  /* 
+  44px xxl
+  32px 3xl
+  28px 2xl
+  24px xl
+  20px lg
+  16px root
+  14px md
+  12px sm
+  10px xs
+  8px 2xs
+  6px 3xs
+  4px xxd */
 
   /* font-size */
   --text-xxl: 2.75rem;
@@ -43,9 +57,10 @@
 /* layout */
 body {
   height: 100%;
-  font-family: 'SUIT Variable', SUIT, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  font-family: "SUIT Variable", SUIT, -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
