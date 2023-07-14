@@ -49,12 +49,12 @@ const InputWrapper = styled.label`
 // '● Add new Category'
 const AddCategory = () => {
   return (
-    <nav
+    <div
       style={{
+        height: "var(--nav-h)",
         position: "absolute",
         zIndex: 99,
-        marginBottom: "80px",
-        bottom: 0,
+        bottom: "var(--nav-h)",
       }}
       className="w-100 bg-primary flex-i-center j-between"
     >
@@ -62,7 +62,7 @@ const AddCategory = () => {
         <input placeholder="●  Add New Category" />
         <button>Add</button>
       </InputWrapper>
-    </nav>
+    </div>
   );
 };
 

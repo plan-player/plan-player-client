@@ -1,17 +1,15 @@
 import { styled } from "styled-components";
-import { FaAtom } from "react-icons/fa";
-import { CNameProps } from "../../screens/CategoryGroup";
-import shortid from "shortid";
+import { useNavigate } from "react-router";
+import { CategoryProps, Label } from "./UseCategoryScreen";
 
 const Item = styled.div`
   width: 5.25rem;
   height: 5.25rem;
   border-radius: 0.5rem;
   background-color: #f7f7f7;
-  position: relative;
-  top: 2vh;
-  left: 1vw;
-  background-color: #f7f7f7;
+  // position: relative;
+  // top: 2vh;
+  // left: 1vw;
 `;
 const ItemMain = styled.div`
   position: relative;
@@ -25,7 +23,10 @@ const ItemMain = styled.div`
   height: 60%;
   justify-content: center;
   align-items: center;
-  span {
+  span:first-child {
+    font-size: var(--text-md);
+  }
+  span:last-child {
     -webkit-transform: scale(0.7);
     display: inline-block;
     font-size: var(--text-xs);
@@ -34,10 +35,9 @@ const ItemMain = styled.div`
     font-style: normal;
     font-weight: 800;
     line-height: normal;
+    white-space: nowrap;
   }
 `;
-
-// 같이 수정해보아요!
 const ItemLabel = styled.div`
   width: 80%;
   height: 20%;
@@ -45,51 +45,25 @@ const ItemLabel = styled.div`
   right: 0;
   margin: 0 auto;
   position: relative;
-  bottom: -0.625rem;
+  bottom: -0.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-const Label = styled.div`
-  border-radius: 0.194rem;
-  background-color: #c3c5cc;
-  span {
-    -webkit-transform: scale(0.5);
-    display: inline-block;
-    font-size: var(--text-xs);
-    color: #fff;
-    font-family: SUIT Variable;
-    font-style: normal;
-    font-weight: 800;
-    line-height: normal;
-  }
+  -webkit-transform: scale(0.7);
+  flex-wrap: wrap; //임시 방편
 `;
 
-// 추후 백엔드 api에 따라 수정필요.
-const LabelMockdata: { name: string }[] = [
-  {
-    name: "React",
-  },
-  {
-    name: "Course",
-  },
-  {
-    name: "fe",
-  },
-];
-
-const C_Item = ({ id, CName }: CNameProps) => {
+const C_Item = ({ id, categoryName, categoryIcon, labels }: CategoryProps) => {
+  const navigate = useNavigate();
   return (
-    <Item key={id}>
+    <Item onClick={() => navigate(`/category/${id}`)}>
       <ItemMain>
-        <FaAtom />
-        <span>{CName}</span>
+        <span>{categoryIcon}</span>
+        <span>{categoryName}</span>
       </ItemMain>
       <ItemLabel>
-        {LabelMockdata.map((a) => (
-          <Label key={shortid.generate()}>
-            <span>#{a.name}</span>
-          </Label>
+        {labels?.map((a) => (
+          <Label key={a.labelID}>#{a.labelName}</Label>
         ))}
       </ItemLabel>
     </Item>

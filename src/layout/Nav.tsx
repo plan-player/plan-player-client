@@ -6,7 +6,7 @@ import { RiPlayList2Fill } from "react-icons/ri";
 import { Outlet, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import Setting from "../components/UI/nav/Setting";
-import AddCategory from "../components/UI/nav/AddCategory";
+import AddCategory from "../components/Category/AddCategory";
 
 type NavItemType = {
   path: string;

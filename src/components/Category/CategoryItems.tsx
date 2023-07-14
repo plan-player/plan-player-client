@@ -1,11 +1,7 @@
 import { styled } from "styled-components";
 import { AiOutlineUp } from "react-icons/ai";
 import C_Item from "./C_Item";
-import { CategoryProps } from "../../screens/CategoryGroup";
-
-// 폰트사이즈 우회
-// -webkit-transform:scale(0.5); //0.5 -> 50%
-// display: inline-block;
+import { CategoryMockDataProps, Circle } from "./UseCategoryScreen";
 
 const Wrapper = styled.div`
   width: 80vw;
@@ -24,15 +20,8 @@ const CTW = styled.div`
     line-height: normal;
   }
 `;
-const Circle = styled.div`
-  width: 0.313rem;
-  height: 0.313rem;
-  border-radius: 0.656rem;
-  margin-right: 0.313rem;
-  background-color: #c3c5cc;
-`;
 const Text = styled.div`
-  width: 80vw;
+  width: 75vw;
   height: 4vh;
   display: flex;
   justify-content: space-between;
@@ -45,7 +34,7 @@ const ItemWrapper = styled.div`
   grid-template-columns: repeat(3, 1fr);
 `;
 
-const CategoryItems = ({ name, Cate }: CategoryProps) => {
+const CategoryItems = ({ name, category }: CategoryMockDataProps) => {
   return (
     <Wrapper>
       <Text>
@@ -53,12 +42,18 @@ const CategoryItems = ({ name, Cate }: CategoryProps) => {
           <Circle />
           <span>{name}</span>
         </CTW>
-        <AiOutlineUp />
+        <span>↑</span>
       </Text>
 
       <ItemWrapper>
-        {Cate.map((a, index) => (
-          <C_Item key={index} id={a.id} CName={a.CName} />
+        {category?.map((a) => (
+          <C_Item
+            key={a.id}
+            id={a.id}
+            categoryIcon={a.categoryIcon}
+            categoryName={a.categoryName}
+            labels={a?.labels}
+          />
         ))}
       </ItemWrapper>
     </Wrapper>
