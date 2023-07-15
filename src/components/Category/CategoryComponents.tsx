@@ -11,7 +11,7 @@ export const Circle = styled.div`
 export const Label = styled.div`
   border-radius: 0.25rem;
   background-color: var(--gray-200);
-  font-size: var(--text-xxs);
+  font-size: var(--text-3xs);
   font-weight: 600;
   color: var(--white);
 `;

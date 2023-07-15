@@ -64,7 +64,7 @@ const CategoryDetail = () => {
   return (
     <div className="wrapper scroll flex-column">
       <FaBackwardStep onClick={() => navigate("/category")} />
-      <CategoryBox className="center">
+      <CategoryBox className="mx-auto">
         <span>⚛</span>
         <span>Learn React</span>
         <span className="flex">

@@ -3,9 +3,9 @@ import { useNavigate } from "react-router";
 import { CategoryProps, Label } from "./CategoryComponents";
 
 const Item = styled.div`
-  width: 6.25rem;
-  height: 6.25rem;
-  border-radius: 0.625rem;
+  width: 5.625rem;
+  height: 5.625rem;
+  border-radius: 0.525rem;
   background-color: var(--gray-50);
 `;
 const ItemMain = styled.div`
@@ -18,7 +18,7 @@ const ItemMain = styled.div`
   }
   span:last-child {
     -webkit-transform: scale(0.7);
-    font-size: var(--text-xs);
+    font-size: var(--text-md);
     font-weight: 800;
     color: var(--gray-300);
     white-space: nowrap;
@@ -44,7 +44,7 @@ const CategoryItem = ({
         <span>{categoryIcon}</span>
         <span>{categoryName}</span>
       </ItemMain>
-      <ItemLabel className="center flex-center">
+      <ItemLabel className="mx-auto flex-center">
         {labels?.map((a) => (
           <Label key={a.labelID}>#{a.labelName}</Label>
         ))}

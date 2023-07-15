@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 const CircleTextWrapper = styled.div`
   span {
     color: var(--black);
-    font-size: var(--text-sm);
+    font-size: var(--text-md);
     font-weight: 800;
   }
 `;
@@ -20,6 +20,7 @@ const Text = styled.div`
 const ItemWrapper = styled.div`
   width: 80vw;
   height: 26vh;
+  grid-gap: 0.625rem;
 `;
 
 const CategoryItems = ({ name, category }: CategoryMockDataProps) => {
@@ -33,7 +34,7 @@ const CategoryItems = ({ name, category }: CategoryMockDataProps) => {
         <span>↑</span>
       </Text>
 
-      <ItemWrapper className="grid-cols-3 center">
+      <ItemWrapper className="grid-cols-3 mx-auto">
         {category?.map((a) => (
           <CategoryItem
             key={a.id}

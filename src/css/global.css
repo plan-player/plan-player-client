@@ -365,12 +365,11 @@ h6 {
   margin: 0 auto;
 }
 
+/*스크롤 기능은 살리고 스크롤바는 제거*/
 .scroll {
   overflow-y: scroll;
+  -ms-overflow-style: none;
 }
-
-.center {
-  left: 0;
-  right: 0;
-  margin: 0 auto;
+.scroll::-webkit-scrollbar {
+  display: none;
 }
