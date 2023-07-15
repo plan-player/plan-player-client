@@ -1,26 +1,19 @@
 import { styled } from "styled-components";
-// 폰트사이즈 우회
-// -webkit-transform:scale(0.5); //0.5 -> 50%
-// display: inline-block;
 
 export const Circle = styled.div`
   width: 0.313rem;
   height: 0.313rem;
   border-radius: 0.656rem;
   margin-right: 0.313rem;
-  background-color: #c3c5cc;
+  background-color: var(--gray-200);
 `;
 
 export const Label = styled.div`
   border-radius: 0.25rem;
-  background-color: #c3c5cc;
-  display: inline-block;
+  background-color: var(--gray-200);
   font-size: var(--text-xxs);
-  color: #fff;
-  font-family: SUIT Variable;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
+  font-weight: 600;
+  color: var(--white);
 `;
 
 export interface LabelProps {

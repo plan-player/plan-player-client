@@ -1,53 +1,41 @@
 import { styled } from "styled-components";
-import { AiOutlineUp } from "react-icons/ai";
-import C_Item from "./C_Item";
-import { CategoryMockDataProps, Circle } from "./UseCategoryScreen";
+import CategoryItem from "./CategoryItem";
+import { CategoryMockDataProps, Circle } from "./CategoryComponents";
 
 const Wrapper = styled.div`
   width: 80vw;
   height: 30vh;
 `;
-const CTW = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const CircleTextWrapper = styled.div`
   span {
-    color: #313338;
-    font-family: SUIT Variable;
+    color: var(--black);
     font-size: var(--text-sm);
-    font-style: normal;
     font-weight: 800;
-    line-height: normal;
   }
 `;
 const Text = styled.div`
   width: 75vw;
   height: 4vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 const ItemWrapper = styled.div`
-  width: 70vw;
+  width: 80vw;
   height: 26vh;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
 `;
 
 const CategoryItems = ({ name, category }: CategoryMockDataProps) => {
   return (
     <Wrapper>
-      <Text>
-        <CTW>
+      <Text className="flex-i-center j-between">
+        <CircleTextWrapper className="flex-center">
           <Circle />
           <span>{name}</span>
-        </CTW>
+        </CircleTextWrapper>
         <span>↑</span>
       </Text>
 
-      <ItemWrapper>
+      <ItemWrapper className="grid-cols-3 center">
         {category?.map((a) => (
-          <C_Item
+          <CategoryItem
             key={a.id}
             id={a.id}
             categoryIcon={a.categoryIcon}

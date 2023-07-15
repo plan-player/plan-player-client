@@ -2,7 +2,7 @@
 import { FaBackwardStep } from "react-icons/fa6";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
-import { Circle, Label } from "../components/Category/UseCategoryScreen";
+import { Circle, Label } from "../components/Category/CategoryComponents";
 import {
   BiMenuAltLeft,
   BiSolidDashboard,

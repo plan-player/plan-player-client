@@ -1,5 +1,5 @@
 import CategoryItems from "../components/Category/CategoryItems";
-import { CategoryMockDataProps } from "../components/Category/UseCategoryScreen";
+import { CategoryMockDataProps } from "../components/Category/CategoryComponents";
 
 const CategoryTestData: CategoryMockDataProps[] = [
   {
