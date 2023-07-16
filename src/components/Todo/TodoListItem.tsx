@@ -5,6 +5,7 @@ import IconImageHolder from '../UI/general/IconImageHolder';
 import MainSubTitle from '../UI/general/MainSubTitle';
 
 export interface TodoListItemProps {
+  id: string;
   cover?: string | ReactNode;
   category: string;
   title: string;
