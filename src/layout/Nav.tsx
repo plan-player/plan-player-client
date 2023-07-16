@@ -48,10 +48,12 @@ const Nav: React.FC = () => {
     return { className: [colorClass, sizeClass].join(" ") };
   };
 
+  const showDateNav = ['playlist', 'schedule'].includes(currentPath);
   return (
     <>
       <main>
         <Setting />
+        {showDateNav && <DateNav />}
         <Outlet />
       </main>
       {currentPath.startsWith("/category") ? <AddCategory /> : null}

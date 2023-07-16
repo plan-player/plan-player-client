@@ -1,4 +1,3 @@
-import { styled } from 'styled-components';
 import TodoListItem, { TodoListItemProps } from '../components/Todo/TodoListItem';
 import DateNav from '../components/UI/nav/DateNav';
 
@@ -33,13 +32,9 @@ const DUMMY_TODOS: TodoListItemProps[] = [
   },
 ];
 
-const PlaylistWrapper = styled.div`
-  width: 85%;
-`;
-
 const Playlist = () => {
   return (
-    <PlaylistWrapper className="flex-column gap-3xl mx-auto">
+    <div className="w-85 flex-column gap-3xl mx-auto">
       <DateNav />
       {/* TODO: DraggableList 컴포넌트 개발 */}
       <ol className="flex-column gap-md">
@@ -47,7 +42,7 @@ const Playlist = () => {
           <TodoListItem key={todo.id} {...todo} />
         ))}
       </ol>
-    </PlaylistWrapper>
+    </div>
   );
 };
 

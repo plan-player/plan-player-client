@@ -1,35 +1,47 @@
+import { SizeType } from '../../../types/size';
+
 interface MainSubTitleProps {
   main: string;
   sub: string;
+  className?: string;
   size?: 'lg' | 'md' | 'sm';
+  isHeading?: boolean;
+  isThin?: boolean;
 }
 
-const MainSubTitle = ({ main, sub, size }: MainSubTitleProps) => {
-  let mainClass, subClass;
+const MainSubTitle = ({
+  main,
+  sub,
+  className,
+  size,
+  isHeading,
+  isThin,
+}: MainSubTitleProps) => {
+  let mainSize: SizeType = 'md';
+  let subSize: SizeType = 'xs';
 
-  // TODO: 추후 lg, md 사이즈 정의
   switch (size) {
     case 'lg':
-      mainClass = 'text-root';
-      subClass = 'text-sm';
+      mainSize = 'xl';
+      subSize = 'md';
       break;
     case 'md':
-      mainClass = 'text-root';
-      subClass = 'text-sm';
+      mainSize = 'root';
+      subSize = 'sm';
       break;
     case 'sm':
-      mainClass = 'text-root';
-      subClass = 'text-sm';
-      break;
-    default:
-      mainClass = 'text-md';
-      subClass = 'text-xs';
+      mainSize = 'md';
+      subSize = 'xs';
       break;
   }
   return (
-    <div className="flex-column gap-xs">
-      <p className={subClass}>{sub}</p>
-      <p className={mainClass}>{main}</p>
+    <div className={`flex-column gap-xs ${className || ''}`}>
+      <p className={`text-${subSize}`}>{sub}</p>
+      {isHeading ? (
+        <h1 className={`text-${mainSize} ${isThin ? 'regular' : ''}`}>{main}</h1>
+      ) : (
+        <p className={mainSize}>{main}</p>
+      )}
     </div>
   );
 };

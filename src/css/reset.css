@@ -87,6 +87,15 @@ button {
   font: inherit;
   vertical-align: baseline;
 }
+
+a {
+  text-decoration: none;
+}
+
+strong {
+  font-weight: 700;
+}
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
