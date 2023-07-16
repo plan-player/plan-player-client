@@ -1,22 +1,22 @@
-@import url('https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css');
+@import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css");
 
 :root {
   /* layout */
   --nav-h: 5.875rem;
 
   /* font-size */
-  --text-xxl: 2.75rem;
-  --text-3xl: 2rem;
-  --text-2xl: 1.75rem;
-  --text-xl: 1.5rem;
-  --text-lg: 1.25rem;
-  --text-root: 1rem;
-  --text-md: 0.875rem;
-  --text-sm: 0.75rem;
-  --text-xs: 0.625rem;
-  --text-2xs: 0.5rem;
-  --text-3xs: 0.375rem;
-  --text-xxs: 0.25rem;
+  --text-xxl: 2.75rem; /* 44px */
+  --text-3xl: 2rem; /* 32px */
+  --text-2xl: 1.75rem; /* 28px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-root: 1rem; /* 16px */
+  --text-md: 0.875rem; /* 14px */
+  --text-sm: 0.75rem; /* 12px */
+  --text-xs: 0.625rem; /* 10px */
+  --text-2xs: 0.5rem; /* 8px */
+  --text-3xs: 0.375rem; /* 6px */
+  --text-xxs: 0.25rem; /* 4px */
 
   /* round */
   --round-lg: 1rem;
@@ -43,9 +43,10 @@
 /* layout */
 body {
   height: 100%;
-  font-family: 'SUIT Variable', SUIT, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  font-family: "SUIT Variable", SUIT, -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -355,4 +356,20 @@ h6 {
 /* word */
 .break-word {
   word-break: break-word;
+}
+
+/* 공용 css */
+.wrapper {
+  width: 80vw;
+  height: 80vh;
+  margin: 0 auto;
+}
+
+/*스크롤 기능은 살리고 스크롤바는 제거*/
+.scroll {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+.scroll::-webkit-scrollbar {
+  display: none;
 }
