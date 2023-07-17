@@ -1,11 +1,13 @@
-import { styled } from "styled-components";
-import { useNavigate } from "react-router";
-import { CategoryProps, Label } from "./CategoryComponents";
+import { styled } from 'styled-components';
+import { useNavigate } from 'react-router';
+import { CategoryProps, Label } from './CategoryComponents';
+
+const squreSize = '8.25rem';
 
 const Item = styled.div`
-  width: 5.625rem;
-  height: 5.625rem;
-  border-radius: 0.525rem;
+  width: ${squreSize};
+  height: ${squreSize};
+  border-radius: 1rem;
   background-color: var(--gray-50);
 `;
 const ItemMain = styled.div`
@@ -13,38 +15,30 @@ const ItemMain = styled.div`
   height: 60%;
   position: relative;
   top: 2.5vh;
-  span:first-child {
-    font-size: var(--text-md);
-  }
   span:last-child {
     -webkit-transform: scale(0.7);
-    font-size: var(--text-md);
-    font-weight: 800;
-    color: var(--gray-300);
     white-space: nowrap;
   }
 `;
 const ItemLabel = styled.div`
+  width: 100%;
   height: 20%;
   position: relative;
-  bottom: -0.875rem;
+  bottom: -1.25rem;
+  flex-wrap: wrap;
+  overflow: hidden;
   // 추후 label개수가 3개이상일경우 ...으로 표시되게 수정필요!
 `;
 
-const CategoryItem = ({
-  id,
-  categoryName,
-  categoryIcon,
-  labels,
-}: CategoryProps) => {
+const CategoryItem = ({ id, categoryName, categoryIcon, labels }: CategoryProps) => {
   const navigate = useNavigate();
   return (
     <Item onClick={() => navigate(`/category/${id}`)}>
       <ItemMain className="flex-column j-center i-center mx-auto">
-        <span>{categoryIcon}</span>
-        <span>{categoryName}</span>
+        <span className="text-md">{categoryIcon}</span>
+        <span className="text-gray-300 extra-bold text-root">{categoryName}</span>
       </ItemMain>
-      <ItemLabel className="mx-auto flex-center">
+      <ItemLabel className="mx-auto flex-center gap-xs">
         {labels?.map((a) => (
           <Label key={a.labelID}>#{a.labelName}</Label>
         ))}

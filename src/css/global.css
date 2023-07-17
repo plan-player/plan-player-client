@@ -263,6 +263,22 @@ h6 {
   margin-bottom: 0.25rem;
 }
 
+.mt-lg {
+  margin-top: 1.25rem;
+}
+
+.mt-md {
+  margin-top: 1rem;
+}
+
+.mt-sm {
+  margin-top: 0.5rem;
+}
+
+.mt-xs {
+  margin-top: 0.25rem;
+}
+
 /* width */
 .w-100 {
   width: 100%;
@@ -414,6 +430,11 @@ h6 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.grid-cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 /* word */
 .break-word {
   word-break: break-word;
@@ -443,4 +464,8 @@ h6 {
 
 .hide {
   display: none;
+}
+
+.opacityHalf {
+  opacity: 0.5;
 }

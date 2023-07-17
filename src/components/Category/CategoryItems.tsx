@@ -1,47 +1,44 @@
-import { styled } from "styled-components";
-import CategoryItem from "./CategoryItem";
-import { CategoryMockDataProps, Circle } from "./CategoryComponents";
+import { styled } from 'styled-components';
+import CategoryItem from './CategoryItem';
+import { CategoryMockDataProps, Circle } from './CategoryComponents';
+
+const Itemgap = '0.25rem';
 
 const Wrapper = styled.div`
   width: 80vw;
-  height: 30vh;
-`;
-const CircleTextWrapper = styled.div`
-  span {
-    color: var(--black);
-    font-size: var(--text-md);
-    font-weight: 800;
-  }
+  height: 40vh;
 `;
 const Text = styled.div`
   width: 75vw;
   height: 4vh;
 `;
 const ItemWrapper = styled.div`
-  width: 80vw;
-  height: 26vh;
-  grid-gap: 0.625rem;
+  width: 70vw;
+  height: 30vh;
+  padding: ${Itemgap};
+  grid-row-gap: ${Itemgap};
+  overflow: hidden; //이 부분도 추후 ...으로 표시해야할지 정해봐요!
 `;
 
-const CategoryItems = ({ name, category }: CategoryMockDataProps) => {
+const CategoryItems = ({ name, category, id }: CategoryMockDataProps) => {
   return (
-    <Wrapper>
+    <Wrapper className="flex-column j-center i-center">
       <Text className="flex-i-center j-between">
-        <CircleTextWrapper className="flex-center">
+        <div className="flex-center extra-bold">
           <Circle />
-          <span>{name}</span>
-        </CircleTextWrapper>
-        <span>↑</span>
+          <span className="text-md">{name}</span>
+        </div>
+        <span className="text-sm extra-bold">↑</span>
       </Text>
 
-      <ItemWrapper className="grid-cols-3 mx-auto">
-        {category?.map((a) => (
+      <ItemWrapper className="grid-cols-2">
+        {category?.map((item, index) => (
           <CategoryItem
-            key={a.id}
-            id={a.id}
-            categoryIcon={a.categoryIcon}
-            categoryName={a.categoryName}
-            labels={a?.labels}
+            key={index}
+            categoryIcon={item.categoryIcon}
+            categoryName={item.categoryName}
+            labels={item?.labels}
+            id={id}
           />
         ))}
       </ItemWrapper>

@@ -40,7 +40,7 @@ const MainSubTitle = ({
       {isHeading ? (
         <h1 className={`text-${mainSize} ${isThin ? 'regular' : ''}`}>{main}</h1>
       ) : (
-        <p className={mainSize}>{main}</p>
+        <p className={`text-${mainSize}`}>{main}</p>
       )}
     </div>
   );
