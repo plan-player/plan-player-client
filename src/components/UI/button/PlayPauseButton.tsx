@@ -1,13 +1,25 @@
 import { useState } from 'react';
 import { FaPause, FaPlay } from 'react-icons/fa6';
+import { styled } from 'styled-components';
+import { SizeType } from '../../../types/size';
 import IconButton from './IconButton';
 
 interface PlayPauseButtonProps {
   onPlay?: () => void;
   onPause?: () => void;
+  size?: SizeType;
 }
 
-const PlayPauseButton = ({ onPlay, onPause }: PlayPauseButtonProps) => {
+interface PlayPauseIconWrapperProps {
+  $isPlaying: boolean;
+}
+
+const PlayPauseIconWrapper = styled.div<PlayPauseIconWrapperProps>`
+  padding-left: ${({ $isPlaying }) => ($isPlaying ? 0 : '0.1rem')};
+`;
+
+const PlayPauseButton = (props: PlayPauseButtonProps) => {
+  const { onPlay, onPause, size } = props;
   const [isPlaying, setIsPlaying] = useState(false);
 
   const togglePlayPause = () => {
@@ -22,9 +34,33 @@ const PlayPauseButton = ({ onPlay, onPause }: PlayPauseButtonProps) => {
     });
   };
 
+  let buttonSize: SizeType = 'sm';
+  let iconSize: SizeType = 'xs';
+
+  switch (size) {
+    case 'lg':
+      buttonSize = '2xl';
+      iconSize = 'lg';
+      break;
+    case 'md':
+      buttonSize = 'md';
+      iconSize = 'sm';
+      break;
+    case 'sm':
+      buttonSize = 'sm';
+      iconSize = 'xs';
+      break;
+    case 'xs':
+      buttonSize = 'xs';
+      iconSize = 'xs';
+      break;
+  }
+
   return (
-    <IconButton onClick={togglePlayPause}>
-      {isPlaying ? <FaPause /> : <FaPlay />}
+    <IconButton onClick={togglePlayPause} size={buttonSize} text={iconSize}>
+      <PlayPauseIconWrapper $isPlaying={isPlaying}>
+        {isPlaying ? <FaPause /> : <FaPlay />}
+      </PlayPauseIconWrapper>
     </IconButton>
   );
 };

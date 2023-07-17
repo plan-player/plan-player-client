@@ -33,11 +33,11 @@ const DateNav = () => {
   };
 
   return (
-    <DateNavWrapper className="flex j-between i-center mx-auto">
+    <div className="w-70 flex j-between i-center mx-auto">
       <FaBackwardStep onClick={backPrevDate} />
       <h3>{today}</h3>
       <FaForwardStep onClick={goNextDate} />
-    </DateNavWrapper>
+    </div>
   );
 };
 
