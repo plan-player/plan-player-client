@@ -73,6 +73,10 @@
   background-color: var(--white);
 }
 
+.bg-gray {
+  background-color: var(--gray);
+}
+
 /* buttons */
 .button-primary {
   color: var(--white);

@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 export const Circle = styled.div`
   width: 0.313rem;
@@ -11,9 +11,10 @@ export const Circle = styled.div`
 export const Label = styled.div`
   border-radius: 0.25rem;
   background-color: var(--gray-200);
-  font-size: var(--text-3xs);
+  font-size: var(--text-2xs);
   font-weight: 600;
   color: var(--white);
+  padding: 3px 2px;
 `;
 
 export interface LabelProps {
@@ -22,13 +23,14 @@ export interface LabelProps {
 }
 
 export interface CategoryProps {
-  id: number;
   categoryName: string;
   categoryIcon: string;
   labels?: LabelProps[];
+  id?: number;
 }
 
 export interface CategoryMockDataProps {
   name: string;
+  id: number;
   category?: CategoryProps[];
 }

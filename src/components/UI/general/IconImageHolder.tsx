@@ -5,6 +5,7 @@ interface IconImageHolderProps {
   className?: string;
   isCircle?: boolean;
   size?: SizeType;
+  bg?: string;
 }
 
 const IconImageHolder = ({
@@ -12,6 +13,7 @@ const IconImageHolder = ({
   isCircle,
   size,
   children,
+  bg,
 }: PropsWithChildren<IconImageHolderProps>) => {
   let textSize: SizeType = 'root';
 
@@ -23,9 +25,10 @@ const IconImageHolder = ({
 
   return (
     <div
-      className={`bg flex-center shrink-0 ${isCircle ? 'circle' : 'round-sm'} size-${
+      className={`flex-center shrink-0 ${isCircle ? 'circle' : 'round-sm'} size-${
         size ? size : 'lg'
-      } text-${textSize} ${className || ''}`}
+      } text-${textSize} ${className || ''} ${bg ? `bg-${bg}` : 'bg'}
+      `}
     >
       {children}
     </div>

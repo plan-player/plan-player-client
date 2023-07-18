@@ -1,7 +1,7 @@
 import TodoListItem, { TodoListItemProps } from '../components/Todo/TodoListItem';
 import DateNav from '../components/UI/nav/DateNav';
 
-const DUMMY_TODOS: TodoListItemProps[] = [
+export const DUMMY_TODOS: TodoListItemProps[] = [
   {
     id: '1',
     cover: '🖇',
