@@ -2,8 +2,8 @@ import { HiMenuAlt4 } from 'react-icons/hi';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import { styled } from 'styled-components';
 import { TodoListItemProps } from '../Todo/TodoListItem';
-const ItemSize = '6.125rem';
-const Barmargin = 0.375;
+import { ItemSize, Barmargin } from './CategoryComponents';
+import { useNavigate } from 'react-router';
 
 const ItemWrapper = styled.div`
   width: ${ItemSize};
@@ -18,19 +18,21 @@ const Barstyle = styled.span`
   right: ${Barmargin}rem;
 `;
 
-export const CategoryDetailIcon = ({
-  cover,
-  title,
-  time,
-  category,
-}: TodoListItemProps) => {
+export const CategoryCard = ({ cover, title, time, category }: TodoListItemProps) => {
+  const navigate = useNavigate();
+
   return (
-    <ItemWrapper className="round-md flex-column j-center i-center">
+    <ItemWrapper
+      onClick={() => navigate('/player')}
+      className="round-md flex-column j-center i-center"
+    >
       <Barstyle className="text-xs">
         <HiMenuAlt4 />
       </Barstyle>
 
-      <IconImageHolder isCircle={true} bg="white" children={cover} />
+      <IconImageHolder isCircle={true} bg="white">
+        {cover}
+      </IconImageHolder>
       <div className="flex-column j-center i-center mt-sm">
         <span className="text-3xs">{category}</span>
         <h6>{time}</h6>
@@ -39,4 +41,4 @@ export const CategoryDetailIcon = ({
   );
 };
 
-export default CategoryDetailIcon;
+export default CategoryCard;
