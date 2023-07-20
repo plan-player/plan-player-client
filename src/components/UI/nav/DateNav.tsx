@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { FaBackwardStep, FaForwardStep } from 'react-icons/fa6';
-import { styled } from 'styled-components';
 
-const DateNavWrapper = styled.div`
-  width: 50vw;
-`;
+interface DateProps {
+  showMonth?: boolean;
+}
 
-const DateNav = () => {
+const DateNav = ({ showMonth }: DateProps) => {
   // TODO: locale 설정 가져오기 / 설정하기
   const [date, setDate] = useState(new Date());
 
@@ -14,6 +13,10 @@ const DateNav = () => {
     month: 'long',
     day: 'numeric',
     weekday: 'short',
+  });
+
+  const englishMonth = date.toLocaleDateString('en-US', {
+    month: 'long',
   });
 
   const goNextDate = () => {
@@ -35,7 +38,7 @@ const DateNav = () => {
   return (
     <div className="w-70 flex j-between i-center mx-auto">
       <FaBackwardStep onClick={backPrevDate} />
-      <h3>{today}</h3>
+      <h3>{showMonth ? englishMonth : today}</h3>
       <FaForwardStep onClick={goNextDate} />
     </div>
   );

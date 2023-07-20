@@ -39,6 +39,17 @@
   /* velocity */
   --fast-in: cubic-bezier(0.4, 0.39, 0.08, 1.02);
   --slow-in: cubic-bezier(0.56, -0.01, 0.56, 0.89);
+
+  /* padding */
+  --p-3xxl: 18rem;
+  --p-2xxl: 14rem;
+  --p-xxl: 10rem;
+  --p-2xl: 6rem;
+  --p-xl: 2rem;
+  --p-lg: 1.25rem;
+  --p-md: 0.75rem;
+  --p-sm: 0.375rem;
+  --p-xs: 0.125rem;
 }
 
 html {
@@ -468,4 +479,9 @@ h6 {
 
 .opacityHalf {
   opacity: 0.5;
+}
+
+/* flex wrap */
+.wrap {
+  flex-wrap: wrap;
 }

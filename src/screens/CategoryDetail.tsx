@@ -1,13 +1,15 @@
-import { useNavigate } from 'react-router';
 import { styled } from 'styled-components';
-import { Circle, Label } from '../components/Category/CategoryComponents';
+import { Circle } from '../components/Category/CategoryComponents';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { TiThList, TiThSmall } from 'react-icons/ti';
 import { useState } from 'react';
 import { DUMMY_TODOS } from './Playlist';
 import TodoListItem from '../components/Todo/TodoListItem';
-import CategoryDetailIcon from '../components/Category/CategoryDetailIcon';
+import CategoryCard from '../components/Category/CategoryCard';
 import NavButton from '../components/UI/button/NavButton';
+import { MdDashboard } from 'react-icons/md';
+import CategoryDashlist from '../components/Category/CategoryDashlist';
+import Label from '../components/UI/general/Label';
 
 const TopMargin = '1.25rem';
 
@@ -30,10 +32,8 @@ const Wrapper = styled.div`
 
 const CategoryDetail = () => {
   const [selectedView, setSelectedView] = useState('listview');
-  const navigate = useNavigate();
-
-  // const isDashboardWrapper = selectedView === 'l1';
   const isListWrapper = selectedView === 'listview';
+  const isDashWrapper = selectedView === 'dashview';
   const isCardWrapper = selectedView === 'cardview';
 
   return (
@@ -47,30 +47,18 @@ const CategoryDetail = () => {
           Study Kim
         </span>
         <div className="flex gap-xs">
-          <Label>#React</Label>
-          <Label>#Course</Label>
-          <Label>#fe</Label>
+          <Label size="sm">#React</Label>
+          <Label size="sm">#Course</Label>
+          <Label size="sm">#fe</Label>
         </div>
       </CategoryBox>
 
       <IndexBar className="w-100 flex-i-center j-between">
         <BiMenuAltLeft />
         <div className="flex">
-          {/* <label typeof="radio" htmlFor="l1">
-            <input
-              style={{ display: 'none' }}
-              type="radio"
-              id="l1"
-              name="radio-buttons"
-              checked={selectedView === 'l1'}
-              onChange={() => setSelectedView('l1')}
-            />
-            <BiSolidDashboard id="l1" />
-          </label> */}
-
           <div>
             <label htmlFor="listview">
-              <div className={selectedView === 'listview' ? 'opacityHalf' : ''}>
+              <div className={selectedView === 'listview' ? '' : 'opacityHalf'}>
                 <TiThList />
               </div>
             </label>
@@ -85,8 +73,24 @@ const CategoryDetail = () => {
           </div>
 
           <div>
+            <label htmlFor="dashview">
+              <div className={selectedView === 'dashview' ? '' : 'opacityHalf'}>
+                <MdDashboard />
+              </div>
+            </label>
+            <input
+              className="hide"
+              type="radio"
+              id="dashview"
+              name="radio-buttons"
+              checked={selectedView === 'dashview'}
+              onChange={() => setSelectedView('dashview')}
+            />
+          </div>
+
+          <div>
             <label htmlFor="cardview">
-              <div className={selectedView === 'cardview' ? 'opacityHalf' : ''}>
+              <div className={selectedView === 'cardview' ? '' : 'opacityHalf'}>
                 <TiThSmall />
               </div>
             </label>
@@ -101,7 +105,6 @@ const CategoryDetail = () => {
           </div>
         </div>
       </IndexBar>
-      {/* {isDashboardWrapper && <Wrapper className="scroll"></Wrapper>} */}
 
       {isListWrapper && (
         <Wrapper className="w-100 scroll flex-column gap-3xl">
@@ -112,11 +115,18 @@ const CategoryDetail = () => {
           </ol>
         </Wrapper>
       )}
+      {isDashWrapper && (
+        <Wrapper className="w-100 scroll flex wrap gap-sm">
+          {DUMMY_TODOS.map((todo, index) => (
+            <CategoryDashlist key={index} {...todo} />
+          ))}
+        </Wrapper>
+      )}
 
       {isCardWrapper && (
         <Wrapper className="w-100 scroll gap-sm grid-cols-3">
           {DUMMY_TODOS.map((todo, index) => (
-            <CategoryDetailIcon key={index} {...todo} />
+            <CategoryCard key={index} {...todo} />
           ))}
         </Wrapper>
       )}

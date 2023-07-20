@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router';
-import { CategoryProps, Label } from './CategoryComponents';
+import { CategoryProps } from './CategoryComponents';
+import Label from '../UI/general/Label';
 
 const squreSize = '8.25rem';
 
