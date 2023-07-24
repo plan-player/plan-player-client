@@ -5,9 +5,9 @@ import { FaClock, FaFolder } from 'react-icons/fa6';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import { Outlet, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-import Setting from '../components/UI/nav/Setting';
+import { styled } from 'styled-components';
+import Setting, { SETTING_SIZE } from '../components/UI/nav/Setting';
 import { AddCategory } from '../screens/CategoryGroup';
-import DateNav from '../components/UI/nav/DateNav';
 
 type NavItemType = {
   path: string;
@@ -37,6 +37,10 @@ const NAV_DATA: NavItemType[] = [
   },
 ];
 
+const OutletWrapper = styled.div`
+  height: calc(100vh - ${SETTING_SIZE}rem - var(--nav-h));
+`;
+
 const Nav: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
@@ -47,13 +51,13 @@ const Nav: React.FC = () => {
     return { className: [colorClass, sizeClass].join(' ') };
   };
 
-  const showDateNav = ['playlist', 'schedule'].includes(currentPath);
   return (
     <>
       <main>
         <Setting />
-        {showDateNav && <DateNav />}
-        <Outlet />
+        <OutletWrapper >
+          <Outlet />
+        </OutletWrapper>
       </main>
       {currentPath.startsWith('/category') ? <AddCategory /> : null}
       <nav className="w-100 flex j-evenly i-center bg-primary">
