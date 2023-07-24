@@ -4,30 +4,42 @@ interface ProgressBarProps {
   className?: string;
   current: number;
   total: number;
+  isVertical?: boolean;
+}
+
+interface ProgressBarBgProps {
+  $isVertical?: boolean;
 }
 
 interface ProgressBarFgProps {
   $total: number;
   $current: number;
+  $isVertical?: boolean;
 }
 
-const BAR_HEIGHT = '0.375rem';
+export const PROGRESS_BAR_SIZE = '0.375rem';
 
-const ProgressBarBg = styled.div`
-  height: ${BAR_HEIGHT};
+const ProgressBarBg = styled.div<ProgressBarBgProps>`
+  ${({ $isVertical }) => ($isVertical ? 'width' : 'hegiht')}: ${PROGRESS_BAR_SIZE};
 `;
 const ProgressBarFg = styled.div<ProgressBarFgProps>`
-  height: ${BAR_HEIGHT};
-  width: ${({ $current, $total }) => ($total ? `${($current / $total) * 100}%` : '0')};
+  ${({ $isVertical }) => ($isVertical ? 'width' : 'height')}: ${PROGRESS_BAR_SIZE};
+  ${({ $isVertical }) => ($isVertical ? 'height' : 'width')}: ${({ $current, $total }) =>
+    $total ? `${($current / $total) * 100}%` : '0'};
 `;
 
-const ProgressBar = ({ className, current, total }: ProgressBarProps) => {
+const ProgressBar = ({ className, current, total, isVertical }: ProgressBarProps) => {
+  const full = isVertical ? 'h-100' : 'w-100';
   return (
-    <ProgressBarBg className={`w-100 bg round-sm ${className || ''}`}>
+    <ProgressBarBg
+      className={`${full} bg round-sm ${className || ''}`}
+      $isVertical={isVertical}
+    >
       <ProgressBarFg
-        className="w-100 bg-primary round-sm"
+        className={`${full} bg-primary round-sm`}
         $current={current}
         $total={total}
+        $isVertical={isVertical}
       />
     </ProgressBarBg>
   );

@@ -15,13 +15,7 @@ const IconImageHolder = ({
   children,
   bg,
 }: PropsWithChildren<IconImageHolderProps>) => {
-  let textSize: SizeType = 'root';
-
-  switch (size) {
-    case '3xxl':
-      textSize = '3xxl';
-      break;
-  }
+  const textSize: SizeType = size || 'root';
 
   return (
     <div
