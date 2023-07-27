@@ -77,6 +77,10 @@
   background-color: var(--gray);
 }
 
+.bg-gray-50 {
+  background-color: var(--gray-50);
+}
+
 /* buttons */
 .button-primary {
   color: var(--white);
