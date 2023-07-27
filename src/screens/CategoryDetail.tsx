@@ -58,7 +58,7 @@ const CategoryDetail = () => {
         <div className="flex">
           <div>
             <label htmlFor="listview">
-              <div className={selectedView === 'listview' ? '' : 'opacityHalf'}>
+              <div className={selectedView === 'listview' ? '' : 'o-3'}>
                 <TiThList />
               </div>
             </label>
@@ -74,7 +74,7 @@ const CategoryDetail = () => {
 
           <div>
             <label htmlFor="dashview">
-              <div className={selectedView === 'dashview' ? '' : 'opacityHalf'}>
+              <div className={selectedView === 'dashview' ? '' : 'o-3'}>
                 <MdDashboard />
               </div>
             </label>
@@ -90,7 +90,7 @@ const CategoryDetail = () => {
 
           <div>
             <label htmlFor="cardview">
-              <div className={selectedView === 'cardview' ? '' : 'opacityHalf'}>
+              <div className={selectedView === 'cardview' ? '' : 'o-3'}>
                 <TiThSmall />
               </div>
             </label>
