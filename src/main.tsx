@@ -2,17 +2,14 @@ import * as Sentry from '@sentry/react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 
-const { PLOT_SENTRY } = import.meta.env;
+const { PLOT_SENTRY, PLOT_SERVER } = import.meta.env;
 
 if (import.meta.env.MODE === 'production') {
   Sentry.init({
     dsn: PLOT_SENTRY as string,
     integrations: [
-      new Sentry.BrowserTracing({
-        // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-        tracePropagationTargets: ['localhost', 'https:yourserver.io/api/'],
-      }),
-      new Sentry.Replay(),
+      new Sentry.BrowserTracing(),
+      new Sentry.Replay({ networkDetailAllowUrls: [PLOT_SERVER] }),
     ],
     // Performance Monitoring
     tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
