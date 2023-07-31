@@ -4,6 +4,11 @@ import Button from '../components/UI/button/Button';
 import IconImageHolder from '../components/UI/general/IconImageHolder';
 import OverlayForm from '../components/UI/overlay/OverlayForm';
 
+const Container = styled.div`
+  height: 100vh;
+  overflow: hidden;
+`;
+
 const LandingWrapper = styled.div`
   transform: translateY(-3%);
 `;
@@ -12,7 +17,7 @@ const Landing = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    <Container>
       <LandingWrapper className="w-full h-full w-max-640 mx-auto flex-center">
         <div className="flex-column i-center gap-3xl w-70 mx-auto">
           <div className="flex-column i-center gap-xs">
@@ -47,10 +52,8 @@ const Landing = () => {
         closeHandler={() => {
           setIsOpen(false);
         }}
-      >
-        안녕
-      </OverlayForm>
-    </>
+      ></OverlayForm>
+    </Container>
   );
 };
 
