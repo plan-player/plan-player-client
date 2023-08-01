@@ -1,5 +1,5 @@
-import { Circle } from '../Category/CategoryComponents';
 import { PropsWithChildren } from 'react';
+import CircleLabel from '../UI/label/CircleLabel';
 
 interface StatisticsCategoryProps {
   id: string;
@@ -23,8 +23,9 @@ const StatisticsCategory = ({
         onChange={() => onChangeHandle(id)}
       />
       <label className={`flex-center ${current !== id && 'o-3'}`} htmlFor={id}>
-        <Circle />
-        <h6 className="text-xs">{children}</h6>
+        <CircleLabel className="gap-xs" color="gray-200">
+          <span className="text-xs">{children}</span>
+        </CircleLabel>
       </label>
     </>
   );
