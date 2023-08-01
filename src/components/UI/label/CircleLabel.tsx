@@ -14,8 +14,8 @@ interface CircleWrapperProps {
 
 const CircleWrapper = styled.div<CircleWrapperProps>`
   position: relative;
-
   &::before {
+    display: inline-block;
     content: '';
     flex-shrink: 0;
     width: ${({ $size }) => `var(--size-${$size})`};
@@ -35,7 +35,7 @@ const CircleLabel = ({
 }: PropsWithChildren<CircleLabelProps>) => {
   return (
     <CircleWrapper
-      className={className}
+      className={`flex i-center gap-sm ${className}`}
       $color={color || 'primary'}
       $size={size || '2xxs'}
     >

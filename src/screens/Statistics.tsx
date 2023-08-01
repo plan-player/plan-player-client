@@ -1,11 +1,11 @@
 import { styled } from 'styled-components';
 import Calander from '../components/Statistics/Calander';
 import DateNav from '../components/UI/nav/DateNav';
-import { Circle } from '../components/Category/CategoryComponents';
 import StatisticsDay from '../components/Statistics/StatisticsDay';
 import { useState } from 'react';
 import StatisticsCategory from '../components/Statistics/StatisticsCategory';
 import StatisticsCategoryItem from '../components/Statistics/StatisticsCategoryItem';
+import CircleLabel from '../components/UI/label/CircleLabel';
 
 const Wrapper = styled.div`
   height: 89%;
@@ -118,8 +118,9 @@ const Statistics = () => {
           className={`flex-center ${selectedCategory !== 'all' && 'o-3'}`}
           htmlFor="all"
         >
-          <Circle />
-          <h6 className="text-xs">All</h6>
+          <CircleLabel className="gap-xs" color="gray-200">
+            <span className="text-xs">All</span>
+          </CircleLabel>
         </label>
 
         {categoriesSample.map((cate) => (

@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   min-height: 25%;
 `;
 const Day = styled.div`
-  width: 4vw;
+  width: 2vh;
   height: 2vh;
 `;
 
