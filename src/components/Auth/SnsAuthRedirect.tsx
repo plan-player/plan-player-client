@@ -24,7 +24,6 @@ const SnsAuthRedirect = () => {
   }, []);
 
   useEffect(() => {
-    console.log(response);
     if (!response) {
       return;
     }
@@ -57,7 +56,6 @@ export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData();
   const { provider } = params;
   const code = formData.get('code') as string;
-  console.log(provider, code);
 
   if (!provider || !code) {
     throw new Error('로그인할 SNS와 코드를 입력하세요.');
@@ -69,11 +67,9 @@ export const action: ActionFunction = async ({ params, request }) => {
     body: { provider, code },
   });
 
-  console.log('data', data);
-
   if (data.status === 'OK') {
     return { ok: true };
   } else {
-    return { ok: false };
+    throw new Error(data.status + ': ' + data.memo);
   }
 };
