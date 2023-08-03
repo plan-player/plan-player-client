@@ -12,7 +12,9 @@
   /* color */
   --primary: var(--black);
   --gray: var(--gray-100);
-  --background: var(--gray-50);
+  --bg: var(--gray-50);
+  --error-text: #e51010;
+  --error-bg: #fdefef;
 }
 
 * {
@@ -58,7 +60,7 @@
 
 /* bg */
 .bg {
-  background-color: var(--background);
+  background-color: var(--bg);
 }
 
 .bg-light {
