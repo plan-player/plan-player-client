@@ -4,6 +4,7 @@ import useInput, { InitialDataType } from '../../hooks/useInput';
 import Button from '../UI/button/Button';
 import InputField from '../UI/input/InputField';
 import CodeField, { CodeHandle } from './CodeField';
+import Inform from '../UI/general/Inform';
 
 const EmailFormWrapper = styled.div`
   margin: 1rem auto;
@@ -30,7 +31,6 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
     emailRef.current?.focus();
   }, [isLogin, isRetype]);
 
-
   const verifyHandler = () => {
     setIsVerify(true);
     setIsRetype(false);
@@ -52,10 +52,7 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
 
   return (
     <EmailFormWrapper className="w-85">
-      <form
-        className="flex-column gap-sm"
-        onSubmit={registerHandler}
-      >
+      <form className="flex-column gap-sm" onSubmit={registerHandler}>
         <InputField>
           <div className="flex j-between i-center">
             <label>이메일</label>
@@ -83,13 +80,11 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
             onChange={dataHandler}
             disabled={isVerify && !isRetype && !isLogin}
           />
+          <Inform isError={true}>올바른 이메일을 입력하세요.</Inform>
         </InputField>
-        {!isLogin && !isVerify && (
-          <Button onClick={verifyHandler}>
-            인증코드 전송
-          </Button>
-        )}
+        {!isLogin && !isVerify && <Button onClick={verifyHandler}>인증코드 전송</Button>}
         {!isLogin && isVerify && <CodeField ref={codeRef} />}
+        <Inform isError={true}>올바른 코드를 입력하세요.</Inform>
         {(isLogin || isVerify) && (
           <>
             <InputField className={isLogin ? '' : 'mt-md'}>
@@ -100,6 +95,9 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
                 value={password}
                 onChange={dataHandler}
               />
+              <Inform isError={true}>
+                비밀번호는 n자 이상의 문자/숫자/?여야 합니다.
+              </Inform>
             </InputField>
             {!isLogin && (
               <InputField>
@@ -110,6 +108,7 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
                   value={passwordVerify}
                   onChange={dataHandler}
                 />
+                <Inform isError={true}>비밀번호와 일치하지 않습니다.</Inform>
               </InputField>
             )}
             <Button type="submit" className="mt-md" sizeClass="md">
