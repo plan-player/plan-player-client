@@ -56,7 +56,6 @@ const CodeField = React.forwardRef<CodeHandle, CodeFieldProps>(({ className }, r
         if (value.length < 1) {
           return;
         } else if (value.length === 1 && inputIdx + 1 < CODE_LENGTH) {
-          console.log(value.length);
           inputs[inputIdx + 1].focus();
         } else {
           // input & paste -> focus next

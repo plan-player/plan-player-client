@@ -47,7 +47,6 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
   const registerHandler = (event: FormEvent) => {
     event.preventDefault();
     const code = codeRef.current?.value() || '';
-    console.log('회원가입', { email, code, password });
   };
 
   return (
