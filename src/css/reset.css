@@ -97,6 +97,37 @@ strong {
   font-weight: 700;
 }
 
+input,
+select,
+textarea {
+  box-sizing: border-box;
+  padding: 1rem;
+  width: 100%;
+  height: 3rem;
+  font-family: inherit;
+  border-radius: 0.5rem;
+  background-color: var(--gray-50);
+  border: none;
+  outline: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+input:disabled {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 0.6;
+}
+
+input[type='checkbox'] {
+  accent-color: var(--primary);
+}
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,

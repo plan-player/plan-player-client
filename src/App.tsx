@@ -1,5 +1,8 @@
 import { ErrorBoundary } from '@sentry/react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import SnsAuthRedirect, {
+  action as SnsAuthAction,
+} from './components/Auth/SnsAuthRedirect';
 import './css/reset.css';
 import './css/color.css';
 import './css/global.css';
@@ -20,17 +23,31 @@ const router = createBrowserRouter([
     errorElement: <ErrorBoundary />,
     children: [
       {
+        path: '/',
+        element: <Navigate to="/landing" />,
+      },
+      {
         path: '/landing',
         element: <Landing />,
+      },
+      {
+        path: '/login/oauth2/code',
+        children: [
+          {
+            path: '/login/oauth2/code/:provider',
+            element: <SnsAuthRedirect />,
+            action: SnsAuthAction,
+          },
+        ],
       },
       {
         path: '/',
         element: <Nav />,
         children: [
-          {
-            path: '/',
-            element: <Navigate to="/playlist" />,
-          },
+          // {
+          //   path: '/',
+          //   element: <Navigate to="/playlist" />,
+          // },
           {
             path: '/playlist',
             index: true,

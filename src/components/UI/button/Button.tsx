@@ -8,6 +8,7 @@ interface ButtonProps {
   styleClass?: 'primary' | 'extra'; // 'secondary' | 'gray'
   sizeClass?: SizeType;
   type?: 'button' | 'submit' | 'reset';
+  isFit?: boolean;
   onClick?: (event?: React.MouseEvent) => void;
   isPending?: boolean;
   disabled?: boolean;
@@ -18,9 +19,11 @@ interface StyledButtonProps {
   $fontSize: string;
   $color: string;
   $bg: string;
+  $isFit?: boolean;
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
+  ${({ $isFit }) => ($isFit ? 'width: fit-content; padding: 0 1rem;' : '')}
   height: ${({ $height }) => $height};
   font-size: ${({ $fontSize }) => $fontSize};
   color: ${({ $color }) => $color};
@@ -35,10 +38,11 @@ function Button({
   disabled,
   styleClass,
   sizeClass,
+  isFit,
   children,
 }: PropsWithChildren<ButtonProps>) {
-  let height = '3.5rem';
-  let fontSize = 'var(--text-root)';
+  let height = '3rem';
+  let fontSize = 'var(--text-md)';
   let color = 'var(--white)';
   let bg = 'var(--primary)';
 
@@ -50,12 +54,12 @@ function Button({
   }
 
   switch (sizeClass) {
-    case 'md':
-      height = '3rem';
-      fontSize = 'var(--text-md)';
+    case 'lg':
+      height = '3.5rem';
+      fontSize = 'var(--text-root)';
       break;
     case 'sm':
-      height = '2rem';
+      height = '1.5rem';
       fontSize = 'var(--text-sm)';
       break;
   }
@@ -70,6 +74,7 @@ function Button({
       $fontSize={fontSize}
       $color={color}
       $bg={bg}
+      $isFit={isFit}
     >
       {/* {isPending ? <LoadingSpinner size="1.5rem" /> : children} */}
       {children}
