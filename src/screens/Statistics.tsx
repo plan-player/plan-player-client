@@ -7,10 +7,6 @@ import StatisticsCategory from '../components/Statistics/StatisticsCategory';
 import StatisticsCategoryItem from '../components/Statistics/StatisticsCategoryItem';
 import CircleLabel from '../components/UI/label/CircleLabel';
 
-const Wrapper = styled.div`
-  height: 89%;
-`;
-
 const StatisticsBoard = styled.div`
   height: 40%;
   overflow: hidden;
@@ -19,6 +15,10 @@ const StatisticsBoard = styled.div`
       white-space: nowrap;
     }
   }
+`;
+
+const StatisticsCategoryWrapper = styled.div`
+  min-height: 5%;
 `;
 
 const WeekWrapper = styled.div`
@@ -101,12 +101,16 @@ const Statistics = () => {
   };
 
   return (
-    <Wrapper className="flex-column scroll i-center w-100">
+    <div className="flex-column scroll i-center w-100 h-95">
       <DateNav onNext={onHandleMonth} onPrev={onHandleMonth} isMonth={true} />
 
-      <Calander onLine={setWeekLine} handleDate={currentDate} />
+      <Calander
+        weekHandle={weeks[selectedIndex].text}
+        onLine={setWeekLine}
+        handleDate={currentDate}
+      />
 
-      <div className="w-80 flex-i-center j-between m-lg">
+      <StatisticsCategoryWrapper className="w-80 flex-i-center j-between mt-md">
         <input
           id="all"
           className="hide"
@@ -133,9 +137,9 @@ const Statistics = () => {
             {cate.text}
           </StatisticsCategory>
         ))}
-      </div>
+      </StatisticsCategoryWrapper>
 
-      <div className="flex j-around mt-md scroll w-90 h-60">
+      <div className="flex j-around mt-md scroll w-90">
         <div className="flex-column w-70 ml-md">
           <StatisticsDay
             weekHandle={weeks[selectedIndex].value}
@@ -169,7 +173,7 @@ const Statistics = () => {
           </WeekWrapper>
         </div>
       </div>
-    </Wrapper>
+    </div>
   );
 };
 
