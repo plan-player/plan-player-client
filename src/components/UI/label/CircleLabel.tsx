@@ -7,9 +7,10 @@ interface CircleLabelProps {
   size?: string;
 }
 
-interface CircleWrapperProps {
+export interface CircleWrapperProps {
   $color: string;
   $size: string;
+  $opacity?: string;
 }
 
 const CircleWrapper = styled.div<CircleWrapperProps>`
