@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import Setting, { SETTING_SIZE } from '../components/UI/nav/Setting';
 import { AddCategory } from '../screens/CategoryGroup';
+import RequireAuth from './RequireAuth';
 
 type NavItemType = {
   path: string;
@@ -52,7 +53,7 @@ const Nav: React.FC = () => {
   };
 
   return (
-    <>
+    <RequireAuth>
       <main>
         <Setting />
         <OutletWrapper >
@@ -67,7 +68,7 @@ const Nav: React.FC = () => {
           </IconContext.Provider>
         ))}
       </nav>
-    </>
+    </RequireAuth>
   );
 };
 

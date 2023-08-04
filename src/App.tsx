@@ -1,12 +1,13 @@
 import { ErrorBoundary } from '@sentry/react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import { action as emailAuthAction } from './components/Auth/EmailForm';
 import SnsAuthRedirect, {
   action as snsAuthAction,
 } from './components/Auth/SnsAuthRedirect';
+import './css/_reset.css';
 import './css/color.css';
 import './css/global.css';
-import './css/reset.css';
 import Nav from './layout/Nav';
 import Root from './layout/Root';
 import CategoryDetail from './screens/CategoryDetail';
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       {
         path: '/landing',
         element: <Landing />,
-        action: emailAuthAction
+        action: emailAuthAction,
       },
       {
         path: '/login/oauth2/code',
@@ -83,7 +84,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <RecoilRoot>
+      <RouterProvider router={router} />
+    </RecoilRoot>
+  );
 };
 
 export default App;
