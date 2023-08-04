@@ -142,7 +142,7 @@ const StatisticsDay = ({ weekHandle, handleDate }: StatisticsDayProps) => {
 
     days.push(
       <li className="flex j-between " key={date}>
-        <div className="mg-xs flex-column i-center w-10">
+        <div className="m-xs flex-column i-center w-10">
           <span className="text-xs extra-bold">{week[day.getDay()]}</span>
           <span className="text-lg extra-bold">{date}</span>
         </div>
