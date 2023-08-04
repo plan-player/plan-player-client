@@ -1,11 +1,11 @@
 import { FormEvent, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { ActionFunctionArgs, useSubmit } from 'react-router-dom';
 import { styled } from 'styled-components';
 import useInput, { InputDataType } from '../../hooks/useInput';
 import Button from '../UI/button/Button';
+import Inform from '../UI/general/Inform';
 import InputField from '../UI/input/InputField';
 import CodeField, { CodeHandle } from './CodeField';
-import Inform from '../UI/general/Inform';
-import { ActionFunctionArgs, useSubmit } from 'react-router-dom';
 
 interface EmailFormProps {
   isLogin: boolean;
@@ -83,6 +83,8 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
                   isFit={true}
                   onClick={verifyHandler}
                   isPending={false}
+                  name="intent"
+                  value="verify"
                 >
                   재전송
                 </Button>
@@ -100,7 +102,7 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
           <ErrorInform>올바른 이메일을 입력하세요.</ErrorInform>
         </InputField>
         {!isLogin && !isVerify && (
-          <Button onClick={verifyHandler} isPending={false}>
+          <Button onClick={verifyHandler} isPending={false} name="intent" value="verify">
             인증코드 전송
           </Button>
         )}
@@ -130,7 +132,14 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
                 <ErrorInform>비밀번호와 일치하지 않습니다.</ErrorInform>
               </InputField>
             )}
-            <Button type="submit" className="mt-md" sizeClass="md" isPending={false}>
+            <Button
+              type="submit"
+              className="mt-md"
+              sizeClass="md"
+              isPending={false}
+              name="intent"
+              value={isLogin ? 'login' : 'register'}
+            >
               {isLogin ? '로그인하기' : '회원가입하기'}
             </Button>
           </>
@@ -143,7 +152,19 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
 export default EmailForm;
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const { email, code, password } = await request.formData();
+  const formData = await request.formData();
 
-  // TODO: requestFetch 함수를 활용하여 서버로 요청 보내기
+  const email = formData.get('email');
+  const password = formData.get('password');
+  const code = formData.get('code');
+
+  // TODO: requestFetch 함수를 활용하여 서버로 인증/회원가입/로그인 요청 보내기
+  switch (formData.get('intent')) {
+    case 'verify':
+      break;
+    case 'register':
+      break;
+    case 'login':
+      break;
+  }
 };

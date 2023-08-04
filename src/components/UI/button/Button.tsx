@@ -8,6 +8,8 @@ interface ButtonProps {
   styleClass?: 'primary' | 'extra'; // 'secondary' | 'gray'
   sizeClass?: SizeType;
   type?: 'button' | 'submit' | 'reset';
+  name?: string;
+  value?: string;
   isFit?: boolean;
   onClick?: (event?: React.MouseEvent) => void;
   isPending?: boolean;
@@ -39,6 +41,8 @@ function Button({
   styleClass,
   sizeClass,
   isFit,
+  name,
+  value,
   children,
 }: PropsWithChildren<ButtonProps>) {
   let height = '3rem';
@@ -69,6 +73,8 @@ function Button({
       type={type || 'button'}
       className={`flex-center w-100 bold round-sm ${className || ''}`}
       onClick={onClick}
+      name={name}
+      value={value}
       disabled={isPending || disabled}
       $height={height}
       $fontSize={fontSize}
