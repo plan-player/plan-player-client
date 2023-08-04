@@ -74,7 +74,7 @@ const Nav: React.FC = () => {
       {!hideNav && (
         <NavWrapper className="w-100 bg-primary flex i-center">
           <AnimatePresence>
-            <motion.div
+            <motion.nav
               className="w-100 flex j-evenly"
               initial={{ translateY: '100%' }}
               animate={{ translateY: 0 }}
@@ -85,7 +85,7 @@ const Nav: React.FC = () => {
                   <Link to={path}>{icon}</Link>
                 </IconContext.Provider>
               ))}
-            </motion.div>
+            </motion.nav>
           </AnimatePresence>
         </NavWrapper>
       )}
