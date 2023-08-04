@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { PropsWithChildren, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { styled } from 'styled-components';
+import Backdrop from './Backdrop';
 
 export interface OverlayProps {
   id: string;
@@ -15,15 +16,6 @@ export interface OverlayProps {
 interface OverlayWrapperProps {
   $isFlat?: boolean;
 }
-
-const BackDrop = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--black);
-`;
 
 const OverlayWrapper = styled(motion.div)<OverlayWrapperProps>`
   position: absolute;
@@ -79,14 +71,7 @@ const Overlay = ({
       <AnimatePresence>
         {isOpen && (
           <>
-            <BackDrop
-              onClick={() => {
-                onClose();
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.8 }}
-              exit={{ opacity: 0 }}
-            />
+            <Backdrop onClose={onClose} />
             <OverlayWrapper
               className={className || ''}
               layout

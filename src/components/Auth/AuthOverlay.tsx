@@ -11,9 +11,10 @@ interface ExtraButtonProps {
 }
 
 const HeaderWrapper = styled(motion.div)`
-  // NOTE: motion.div의 layout 설정으로 인한 왜곡 해결을 위해 width를 고정된 값으로 부여함
-  // NOTE: 오버레이의 padding이 2rem이므로, 좌우 여백 제외한 값으로 설정
+  // NOTE: motion.div의 layout 설정으로 인한 왜곡 해결을 위해 width와 height를 고정된 값으로 부여함
+  // NOTE: width - 오버레이의 padding이 2rem이므로, 좌우 여백 제외한 값으로 설정
   width: calc(100% - 4rem);
+  height: 3.5rem;
 `;
 
 const ExtraButton = ({ onClick, children }: PropsWithChildren<ExtraButtonProps>) => {
@@ -64,13 +65,13 @@ const AuthOverlay = ({ id, isOpen, onClose }: OverlayProps) => {
       <div className="flex-column gap-xl py-lg h-100">
         <div className="flex-column i-center gap-xs">
           <motion.img layout className="size-lg" src="/png/logo.png" alt="plot logo" />
-          <HeaderWrapper layout className="flex-column i-center j-center gap-sm mb-md">
+          <HeaderWrapper layout="position" className="flex-column i-center j-center gap-sm">
             <h1>{title}</h1>
             {isSns && <p>SNS 계정으로 시작</p>}
           </HeaderWrapper>
         </div>
         <div>{isSns ? <SnsButtons /> : <EmailForm isLogin={isLogin} />}</div>
-        <div className="w-80 mx-auto p-lg">
+        <div className="w-80 mx-auto">
           <div className="flex j-between i-center gap-sm">
             <ExtraButton>{isLogin ? '로그인' : '가입'} 없이 둘러보기</ExtraButton>
             <motion.span layout>|</motion.span>
