@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 
-export interface InitialDataType {
-    [name: string]: string;
+export interface InputDataType {
+  [name: string]: string;
 }
 
-export default (initialData: InitialDataType) => {
+export default (initialData: InputDataType) => {
   const [data, setData] = useState(initialData);
 
   const handler = useCallback(

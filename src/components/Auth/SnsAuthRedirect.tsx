@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import {
-  ActionFunction,
+  ActionFunctionArgs,
   useActionData,
   useNavigate,
   useParams,
@@ -8,6 +8,7 @@ import {
   useSubmit,
 } from 'react-router-dom';
 import { fetchRequest } from '../../util/request';
+import LoadingSpinner from '../UI/general/LoadingSpinner';
 
 const SnsAuthRedirect = () => {
   const submit = useSubmit();
@@ -20,56 +21,42 @@ const SnsAuthRedirect = () => {
   const code = params.get('code');
 
   useEffect(() => {
-    submit(`provider=${provider || ''}&code=${code || ''}`, { method: 'post' });
+    submit(`provider=${provider || ''}&code=${code || ''}`, { method: 'POST' });
   }, []);
 
   useEffect(() => {
-    if (!response) {
+    if (response === undefined) {
       return;
     }
 
-    if ((response as Response)?.ok) {
+    if (response.ok) {
       navigate('/playlist');
     } else {
       throw new Error('SNS 로그인 요청에 실패했습니다.');
     }
   }, [response]);
 
-  return <div>Loading..</div>;
+  return <div>
+    <LoadingSpinner isFull={true} />
+  </div>;
 };
 
 export default SnsAuthRedirect;
 
-interface SocialLoginResponseType {
-  data: any;
-  status: string;
-  message: string;
-  memo: string;
-}
-
-interface SocialLoginRequestBodyType {
-  provider: string;
-  code: string;
-}
-
-export const action: ActionFunction = async ({ params, request }) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const { provider } = params;
+  const provider = formData.get('provider') as string;
   const code = formData.get('code') as string;
 
   if (!provider || !code) {
     throw new Error('로그인할 SNS와 코드를 입력하세요.');
   }
 
-  const data = await fetchRequest<SocialLoginResponseType, SocialLoginRequestBodyType>({
+  await fetchRequest<null>({
     url: '/social-login',
     method: 'POST',
     body: { provider, code },
   });
 
-  if (data.status === 'OK') {
-    return { ok: true };
-  } else {
-    throw new Error(data.status + ': ' + data.memo);
-  }
+  return { ok: true };
 };

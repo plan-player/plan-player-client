@@ -1,20 +1,31 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
-import useInput, { InitialDataType } from '../../hooks/useInput';
+import useInput, { InputDataType } from '../../hooks/useInput';
 import Button from '../UI/button/Button';
 import InputField from '../UI/input/InputField';
 import CodeField, { CodeHandle } from './CodeField';
 import Inform from '../UI/general/Inform';
-
-const EmailFormWrapper = styled.div`
-  margin: 1rem auto;
-`;
+import { ActionFunctionArgs, useSubmit } from 'react-router-dom';
 
 interface EmailFormProps {
   isLogin: boolean;
 }
 
+const EmailFormWrapper = styled.div`
+  margin: 1rem auto;
+`;
+
+const ErrorInform = ({ children }: PropsWithChildren) => {
+  return (
+    <Inform isError={true} isLeft={true}>
+      {children}
+    </Inform>
+  );
+};
+
 const EmailForm = ({ isLogin }: EmailFormProps) => {
+  const submit = useSubmit();
+
   const emailRef = useRef<HTMLInputElement>(null);
   const codeRef = useRef<CodeHandle>(null);
 
@@ -25,7 +36,7 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
     email: '',
     password: '',
     passwordVerify: '',
-  } as InitialDataType);
+  } as InputDataType);
 
   useEffect(() => {
     emailRef.current?.focus();
@@ -47,6 +58,8 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
   const registerHandler = (event: FormEvent) => {
     event.preventDefault();
     const code = codeRef.current?.value() || '';
+    // TODO: 서버 측에서 정의된 요청 파라미터에 맞게 수정 필요
+    submit(`email=${email}&code=${code}&password=${password}`, { method: 'POST' });
   };
 
   return (
@@ -65,7 +78,12 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
                 >
                   <u>다시 입력</u>
                 </Button>
-                <Button sizeClass="sm" isFit={true} onClick={verifyHandler}>
+                <Button
+                  sizeClass="sm"
+                  isFit={true}
+                  onClick={verifyHandler}
+                  isPending={false}
+                >
                   재전송
                 </Button>
               </div>
@@ -79,11 +97,15 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
             onChange={dataHandler}
             disabled={isVerify && !isRetype && !isLogin}
           />
-          <Inform isError={true}>올바른 이메일을 입력하세요.</Inform>
+          <ErrorInform>올바른 이메일을 입력하세요.</ErrorInform>
         </InputField>
-        {!isLogin && !isVerify && <Button onClick={verifyHandler}>인증코드 전송</Button>}
+        {!isLogin && !isVerify && (
+          <Button onClick={verifyHandler} isPending={false}>
+            인증코드 전송
+          </Button>
+        )}
         {!isLogin && isVerify && <CodeField ref={codeRef} />}
-        <Inform isError={true}>올바른 코드를 입력하세요.</Inform>
+        <ErrorInform>올바른 코드를 입력하세요.</ErrorInform>
         {(isLogin || isVerify) && (
           <>
             <InputField className={isLogin ? '' : 'mt-md'}>
@@ -94,9 +116,7 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
                 value={password}
                 onChange={dataHandler}
               />
-              <Inform isError={true}>
-                비밀번호는 n자 이상의 문자/숫자/?여야 합니다.
-              </Inform>
+              <ErrorInform>비밀번호는 n자 이상의 문자/숫자/?여야 합니다.</ErrorInform>
             </InputField>
             {!isLogin && (
               <InputField>
@@ -107,10 +127,10 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
                   value={passwordVerify}
                   onChange={dataHandler}
                 />
-                <Inform isError={true}>비밀번호와 일치하지 않습니다.</Inform>
+                <ErrorInform>비밀번호와 일치하지 않습니다.</ErrorInform>
               </InputField>
             )}
-            <Button type="submit" className="mt-md" sizeClass="md">
+            <Button type="submit" className="mt-md" sizeClass="md" isPending={false}>
               {isLogin ? '로그인하기' : '회원가입하기'}
             </Button>
           </>
@@ -121,3 +141,9 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
 };
 
 export default EmailForm;
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { email, code, password } = await request.formData();
+
+  // TODO: requestFetch 함수를 활용하여 서버로 요청 보내기
+};
