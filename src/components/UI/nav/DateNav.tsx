@@ -3,8 +3,8 @@ import { FaBackwardStep, FaForwardStep } from 'react-icons/fa6';
 
 interface DateProps {
   isMonth?: boolean;
-  onPrev: (newDate: Date) => void;
-  onNext: (newDate: Date) => void;
+  onPrev?: (newDate: Date) => void;
+  onNext?: (newDate: Date) => void;
 }
 
 const DateNav = ({ isMonth, onPrev, onNext }: DateProps) => {
@@ -25,7 +25,7 @@ const DateNav = ({ isMonth, onPrev, onNext }: DateProps) => {
     setDate((prev) => {
       const date = new Date(prev);
       date.setMonth(prev.getMonth() + 1);
-      onNext(date);
+      onNext && onNext(date);
       return date;
     });
   };
@@ -34,7 +34,7 @@ const DateNav = ({ isMonth, onPrev, onNext }: DateProps) => {
     setDate((prev) => {
       const date = new Date(prev);
       date.setMonth(prev.getMonth() - 1);
-      onPrev(date);
+      onPrev && onPrev(date);
       return date;
     });
   };

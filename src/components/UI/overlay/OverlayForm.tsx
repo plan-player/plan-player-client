@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { Form, useNavigation } from 'react-router-dom';
-import Button from '../button/Button';
+import ConfirmCancelButtons from '../button/ConfirmCancelButtons';
 import Overlay, { OverlayProps } from './Overlay';
 
 interface OverlayFormProps extends OverlayProps {
@@ -22,18 +22,10 @@ const OverlayForm = ({
     <Overlay id={id} isOpen={isOpen} onClose={onClose} isFlat={isFlat}>
       <Form className={className || ''} onSubmit={onSubmit}>
         {children}
-        <div className="flex mt-lg">
-          <Button styleClass="extra" className="w-50" onClick={onClose}>
-            취소
-          </Button>
-          <Button
-            type="submit"
-            onClick={onClose}
-            isPending={navigation.state === 'submitting'}
-          >
-            완료
-          </Button>
-        </div>
+        <ConfirmCancelButtons
+          onClose={onClose}
+          isPending={navigation.state === 'submitting'}
+        />
       </Form>
     </Overlay>
   );
