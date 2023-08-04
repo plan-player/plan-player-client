@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { FormEvent, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { ActionFunctionArgs, useSubmit } from 'react-router-dom';
 import { styled } from 'styled-components';
@@ -11,7 +12,7 @@ interface EmailFormProps {
   isLogin: boolean;
 }
 
-const EmailFormWrapper = styled.div`
+const EmailFormWrapper = styled(motion.div)`
   margin: 1rem auto;
 `;
 
@@ -63,8 +64,8 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
   };
 
   return (
-    <EmailFormWrapper className="w-85">
-      <form className="flex-column gap-sm" onSubmit={registerHandler}>
+    <EmailFormWrapper layout className="w-85">
+      <motion.form layout className="flex-column gap-sm" onSubmit={registerHandler}>
         <InputField>
           <div className="flex j-between i-center">
             <label>이메일</label>
@@ -144,7 +145,7 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
             </Button>
           </>
         )}
-      </form>
+      </motion.form>
     </EmailFormWrapper>
   );
 };

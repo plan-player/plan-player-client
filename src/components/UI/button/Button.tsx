@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
 import { SizeType } from '../../../types/size';
@@ -24,7 +25,7 @@ interface StyledButtonProps {
   $isFit?: boolean;
 }
 
-const StyledButton = styled.button<StyledButtonProps>`
+const StyledButton = styled(motion.button)<StyledButtonProps>`
   ${({ $isFit }) => ($isFit ? 'width: fit-content; padding: 0 1rem;' : '')}
   height: ${({ $height }) => $height};
   font-size: ${({ $fontSize }) => $fontSize};
@@ -70,6 +71,7 @@ function Button({
 
   return (
     <StyledButton
+      layout
       type={type || 'button'}
       className={`flex-center w-100 bold round-sm ${className || ''}`}
       onClick={onClick}

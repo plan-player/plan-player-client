@@ -89,6 +89,7 @@ const Overlay = ({
             />
             <OverlayWrapper
               className={className || ''}
+              layout
               $isFlat={isFlat}
               initial={{ transform: 'translateY(100%)' }}
               animate={{ transform: 'translateY(0)' }}

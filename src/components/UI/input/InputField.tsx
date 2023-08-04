@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
 
@@ -10,7 +11,7 @@ interface InputFieldWrapperProps {
   $isLabelFloat?: boolean;
 }
 
-const InputFieldWrapper = styled.div<InputFieldWrapperProps>`
+const InputFieldWrapper = styled(motion.div)<InputFieldWrapperProps>`
   position: relative;
   text-align: left;
   display: flex;
@@ -29,7 +30,7 @@ const InputField = ({
   children,
 }: PropsWithChildren<InputFieldProps>) => {
   return (
-    <InputFieldWrapper className={className || ''} $isLabelFloat={isLabelFloat}>
+    <InputFieldWrapper layout className={className || ''} $isLabelFloat={isLabelFloat}>
       {children}
     </InputFieldWrapper>
   );

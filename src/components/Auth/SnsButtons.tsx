@@ -1,6 +1,7 @@
+import { motion } from 'framer-motion';
 import { styled } from 'styled-components';
 
-const SnsButtonsWrapper = styled.div`
+const SnsButtonsWrapper = styled(motion.div)`
   margin: 0.5rem auto;
   img {
     width: 90%;
@@ -30,7 +31,7 @@ const KakaoLoginButton = () => (
 
 const SnsButtons = () => {
   return (
-    <SnsButtonsWrapper className="flex w-85">
+    <SnsButtonsWrapper layout className="flex w-85">
       <a href="">
         <GoogleLoginButton />
       </a>

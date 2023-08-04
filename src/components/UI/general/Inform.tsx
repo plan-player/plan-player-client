@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { PropsWithChildren } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
 import { styled } from 'styled-components';
@@ -15,7 +16,7 @@ interface InformWrapperProps {
   $isLeft?: boolean;
 }
 
-const InformWrapper = styled.div<InformWrapperProps>`
+const InformWrapper = styled(motion.div)<InformWrapperProps>`
   display: flex;
   gap: 0.25rem;
   padding: 0.8rem;
@@ -42,6 +43,7 @@ const Inform = ({
 }: PropsWithChildren<InformProps>) => {
   return (
     <InformWrapper
+      layout
       $isError={isError}
       $isLeft={isLeft}
       className={`text-sm ${className || ''}`}
