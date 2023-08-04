@@ -45,9 +45,9 @@ const Calander = ({ handleDate, onLine }: StatisticsCalanderProps) => {
         );
       } else {
         if (format(startMonth, 'M') !== format(day, 'M')) {
-          days.push(<Day key={shortid.generate()} className="o0 mg-xs"></Day>);
+          days.push(<Day key={shortid.generate()} className="o0 m-xs"></Day>);
         } else {
-          days.push(<Day key={id} className="bg-light round-xs mg-xs"></Day>);
+          days.push(<Day key={id} className="bg-light round-xs m-xs"></Day>);
         }
         day = addDays(day, 1);
       }

@@ -106,7 +106,7 @@ const Statistics = () => {
 
       <Calander onLine={setWeekLine} handleDate={currentDate} />
 
-      <div className="w-80 flex-i-center j-between mg-lg">
+      <div className="w-80 flex-i-center j-between m-lg">
         <input
           id="all"
           className="hide"
