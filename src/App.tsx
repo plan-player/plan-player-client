@@ -1,11 +1,12 @@
 import { ErrorBoundary } from '@sentry/react';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { action as emailAuthAction } from './components/Auth/EmailForm';
 import SnsAuthRedirect, {
-  action as SnsAuthAction,
+  action as snsAuthAction,
 } from './components/Auth/SnsAuthRedirect';
-import './css/reset.css';
 import './css/color.css';
 import './css/global.css';
+import './css/reset.css';
 import Nav from './layout/Nav';
 import Root from './layout/Root';
 import CategoryDetail from './screens/CategoryDetail';
@@ -13,7 +14,7 @@ import CategoryGroup from './screens/CategoryGroup';
 import Landing from './screens/Landing';
 import Player from './screens/Player';
 import Playlist from './screens/Playlist';
-import Schedule, { action as ScheduleAction } from './screens/Schedule';
+import Schedule, { action as scheduleAction } from './screens/Schedule';
 import Statistics from './screens/Statistics';
 
 const router = createBrowserRouter([
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       {
         path: '/landing',
         element: <Landing />,
+        action: emailAuthAction
       },
       {
         path: '/login/oauth2/code',
@@ -36,7 +38,7 @@ const router = createBrowserRouter([
           {
             path: '/login/oauth2/code/:provider',
             element: <SnsAuthRedirect />,
-            action: SnsAuthAction,
+            action: snsAuthAction,
           },
         ],
       },
@@ -56,7 +58,7 @@ const router = createBrowserRouter([
           {
             path: '/schedule',
             element: <Schedule />,
-            action: ScheduleAction,
+            action: scheduleAction,
           },
           {
             path: '/category',
