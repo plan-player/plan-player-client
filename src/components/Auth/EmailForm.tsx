@@ -40,6 +40,12 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
   } as InputDataType);
 
   useEffect(() => {
+    if (isLogin) {
+      setIsVerify(false);
+    }
+  }, [isLogin]);
+
+  useEffect(() => {
     emailRef.current?.focus();
   }, [isLogin, isRetype]);
 
