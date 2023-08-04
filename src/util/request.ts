@@ -11,8 +11,8 @@ interface requestParams {
 interface ResponseType<T> {
   data: T;
   status: string;
+  code: number;
   message: string;
-  memo: string;
 }
 
 const getConfig = (method: string, body?: unknown) => {
@@ -49,6 +49,6 @@ export const fetchRequest = async <T>({
   if (data.status === 'OK') {
     return data.data;
   } else {
-    throw new Error(`${data.status}: ${data.memo}`);
+    throw new Error(`${data.status}: ${data.message}`);
   }
 };
