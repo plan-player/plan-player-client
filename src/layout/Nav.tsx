@@ -63,7 +63,8 @@ const Nav: React.FC = () => {
   };
 
   return (
-    <RequireAuth>
+    // <RequireAuth>
+    <>
       <main>
         <Setting />
         <OutletWrapper>
@@ -75,7 +76,7 @@ const Nav: React.FC = () => {
         <NavWrapper className="w-100 bg-primary flex i-center">
           <AnimatePresence>
             <motion.nav
-              className="w-100 flex j-evenly"
+              className="w-100 flex j-evenly i-center"
               initial={{ translateY: '100%' }}
               animate={{ translateY: 0 }}
               exit={{ translateY: '100%' }}
@@ -89,7 +90,8 @@ const Nav: React.FC = () => {
           </AnimatePresence>
         </NavWrapper>
       )}
-    </RequireAuth>
+      </>
+    // </RequireAuth>
   );
 };
 
