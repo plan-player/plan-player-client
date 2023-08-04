@@ -16,6 +16,8 @@ interface InformWrapperProps {
 }
 
 const InformWrapper = styled.div<InformWrapperProps>`
+  display: flex;
+  gap: 0.25rem;
   padding: 0.8rem;
   border-radius: 0.5rem;
   font-weight: 600;
@@ -24,8 +26,7 @@ const InformWrapper = styled.div<InformWrapperProps>`
       ? `color: var(--error-text);
     background-color: var(--error-bg);`
       : ''}
-  ${({ $isLeft }) =>
-    `text-align: ${$isLeft ? 'left' : 'center'}; display: flex; gap: 0.25rem;`}
+  ${({ $isLeft }) => ($isLeft ? '' : 'flex-direction: column; align-items: center;')}
 
     svg, path {
     color: inherit;

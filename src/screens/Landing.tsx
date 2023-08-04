@@ -14,7 +14,7 @@ const LandingWrapper = styled.div`
 `;
 
 const Landing = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   return (
     <Container>
@@ -30,7 +30,7 @@ const Landing = () => {
           <div className="w-100 flex-column gap-sm">
             <Button
               onClick={() => {
-                setIsOpen(true);
+                setIsAuthOpen(true);
               }}
             >
               시작하기
@@ -49,9 +49,9 @@ const Landing = () => {
       </LandingWrapper>
       <AuthOverlay
         id="auth-form"
-        isOpen={isOpen}
+        isOpen={isAuthOpen}
         onClose={() => {
-          setIsOpen(false);
+          setIsAuthOpen(false);
         }}
       />
     </Container>

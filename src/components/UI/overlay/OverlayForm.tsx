@@ -1,10 +1,10 @@
 import { PropsWithChildren } from 'react';
-import { Form } from 'react-router-dom';
+import { Form, useNavigation } from 'react-router-dom';
 import Button from '../button/Button';
 import Overlay, { OverlayProps } from './Overlay';
 
 interface OverlayFormProps extends OverlayProps {
-  onSubmit?: React.FormEventHandler<HTMLFormElement>
+  onSubmit?: React.FormEventHandler<HTMLFormElement>;
 }
 
 const OverlayForm = ({
@@ -16,6 +16,8 @@ const OverlayForm = ({
   className,
   children,
 }: PropsWithChildren<OverlayFormProps>) => {
+  const navigation = useNavigation();
+
   return (
     <Overlay id={id} isOpen={isOpen} onClose={onClose} isFlat={isFlat}>
       <Form className={className || ''} onSubmit={onSubmit}>
@@ -24,7 +26,11 @@ const OverlayForm = ({
           <Button styleClass="extra" className="w-50" onClick={onClose}>
             취소
           </Button>
-          <Button type="submit" onClick={onClose}>
+          <Button
+            type="submit"
+            onClick={onClose}
+            isPending={navigation.state === 'submitting'}
+          >
             완료
           </Button>
         </div>

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
 import { SizeType } from '../../../types/size';
-// import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../general/LoadingSpinner';
 
 interface ButtonProps {
   className?: string;
@@ -76,8 +76,7 @@ function Button({
       $bg={bg}
       $isFit={isFit}
     >
-      {/* {isPending ? <LoadingSpinner size="1.5rem" /> : children} */}
-      {children}
+      {isPending ? <LoadingSpinner size={40} width={4} /> : children}
     </StyledButton>
   );
 }

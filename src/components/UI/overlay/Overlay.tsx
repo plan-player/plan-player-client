@@ -26,7 +26,7 @@ const BackDrop = styled(motion.div)`
 `;
 
 const OverlayWrapper = styled(motion.div)<OverlayWrapperProps>`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
   max-width: 640px;
@@ -57,6 +57,7 @@ const Overlay = ({
   const location = useLocation();
   const navigate = useNavigate();
 
+  // NOTE: 뒤로가기 버튼을 통해서도 오버레이를 닫을 수 있도록 처리하는 코드
   useEffect(() => {
     if (isOpen) {
       navigate(
@@ -76,7 +77,6 @@ const Overlay = ({
   return (
     <div className="vw-100 vh-100 w-max-640 mx-auto">
       <AnimatePresence>
-        {/* backdrop */}
         {isOpen && (
           <>
             <BackDrop
@@ -99,7 +99,6 @@ const Overlay = ({
           </>
         )}
       </AnimatePresence>
-      {/* overlay */}
     </div>
   );
 };
