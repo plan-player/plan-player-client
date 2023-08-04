@@ -7,12 +7,16 @@ import {
   useSearchParams,
   useSubmit,
 } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { authAtom } from '../../atoms/userAtom';
 import { fetchRequest } from '../../util/request';
 import LoadingSpinner from '../UI/general/LoadingSpinner';
 
 const SnsAuthRedirect = () => {
   const submit = useSubmit();
   const navigate = useNavigate();
+
+  const [auth, setAuth] = useRecoilState(authAtom);
 
   const response = useActionData() as Awaited<ReturnType<typeof action>>;
 
@@ -30,15 +34,23 @@ const SnsAuthRedirect = () => {
     }
 
     if (response.ok) {
-      navigate('/playlist');
+      setAuth(true);
     } else {
       throw new Error('SNS 로그인 요청에 실패했습니다.');
     }
   }, [response]);
 
-  return <div>
-    <LoadingSpinner isFull={true} />
-  </div>;
+  useEffect(() => {
+    if (auth) {
+      navigate('/playlist');
+    }
+  }, [auth]);
+
+  return (
+    <div>
+      <LoadingSpinner isFull={true} />
+    </div>
+  );
 };
 
 export default SnsAuthRedirect;
