@@ -4,11 +4,6 @@ import AuthOverlay from '../components/Auth/AuthOverlay';
 import Button from '../components/UI/button/Button';
 import IconImageHolder from '../components/UI/general/IconImageHolder';
 
-const Container = styled.div`
-  height: 100vh;
-  overflow: hidden;
-`;
-
 const LandingWrapper = styled.div`
   transform: translateY(-3%);
 `;
@@ -17,7 +12,7 @@ const Landing = () => {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   return (
-    <Container>
+    <>
       <LandingWrapper className="vw-100 vh-100 w-max-640 mx-auto flex-center">
         <div className="flex-column i-center gap-3xl w-70 mx-auto">
           <div className="flex-column i-center gap-xs">
@@ -54,7 +49,7 @@ const Landing = () => {
           setIsAuthOpen(false);
         }}
       />
-    </Container>
+    </>
   );
 };
 
