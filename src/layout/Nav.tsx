@@ -1,13 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { IconContext } from 'react-icons';
 import { FaChartBar } from 'react-icons/fa';
 import { FaClock, FaFolder } from 'react-icons/fa6';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
-import { hideNavAtom } from '../atoms/uiAtom';
+import TodoInputOverlay from '../components/Todo/TodoInputOverlay';
 
 const ACTIVE_COLOR = 'fill-white';
 const DEFAULT_COLOR = 'fill-gray-500';
@@ -43,7 +42,7 @@ const NavWrapper = styled(motion.div)`
   z-index: 100;
 
   @media screen and (min-width: 960px) {
-    background-color: transparent;
+    background-color: var(--white);
 
     svg {
       fill: var(--gray-100);
@@ -75,7 +74,8 @@ const Nav = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const hideNav = useRecoilValue(hideNavAtom);
+  const [hideNav, setHideNav] = useState(false);
+  const [showInput, setShowInput] = useState(false);
 
   const getClass = (path: string) => {
     const colorClass = currentPath.startsWith(path) ? ACTIVE_COLOR : DEFAULT_COLOR;
@@ -88,23 +88,38 @@ const Nav = () => {
   };
 
   return (
-    !hideNav && (
-      <NavWrapper className="w-100 bg-primary flex i-center">
-        <AnimatePresence>
-          {!hideNav && (
-            <motion.nav className="w-100 flex j-evenly i-center">
-              {NAV_DATA.map(({ path, icon }) => (
-                <IconContext.Provider key={path} value={getClass(path)}>
-                  <Link className={getActiveClass(path)} to={path}>
-                    {icon}
-                  </Link>
-                </IconContext.Provider>
-              ))}
-            </motion.nav>
-          )}
-        </AnimatePresence>
-      </NavWrapper>
-    )
+    <div>
+      {/* TODO: 추후 전역 UI 상태로 관리? */}
+      {(currentPath.startsWith('/playlist') || currentPath.startsWith('/schedule')) && (
+        <TodoInputOverlay
+          isOpen={showInput}
+          setIsOpen={setShowInput}
+          setHideNav={setHideNav}
+        />
+      )}
+      {!hideNav && (
+        <NavWrapper className="w-100 bg-primary flex i-center">
+          <AnimatePresence>
+            {!hideNav && (
+              <motion.nav
+                className="w-100 flex j-evenly i-center"
+                initial={{ translateY: '100%' }}
+                animate={{ translateY: 0 }}
+                exit={{ translateY: '100%' }}
+              >
+                {NAV_DATA.map(({ path, icon }) => (
+                  <IconContext.Provider key={path} value={getClass(path)}>
+                    <Link className={getActiveClass(path)} to={path}>
+                      {icon}
+                    </Link>
+                  </IconContext.Provider>
+                ))}
+              </motion.nav>
+            )}
+          </AnimatePresence>
+        </NavWrapper>
+      )}
+    </div>
   );
 };
 

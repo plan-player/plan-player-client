@@ -3,7 +3,7 @@ import InputField from '../UI/input/InputField';
 
 const Field = ({ row, children }: PropsWithChildren<{ row: number }>) => {
   return (
-    <InputField isLabelFloat={true}>
+    <InputField isInnerLabel={true}>
       <label>{children}</label>
       <textarea className="w-100 h-100 text-md medium" rows={row} />
     </InputField>

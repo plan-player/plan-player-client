@@ -27,6 +27,7 @@ const OverlayWrapper = styled(motion.div)<OverlayWrapperProps>`
   border-radius: ${({ $isFlat }) => ($isFlat ? '0 0' : 'var(--round-xl) var(--round-xl)')}
     0 0;
   background-color: var(--white);
+  z-index: 100;
 
   @media screen and (min-height: 1024px) {
     padding-bottom: 30vh;
@@ -35,6 +36,11 @@ const OverlayWrapper = styled(motion.div)<OverlayWrapperProps>`
   @media screen and (max-height: 1024px) and (min-height: 960px) {
     padding-bottom: 20vh;
   }
+
+  // @media screen and (min-width: 960px) {
+  //   width: 50%;
+  //   right: 0;
+  // }
 `;
 
 const Overlay = ({
