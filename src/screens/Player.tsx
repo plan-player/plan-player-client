@@ -36,7 +36,7 @@ const Player = () => {
   return (
     <PlayerWrapper className="w-80 mx-auto flex-column i-center gap-lg">
       <h6 className="bold">{category.title}</h6>
-      <IconImageHolder className="my-lg" isCircle={true} size="3xxl">
+      <IconImageHolder className="my-sm" isCircle={true} size="3xxl">
         {category.icon}
       </IconImageHolder>
       <MainSubTitle
