@@ -15,7 +15,8 @@ interface PlayPauseIconWrapperProps {
 }
 
 const PlayPauseIconWrapper = styled.div<PlayPauseIconWrapperProps>`
-  padding-left: ${({ $isPlaying }) => ($isPlaying ? 0 : '0.1rem')};
+  padding-top: ${({ $isPlaying }) => ($isPlaying ? '4%' : '5%')};
+  padding-left: ${({ $isPlaying }) => ($isPlaying ? 0 : '7%')};
 `;
 
 const PlayPauseButton = (props: PlayPauseButtonProps) => {

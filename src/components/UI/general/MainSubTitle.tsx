@@ -36,11 +36,13 @@ const MainSubTitle = ({
   }
   return (
     <div className={`flex-column gap-xs ${className || ''}`}>
-      <p className={`text-${subSize}`}>{sub}</p>
+      <p className={`sub-title text-${subSize}`}>{sub}</p>
       {isHeading ? (
-        <h1 className={`text-${mainSize} ${isThin ? 'regular' : ''}`}>{main}</h1>
+        <h1 className={`main-title text-${mainSize} ${isThin ? 'regular' : ''}`}>
+          {main}
+        </h1>
       ) : (
-        <p className={`text-${mainSize}`}>{main}</p>
+        <p className={`main-title text-${mainSize}`}>{main}</p>
       )}
     </div>
   );

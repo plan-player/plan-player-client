@@ -1,3 +1,4 @@
+import { styled } from 'styled-components';
 import CheckButton from '../components/UI/button/CheckButton';
 import NavButton from '../components/UI/button/NavButton';
 import IconImageHolder from '../components/UI/general/IconImageHolder';
@@ -10,20 +11,36 @@ const DUMMY_DATA = {
   title: 'Todo Title Here',
   subtitle: 'Subtitle',
   isDone: false,
-  memo: 'memomemomemomemomemomemomemomemomemomemomemo',
+  memo: '',
 };
+
+const PlayerWrapper = styled.div`
+  @media screen and (min-width: 960px) {
+    .main-title {
+      font-size: var(--text-2xl);
+    }
+
+    .sub-title {
+      font-size: var(--text-root);
+    }
+
+    .timer-time {
+      font-size: var(--text-2xxl);
+    }
+  }
+`;
 
 const Player = () => {
   const { category, title, subtitle, isDone, memo } = DUMMY_DATA;
 
   return (
-    <div className="w-80 mx-auto flex-column i-center gap-sm">
+    <PlayerWrapper className="w-80 mx-auto flex-column i-center gap-lg">
       <h6 className="bold">{category.title}</h6>
-      <IconImageHolder className="my-md" isCircle={true} size="3xxl">
+      <IconImageHolder className="my-lg" isCircle={true} size="3xxl">
         {category.icon}
       </IconImageHolder>
       <MainSubTitle
-        className="w-100"
+        className="w-100 mb-lg"
         main={title}
         sub={subtitle}
         size="lg"
@@ -40,7 +57,7 @@ const Player = () => {
         <NavButton to="" isNext={true} />
       </div>
       <p className="w-100 break-word text-md">{memo}</p>
-    </div>
+    </PlayerWrapper>
   );
 };
 
