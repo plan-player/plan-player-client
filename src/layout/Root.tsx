@@ -47,6 +47,8 @@ const OutletWrapperContainer = styled.div`
 // NOTE: 하단 Nav 영역 제외
 const OutletWrapper = styled.div`
   height: calc(100% - var(--nav-h));
+  box-sizing: border-box;
+  padding-bottom: 4vh;
 `;
 
 const Root: React.FC = () => {
@@ -117,12 +119,12 @@ const Root: React.FC = () => {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        <section className="left-0">
+        <section className="left-0 scroll">
           <Player />
         </section>
         <section className="right-0">
           <OutletWrapperContainer>
-            <OutletWrapper>
+            <OutletWrapper className="scroll">
               <Outlet />
             </OutletWrapper>
           </OutletWrapperContainer>
