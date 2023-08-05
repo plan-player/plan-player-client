@@ -1,26 +1,22 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { IconContext } from 'react-icons';
 import { FaChartBar } from 'react-icons/fa';
 import { FaClock, FaFolder } from 'react-icons/fa6';
 import { RiPlayList2Fill } from 'react-icons/ri';
-import { Outlet, useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import { hideNavAtom } from '../atoms/uiAtom';
-import Setting, { SETTING_SIZE } from '../components/UI/nav/Setting';
-import { AddCategory } from '../screens/CategoryGroup';
-import RequireAuth from './RequireAuth';
+
+const ACTIVE_COLOR = 'fill-white';
+const DEFAULT_COLOR = 'fill-gray-500';
+const SIZE = 'text-xl';
 
 type NavItemType = {
   path: string;
   icon: ReactNode;
 };
-
-const ACTIVE_COLOR = 'fill-white';
-const DEFAULT_COLOR = 'fill-gray-500';
-const SIZE = 'text-xl';
 
 const NAV_DATA: NavItemType[] = [
   {
@@ -41,16 +37,41 @@ const NAV_DATA: NavItemType[] = [
   },
 ];
 
-const OutletWrapper = styled.div`
-  height: calc(100vh - ${SETTING_SIZE}rem - var(--nav-h));
-`;
-
-const NavWrapper = styled(motion.nav)`
+const NavWrapper = styled(motion.div)`
   position: absolute;
+  bottom: 0;
   z-index: 100;
+
+  @media screen and (min-width: 960px) {
+    background-color: transparent;
+
+    svg {
+      fill: var(--gray-100);
+      font-size: var(--text-lg);
+    }
+
+    svg.${ACTIVE_COLOR} {
+      fill: var(--primary);
+    }
+
+    a::after {
+      content: '';
+      display: block;
+      margin: 0 auto;
+      margin-top: 0.25rem;
+      width: 0.25rem;
+      height: 0.25rem;
+      background-color: transparent;
+      border-radius: 50%;
+    }
+
+    a.active-nav::after {
+      background-color: var(--primary);
+    }
+  }
 `;
 
-const Nav: React.FC = () => {
+const Nav = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -62,36 +83,28 @@ const Nav: React.FC = () => {
     return { className: [colorClass, sizeClass].join(' ') };
   };
 
+  const getActiveClass = (path: string) => {
+    return currentPath.startsWith(path) ? 'active-nav' : '';
+  };
+
   return (
-    // <RequireAuth>
-    <>
-      <main>
-        <Setting />
-        <OutletWrapper>
-          <Outlet />
-        </OutletWrapper>
-      </main>
-      {currentPath.startsWith('/category') ? <AddCategory /> : null}
-      {!hideNav && (
-        <NavWrapper className="w-100 bg-primary flex i-center">
-          <AnimatePresence>
-            <motion.nav
-              className="w-100 flex j-evenly i-center"
-              initial={{ translateY: '100%' }}
-              animate={{ translateY: 0 }}
-              exit={{ translateY: '100%' }}
-            >
+    !hideNav && (
+      <NavWrapper className="w-100 bg-primary flex i-center">
+        <AnimatePresence>
+          {!hideNav && (
+            <motion.nav className="w-100 flex j-evenly i-center">
               {NAV_DATA.map(({ path, icon }) => (
                 <IconContext.Provider key={path} value={getClass(path)}>
-                  <Link to={path}>{icon}</Link>
+                  <Link className={getActiveClass(path)} to={path}>
+                    {icon}
+                  </Link>
                 </IconContext.Provider>
               ))}
             </motion.nav>
-          </AnimatePresence>
-        </NavWrapper>
-      )}
-      </>
-    // </RequireAuth>
+          )}
+        </AnimatePresence>
+      </NavWrapper>
+    )
   );
 };
 

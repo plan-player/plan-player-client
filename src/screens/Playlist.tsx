@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import TodoInputOverlay from '../components/Todo/TodoInputOverlay';
 import TodoListItem, { TodoListItemProps } from '../components/Todo/TodoListItem';
 import DateNav from '../components/UI/nav/DateNav';
 
@@ -48,7 +47,7 @@ const Playlist = () => {
           ))}
         </ol>
       </div>
-      <TodoInputOverlay isOpen={showInput} setIsOpen={setShowInput} />
+      {/* <TodoInputOverlay isOpen={showInput} setIsOpen={setShowInput} /> */}
     </>
   );
 };

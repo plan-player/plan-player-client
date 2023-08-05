@@ -9,7 +9,7 @@ const Timer = ({ className }: TimerProps) => {
   return (
     <div className={`w-100 flex j-between i-center ${className || ''}`}>
       <PlayPauseButton size="lg" />
-      <span className="text-xxl bold">00:00:00</span>
+      <span className="timer-time text-xxl extra-bold">00:00:00</span>
       <ContextButton size="lg" />
     </div>
   );

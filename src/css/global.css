@@ -6,6 +6,7 @@
 
   /* font-size */
   --text-3xxl: 6rem;
+  --text-2xxl: 3.5rem;
   --text-xxl: 2.75rem; /* 44px */
   --text-3xl: 2rem; /* 32px */
   --text-2xl: 1.75rem; /* 28px */
@@ -64,6 +65,12 @@ html {
   font-size: 16px;
 }
 
+@media screen and (min-width: 960px) {
+  html {
+    font-size: 20px;
+  }
+}
+
 /* layout */
 body {
   height: 100%;
@@ -120,6 +127,10 @@ h6 {
 /* classes - font */
 .text-3xxl {
   font-size: var(--text-3xxl);
+}
+
+.text-2xxl {
+  font-size: var(--text-2xxl);
 }
 
 .text-xxl {
@@ -280,8 +291,8 @@ h6 {
   margin: 0 1rem;
 }
 
-.my-md {
-  margin: 1rem 0;
+.my-lg {
+  margin: 2rem 0;
 }
 
 .mb-3xxl {
@@ -746,6 +757,18 @@ h6 {
 
 .absolute {
   position: absolute;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.right-0 {
+  right: 0;
+}
+
+.bottom-0 {
+  bottom: 0;
 }
 
 .pointer {

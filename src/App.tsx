@@ -8,12 +8,11 @@ import SnsAuthRedirect, {
 import './css/_reset.css';
 import './css/color.css';
 import './css/global.css';
-import Nav from './layout/Nav';
 import Root from './layout/Root';
+import RootContainer from './layout/RootContainer';
 import CategoryDetail from './screens/CategoryDetail';
 import CategoryGroup from './screens/CategoryGroup';
 import Landing from './screens/Landing';
-import Player from './screens/Player';
 import Playlist from './screens/Playlist';
 import Schedule, { action as scheduleAction } from './screens/Schedule';
 import Statistics from './screens/Statistics';
@@ -21,13 +20,9 @@ import Statistics from './screens/Statistics';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <RootContainer />,
     errorElement: <ErrorBoundary />,
     children: [
-      {
-        path: '/',
-        element: <Navigate to="/landing" />,
-      },
       {
         path: '/landing',
         element: <Landing />,
@@ -45,12 +40,12 @@ const router = createBrowserRouter([
       },
       {
         path: '/',
-        element: <Nav />,
+        element: <Root />,
         children: [
-          // {
-          //   path: '/',
-          //   element: <Navigate to="/playlist" />,
-          // },
+          {
+            path: '/',
+            element: <Navigate to="/playlist" />,
+          },
           {
             path: '/playlist',
             index: true,
@@ -72,10 +67,6 @@ const router = createBrowserRouter([
           {
             path: '/statistics',
             element: <Statistics />,
-          },
-          {
-            path: '/player',
-            element: <Player />,
           },
         ],
       },
