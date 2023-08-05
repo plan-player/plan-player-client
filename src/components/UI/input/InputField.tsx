@@ -3,12 +3,12 @@ import { PropsWithChildren } from 'react';
 import { styled } from 'styled-components';
 
 interface InputFieldProps {
-  isLabelFloat?: boolean;
+  isInnerLabel?: boolean;
   className?: string;
 }
 
 interface InputFieldWrapperProps {
-  $isLabelFloat?: boolean;
+  $isInnerLabel?: boolean;
 }
 
 const InputFieldWrapper = styled(motion.div)<InputFieldWrapperProps>`
@@ -19,13 +19,13 @@ const InputFieldWrapper = styled(motion.div)<InputFieldWrapperProps>`
   gap: 0.25rem;
 
   label {
-    font-size: ${({ $isLabelFloat }) =>
-      $isLabelFloat ? 'var(--text-sm)' : 'var(--text-md)'};
+    font-size: ${({ $isInnerLabel }) =>
+      $isInnerLabel ? 'var(--text-sm)' : 'var(--text-md)'};
     font-weight: 600;
   }
 
-  ${({ $isLabelFloat }) =>
-    $isLabelFloat
+  ${({ $isInnerLabel }) =>
+    $isInnerLabel
       ? `
       input, textarea { 
         padding-top: 1.5rem; 
@@ -51,11 +51,11 @@ const InputFieldWrapper = styled(motion.div)<InputFieldWrapperProps>`
 
 const InputField = ({
   className,
-  isLabelFloat,
+  isInnerLabel,
   children,
 }: PropsWithChildren<InputFieldProps>) => {
   return (
-    <InputFieldWrapper layout className={className || ''} $isLabelFloat={isLabelFloat}>
+    <InputFieldWrapper layout className={className || ''} $isInnerLabel={isInnerLabel}>
       {children}
     </InputFieldWrapper>
   );

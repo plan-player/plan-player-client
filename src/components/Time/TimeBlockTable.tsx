@@ -39,7 +39,7 @@ const BlockRow = styled.div`
 
 const HOURS = Array.from(new Array(25));
 const MINUTES = Array.from(new Array(6));
-const START_HOUR = formatTime(8);
+const START_HOUR = 8;
 const GRID_LINES = Array.from(new Array(7));
 
 // TODO: DateNav의 날짜와 동일하도록 처리 필요
@@ -57,7 +57,8 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
   const timestamps = getReducedTimestamp(props.timestamps);
 
   useEffect(() => {
-    document.getElementById(START_HOUR)?.scrollIntoView();
+    const startHourId = formatTime(START_HOUR < 24 ? START_HOUR + 1 : START_HOUR);
+    document.getElementById(startHourId)?.scrollIntoView({ block: 'nearest' });
   }, []);
 
   let timestampIdx = 0;

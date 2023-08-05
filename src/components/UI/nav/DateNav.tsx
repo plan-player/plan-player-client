@@ -14,7 +14,6 @@ const DateNavWrapper = styled.div`
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--white);
-  width: 100%;
   z-index: 50;
 `;
 
@@ -73,7 +72,7 @@ const DateNav = ({ isMonth, onPrev, onNext }: DateProps) => {
   return (
     <div>
       <Polyfill />
-      <DateNavWrapper>
+      <DateNavWrapper className="w-100">
         <div className="w-70 flex j-between i-center mx-auto mb-lg">
           <FaBackwardStep onClick={isMonth ? goPrevMonth : backPrevDate} />
           <h3>{isMonth ? month : today}</h3>

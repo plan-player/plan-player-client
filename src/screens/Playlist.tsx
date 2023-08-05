@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import TodoListItem, { TodoListItemProps } from '../components/Todo/TodoListItem';
 import DateNav from '../components/UI/nav/DateNav';
 
@@ -34,21 +33,16 @@ export const DUMMY_TODOS: TodoListItemProps[] = [
 ];
 
 const Playlist = () => {
-  const [showInput, setShowInput] = useState(false);
-
   return (
-    <>
-      <div className="w-85 flex-column gap-lg mx-auto">
-        <DateNav />
-        {/* TODO: DraggableList 컴포넌트 개발 */}
-        <ol className="flex-column gap-md">
-          {DUMMY_TODOS.map((todo) => (
-            <TodoListItem key={todo.id} {...todo} />
-          ))}
-        </ol>
-      </div>
-      {/* <TodoInputOverlay isOpen={showInput} setIsOpen={setShowInput} /> */}
-    </>
+    <div className="w-85 flex-column gap-lg mx-auto">
+      <DateNav />
+      {/* TODO: DraggableList 컴포넌트 개발 */}
+      <ol className="flex-column gap-md">
+        {DUMMY_TODOS.map((todo) => (
+          <TodoListItem key={todo.id} {...todo} />
+        ))}
+      </ol>
+    </div>
   );
 };
 

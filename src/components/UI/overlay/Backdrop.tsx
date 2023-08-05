@@ -12,11 +12,13 @@ const BackdropArea = styled(motion.div)`
   left: 0;
   right: 0;
   background-color: var(--black);
+  z-index: 99;
 `;
 
 const Backdrop = ({ onClose }: BackdropProps) => {
   return (
     <BackdropArea
+      id="backdrop"
       onClick={onClose}
       initial={{ opacity: 0 }}
       animate={{ opacity: 0.8 }}

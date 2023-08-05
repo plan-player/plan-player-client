@@ -122,7 +122,7 @@ const Root: React.FC = () => {
         <section className="left-0 scroll">
           <Player />
         </section>
-        <section className="right-0">
+        <section className="right-0 hidden">
           <OutletWrapperContainer>
             <OutletWrapper className="scroll">
               <Outlet />
