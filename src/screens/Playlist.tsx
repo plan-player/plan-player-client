@@ -38,7 +38,7 @@ const Playlist = () => {
 
   return (
     <>
-      <div className="w-85 flex-column gap-3xl mx-auto">
+      <div className="w-85 flex-column gap-lg mx-auto">
         <DateNav />
         {/* TODO: DraggableList 컴포넌트 개발 */}
         <ol className="flex-column gap-md">
