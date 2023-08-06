@@ -57,7 +57,7 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
   const timestamps = getReducedTimestamp(props.timestamps);
 
   useEffect(() => {
-    const startHourId = formatTime(START_HOUR < 24 ? START_HOUR + 1 : START_HOUR);
+    const startHourId = formatTime({ h: START_HOUR < 24 ? START_HOUR + 1 : START_HOUR });
     document.getElementById(startHourId)?.scrollIntoView({ block: 'nearest' });
   }, []);
 
@@ -103,7 +103,7 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
       }
     }
 
-    const formattedTime = formatTime(h, m);
+    const formattedTime = formatTime({ h, m });
 
     return (
       <TimeBlock
@@ -133,7 +133,7 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
       {/* blocks */}
       <div className="absolute w-100 flex-column gap-lg">
         {HOURS.map((_, h) => {
-          const formattedHour = formatTime(h);
+          const formattedHour = formatTime({ h });
 
           return (
             <div key={formattedHour} className="flex gap-2xs i-center">

@@ -62,6 +62,14 @@ const ScheduleWrapper = styled.div`
   padding: 0rem 2rem 2rem 2rem;
 `;
 
+const Polyfill = styled.div`
+  height: 2rem;
+
+  @media screen and (min-width: 960px) {
+    display: none;
+  }
+`;
+
 const Schedule = () => {
   const submit = useSubmit();
 
@@ -81,7 +89,7 @@ const Schedule = () => {
   };
 
   return (
-    <ScheduleWrapper className="h-100 flex-column gap-3xl ">
+    <ScheduleWrapper className="h-100 flex-column gap-md">
       <DateNav />
       <div className="flex-column gap-lg hidden">
         <div className="w-80 mx-auto h-70 flex gap-lg scroll">
@@ -93,6 +101,7 @@ const Schedule = () => {
             setTargetTodoId(id);
           }}
         />
+        <Polyfill />
       </div>
     </ScheduleWrapper>
   );
