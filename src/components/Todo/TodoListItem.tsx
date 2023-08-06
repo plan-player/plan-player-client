@@ -1,32 +1,31 @@
-import { ReactNode } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { TodoType } from '../../atoms/todoAtom';
-import { slideMainAtom } from '../../atoms/uiAtom';
+import { TodoType, todoAtom } from '../../atoms/todoAtom';
+import { isPlayingAtom, slideMainAtom } from '../../atoms/uiAtom';
 import { formatTime } from '../../util/time';
 import ContextButton from '../UI/button/ContextButton';
 import PlayPauseButton from '../UI/button/PlayPauseButton';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import MainSubTitle from '../UI/general/MainSubTitle';
 
-export interface TodoListItemProps {
-  id: string;
-  cover?: string | ReactNode;
-  category: string;
-  title: string;
-  time: string;
-}
+const TodoListItem = (todo: TodoType) => {
+  const { title, category_name, icon_image_path, cur_time } = todo;
 
-const TodoListItem = ({ title, category_name, icon_image_path, cur_time }: TodoType) => {
+  const setTodoAtom = useSetRecoilState(todoAtom);
+  const setIsPlaying = useSetRecoilState(isPlayingAtom);
   const setSlideMain = useSetRecoilState(slideMainAtom);
+
   // TODO: DraggableItem 개발
 
   const setPlayerHandler = () => {
-    // TODO: currentTodoAtom 활용 플레이어 변경
+    setTodoAtom(todo);
+
+    setIsPlaying(true);
 
     // NOTE: 모바일 사이즈 기기에서 좌측으로 슬라이드
     if (window.innerWidth < 960) {
       setSlideMain(true);
     }
+
     return;
   };
 

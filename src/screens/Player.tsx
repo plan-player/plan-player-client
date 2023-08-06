@@ -27,6 +27,7 @@ const PlayerWrapper = styled.div`
 
 const Player = () => {
   const {
+    id,
     category_name,
     icon_image_path,
     title,
@@ -52,7 +53,7 @@ const Player = () => {
         isThin={true}
       />
 
-      <Timer className="my-md" defaultTime={cur_time} />
+      <Timer className="my-md" defaultTime={cur_time} id={id} />
       <ProgressBar current={60} total={180} />
       <span className="w-100 flex j-end">/{formatTime(total_time || 0, true)}</span>
       <div className="w-80 flex j-between i-center my-md">

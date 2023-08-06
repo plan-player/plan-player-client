@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaPause, FaPlay } from 'react-icons/fa6';
 import { styled } from 'styled-components';
 import { SizeType } from '../../../types/size';
@@ -7,11 +7,12 @@ import IconButton from './IconButton';
 interface PlayPauseButtonProps {
   onPlay?: () => void;
   onPause?: () => void;
+  isTriggered?: boolean;
   size?: SizeType;
 }
 
 interface PlayPauseIconWrapperProps {
-  $isPlaying: boolean;
+  $isPlaying?: boolean;
 }
 
 const PlayPauseIconWrapper = styled.div<PlayPauseIconWrapperProps>`
@@ -19,9 +20,18 @@ const PlayPauseIconWrapper = styled.div<PlayPauseIconWrapperProps>`
   padding-left: ${({ $isPlaying }) => ($isPlaying ? 0 : '7%')};
 `;
 
-const PlayPauseButton = (props: PlayPauseButtonProps) => {
-  const { onPlay, onPause, size } = props;
-  const [isPlaying, setIsPlaying] = useState(false);
+const PlayPauseButton = ({
+  onPlay,
+  onPause,
+  isTriggered,
+  size,
+}: PlayPauseButtonProps) => {
+  const [isPlaying, setIsPlaying] = useState(isTriggered);
+
+  // NOTE: play/pause 버튼이 아닌 다른 외부 동작으로 인해 재생될 경우의 상태 업데이트를 위한 처리
+  useEffect(() => {
+    setIsPlaying(isTriggered);
+  }, [isTriggered]);
 
   const togglePlayPause = () => {
     setIsPlaying((prevIsPlaying) => {
