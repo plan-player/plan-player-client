@@ -1,9 +1,9 @@
 import { useAnimate } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import { slideMainAtom } from '../atoms/uiAtom';
+import { isPlayingAtom, slideMainAtom } from '../atoms/uiAtom';
 import Setting, { SETTING_SIZE } from '../components/UI/nav/Setting';
 import Player from '../screens/Player';
 import Nav from './Nav';
@@ -56,6 +56,7 @@ const ContentWrapper = styled.div`
 
 const Root: React.FC = () => {
   const [slideMain, setSlideMain] = useRecoilState(slideMainAtom);
+  const setIsPlaying = useSetRecoilState(isPlayingAtom);
 
   const [main, animate] = useAnimate();
 
@@ -110,8 +111,14 @@ const Root: React.FC = () => {
   };
 
   useEffect(() => {
+    // NOTE: Player 화면과 우측 화면 간 전환
     slideHandler(slideMain);
     window.addEventListener('resize', slideHandler.bind(null, slideMain), false);
+
+    // NOTE: 우측 화면 진입 시 Player 중지
+    if (!slideMain) {
+      setIsPlaying(false);
+    }
   }, [slideMain]);
 
   return (

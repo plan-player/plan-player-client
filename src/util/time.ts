@@ -17,12 +17,8 @@ export const formatTime = ((param, includeSeconds) => {
   }
 
   const { h, m, s } = param;
-  const format = `${getDigit(h, 2)}:${m ? getDigit(m, 2) : '00'}`;
-
-  if (includeSeconds) {
-    return `${format}:${s ? getDigit(s, 2) : '00'}`;
-  } else {
-    return format;
-  }
+  return `${getDigit(h, 2)}:${m ? getDigit(m, 2) : '00'}${
+    s !== undefined ? ':' + getDigit(s, 2) : ''
+  }`;
 }) as ((param: number, includeSeconds?: boolean) => string) &
   ((param: HourMinuteType, includeSeconds?: boolean) => string);
