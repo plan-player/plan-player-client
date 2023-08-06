@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { DUMMY_TODOS } from '../../screens/Playlist';
+import { useRecoilValue } from 'recoil';
+import { todosAtom } from '../../atoms/todoAtom';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import CircleLabel from '../UI/label/CircleLabel';
 
@@ -9,15 +10,16 @@ interface TodoBoardProps {
 }
 
 const TodoBoard = ({ setTodo, className }: TodoBoardProps) => {
+  const todos = useRecoilValue(todosAtom);
   const [isEdit, setIsEdit] = useState(false);
 
   return (
     <div className={`border-box p-root bg round-lg scroll ${className || ''}`}>
       <ul className="flex-column gap-sm">
-        {DUMMY_TODOS.map((todo) => (
+        {todos.map((todo) => (
           <li key={todo.id}>
             <CircleLabel className="flex i-center gap-sm">
-              <IconImageHolder size="sm">{todo.cover}</IconImageHolder>
+              <IconImageHolder size="sm">{todo.icon_image_path}</IconImageHolder>
               <span className="text-md break-word">{todo.title}</span>
             </CircleLabel>
           </li>
@@ -26,5 +28,4 @@ const TodoBoard = ({ setTodo, className }: TodoBoardProps) => {
     </div>
   );
 };
-
 export default TodoBoard;

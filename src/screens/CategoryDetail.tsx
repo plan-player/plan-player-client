@@ -1,14 +1,15 @@
-import { styled } from 'styled-components';
-import { Circle } from '../components/Category/CategoryComponents';
-import { BiMenuAltLeft } from 'react-icons/bi';
-import { TiThList, TiThSmall } from 'react-icons/ti';
 import { useState } from 'react';
-import { DUMMY_TODOS } from './Playlist';
-import TodoListItem from '../components/Todo/TodoListItem';
-import CategoryCard from '../components/Category/CategoryCard';
-import NavButton from '../components/UI/button/NavButton';
+import { BiMenuAltLeft } from 'react-icons/bi';
 import { MdDashboard } from 'react-icons/md';
+import { TiThList, TiThSmall } from 'react-icons/ti';
+import { useRecoilState } from 'recoil';
+import { styled } from 'styled-components';
+import { todosAtom } from '../atoms/todoAtom';
+import CategoryCard from '../components/Category/CategoryCard';
+import { Circle } from '../components/Category/CategoryComponents';
 import CategoryDashlist from '../components/Category/CategoryDashlist';
+import TodoListItem from '../components/Todo/TodoListItem';
+import NavButton from '../components/UI/button/NavButton';
 import Label from '../components/UI/general/Label';
 
 const TopMargin = '1.25rem';
@@ -31,6 +32,8 @@ const Wrapper = styled.div`
 `;
 
 const CategoryDetail = () => {
+  const [todos, setTodos] = useRecoilState(todosAtom);
+
   const [selectedView, setSelectedView] = useState('listview');
   const isListWrapper = selectedView === 'listview';
   const isDashWrapper = selectedView === 'dashview';
@@ -109,7 +112,7 @@ const CategoryDetail = () => {
       {isListWrapper && (
         <Wrapper className="w-100 scroll flex-column gap-3xl">
           <ol className="flex-column gap-md">
-            {DUMMY_TODOS.map((todo, index) => (
+            {todos.map((todo, index) => (
               <TodoListItem key={index} {...todo} />
             ))}
           </ol>
@@ -117,7 +120,7 @@ const CategoryDetail = () => {
       )}
       {isDashWrapper && (
         <Wrapper className="w-100 scroll flex wrap gap-sm">
-          {DUMMY_TODOS.map((todo, index) => (
+          {todos.map((todo, index) => (
             <CategoryDashlist key={index} {...todo} />
           ))}
         </Wrapper>
@@ -125,7 +128,7 @@ const CategoryDetail = () => {
 
       {isCardWrapper && (
         <Wrapper className="w-100 scroll gap-sm grid-cols-3">
-          {DUMMY_TODOS.map((todo, index) => (
+          {todos.map((todo, index) => (
             <CategoryCard key={index} {...todo} />
           ))}
         </Wrapper>
