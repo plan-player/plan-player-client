@@ -7,10 +7,10 @@ import { RiPlayList2Fill } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import TodoInputOverlay from '../components/Todo/TodoInputOverlay';
+import { useSetRecoilState } from 'recoil';
+import { slideMainAtom } from '../atoms/uiAtom';
 
-const ACTIVE_COLOR = 'fill-white';
-const DEFAULT_COLOR = 'fill-gray-500';
-const SIZE = 'text-xl';
+const ACTIVE_CLASS = 'active-nav-item';
 
 type NavItemType = {
   path: string;
@@ -41,6 +41,24 @@ const NavWrapper = styled(motion.div)`
   bottom: 0;
   z-index: 100;
 
+  svg {
+    fill: var(--gray-500);
+    font-size: var(--text-xl);
+  }
+
+  a.${ACTIVE_CLASS} svg {
+    fill: var(--white);
+  }
+
+  .nav-bright svg {
+    fill: var(--gray-100);
+    font-size: var(--text-lg);
+  }
+
+  .nav-bright a.${ACTIVE_CLASS} svg {
+    fill: var(--primary);
+  }
+
   @media screen and (min-width: 960px) {
     background-color: var(--white);
 
@@ -49,7 +67,7 @@ const NavWrapper = styled(motion.div)`
       font-size: var(--text-lg);
     }
 
-    svg.${ACTIVE_COLOR} {
+    a.${ACTIVE_CLASS} svg {
       fill: var(--primary);
     }
 
@@ -70,49 +88,59 @@ const NavWrapper = styled(motion.div)`
   }
 `;
 
-const Nav = () => {
+const Nav = ({
+  hideInput,
+  isBright,
+  disableActive,
+}: {
+  hideInput?: boolean;
+  isBright?: boolean;
+  disableActive?: boolean;
+}) => {
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const setSlideMain = useSetRecoilState(slideMainAtom);
 
   const [hideNav, setHideNav] = useState(false);
   const [showInput, setShowInput] = useState(false);
 
-  const getClass = (path: string) => {
-    const colorClass = currentPath.startsWith(path) ? ACTIVE_COLOR : DEFAULT_COLOR;
-    const sizeClass = SIZE;
-    return { className: [colorClass, sizeClass].join(' ') };
-  };
-
   const getActiveClass = (path: string) => {
-    return currentPath.startsWith(path) ? 'active-nav' : '';
+    return !disableActive && currentPath.startsWith(path) ? ACTIVE_CLASS : '';
   };
 
   return (
     <div>
       {/* TODO: 추후 전역 UI 상태로 관리? */}
-      {(currentPath.startsWith('/playlist') || currentPath.startsWith('/schedule')) && (
-        <TodoInputOverlay
-          isOpen={showInput}
-          setIsOpen={setShowInput}
-          setHideNav={setHideNav}
-        />
-      )}
+      {!hideInput &&
+        (currentPath.startsWith('/playlist') || currentPath.startsWith('/schedule')) && (
+          <TodoInputOverlay
+            isOpen={showInput}
+            setIsOpen={setShowInput}
+            setHideNav={setHideNav}
+          />
+        )}
       {!hideNav && (
-        <NavWrapper className="w-100 bg-primary flex i-center">
+        <NavWrapper className={`nav w-100 flex i-center ${isBright ? '' : 'bg-primary'} `}>
           <AnimatePresence>
             {!hideNav && (
               <motion.nav
-                className="w-100 flex j-evenly i-center"
+                className={`w-100 flex j-evenly i-center ${isBright ? 'nav-bright' : ''}`}
                 initial={{ translateY: '100%' }}
                 animate={{ translateY: 0 }}
                 exit={{ translateY: '100%' }}
               >
                 {NAV_DATA.map(({ path, icon }) => (
-                  <IconContext.Provider key={path} value={getClass(path)}>
-                    <Link className={getActiveClass(path)} to={path}>
-                      {icon}
-                    </Link>
-                  </IconContext.Provider>
+                  <Link
+                    key={path}
+                    className={getActiveClass(path)}
+                    to={path}
+                    onClick={() => {
+                      setSlideMain(false);
+                    }}
+                  >
+                    {icon}
+                  </Link>
                 ))}
               </motion.nav>
             )}
