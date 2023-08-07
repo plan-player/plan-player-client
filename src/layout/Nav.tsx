@@ -1,14 +1,13 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ReactNode, useState } from 'react';
-import { IconContext } from 'react-icons';
 import { FaChartBar } from 'react-icons/fa';
 import { FaClock, FaFolder } from 'react-icons/fa6';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
+import { showInputAtom, slideMainAtom } from '../atoms/uiAtom';
 import TodoInputOverlay from '../components/Todo/TodoInputOverlay';
-import { useSetRecoilState } from 'recoil';
-import { slideMainAtom } from '../atoms/uiAtom';
 
 const ACTIVE_CLASS = 'active-nav-item';
 
@@ -101,9 +100,10 @@ const Nav = ({
   const currentPath = location.pathname;
 
   const setSlideMain = useSetRecoilState(slideMainAtom);
+  const showInput = useRecoilValue(showInputAtom);
 
   const [hideNav, setHideNav] = useState(false);
-  const [showInput, setShowInput] = useState(false);
+  const [openInput, setOpenInput] = useState(false);
 
   const getActiveClass = (path: string) => {
     return !disableActive && currentPath.startsWith(path) ? ACTIVE_CLASS : '';
@@ -112,11 +112,11 @@ const Nav = ({
   return (
     <div>
       {/* TODO: 추후 전역 UI 상태로 관리? */}
-      {!hideInput &&
+      {!hideInput && showInput &&
         (currentPath.startsWith('/playlist') || currentPath.startsWith('/schedule')) && (
           <TodoInputOverlay
-            isOpen={showInput}
-            setIsOpen={setShowInput}
+            isOpen={openInput}
+            setIsOpen={setOpenInput}
             setHideNav={setHideNav}
           />
         )}

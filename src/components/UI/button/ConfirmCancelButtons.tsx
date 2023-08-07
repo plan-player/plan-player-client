@@ -10,6 +10,7 @@ export interface ConfirmCancelButtonsProps {
   cancelClass?: string;
   hideCancle?: boolean;
   isPending?: boolean;
+  noMargin?: boolean;
 }
 
 function ConfirmCancelButtons({
@@ -22,9 +23,10 @@ function ConfirmCancelButtons({
   cancelClass,
   hideCancle,
   isPending,
+  noMargin,
 }: ConfirmCancelButtonsProps) {
   return (
-    <div className={`flex mt-lg ${className || ''}`}>
+    <div className={`flex ${noMargin ? '' : 'mt-lg'} ${className || ''}`}>
       {!hideCancle && (
         <Button
           styleClass="extra"
