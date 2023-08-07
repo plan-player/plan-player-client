@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { TimeListType } from '../../screens/Schedule';
@@ -7,6 +8,7 @@ import TimeBlock from './TimeBlock';
 interface TimeBlockTableProps {
   height: string;
   timestamps: TimeListType;
+  targetTodoId: number | null;
 }
 
 interface GridLineProps {
@@ -131,7 +133,7 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
         ))}
       </GridWrapper>
       {/* blocks */}
-      <div className="absolute w-100 flex-column gap-lg">
+      <motion.div layout className="absolute w-100 flex-column gap-lg">
         {HOURS.map((_, h) => {
           const formattedHour = formatTime({ h });
 
@@ -148,7 +150,7 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
             </div>
           );
         })}
-      </div>
+      </motion.div>
     </div>
   );
 };

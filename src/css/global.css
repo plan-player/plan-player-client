@@ -424,6 +424,10 @@ h6 {
   padding: var(--p-lg) 0;
 }
 
+.pb-lg {
+  padding-bottom: var(--p-lg);
+}
+
 /* height */
 .h-100 {
   height: 100%;
