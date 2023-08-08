@@ -44,6 +44,30 @@ const CodeField = React.forwardRef<CodeHandle, CodeFieldProps>(({ className }, r
   useEffect(() => {
     const inputs: NodeListOf<HTMLInputElement> = document.querySelectorAll(
       '#register-code-inputs input'
+        input.addEventListener('click', () => {
+          inputs[inputIdx].value = '';
+        });
+      });
+    }, []);
+
+    return (
+      <InputField className={className}>
+        <div id="register-code-inputs" className="flex gap-xs">
+          {Array.from(new Array(CODE_LENGTH)).map((_, i) => (
+            <input
+              disabled={iscodeVerified ? true : false}
+              key={i}
+              type="number"
+              className="text-center p-0"
+            ></input>
+          ))}
+        </div>
+        <p className="text-sm text-center mt-xs">
+          {iscodeVerified
+            ? '코드 인증이 완료되었습니다.'
+            : '이메일로 보내드린 확인 코드 여섯 자리를 입력하세요.'}
+        </p>
+      </InputField>
     );
     setInputState(inputs);
 

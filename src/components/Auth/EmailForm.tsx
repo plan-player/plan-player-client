@@ -35,6 +35,16 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
 
   const [isVerify, setIsVerify] = useState(false);
   const [isRetype, setIsRetype] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [codeError, setCodeError] = useState(false);
+  const [passwordLengthError, setPasswordLengthError] = useState(false);
+  const [passwordVerifyError, setPasswordVerifyError] = useState(false);
+  const [time, setTime] = useState(180);
+  const [showTimer, setShowTimer] = useState(false);
+  const [timeover, setTimeover] = useState(false);
+
+  let minutes = '0' + Math.floor(time / 60);
+  let seconds = (time % 60).toString().padStart(2, '0');
 
   const [{ email, password, passwordVerify }, dataHandler, setData] = useInput({
     email: '',
@@ -55,9 +65,8 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
       setIsVerify(true);
       setIsRetype(false);
       setShowTimer(true);
-      setDoneTimer(false);
-      setTimer(180);
-      setIsTimerActive(true);
+      setTimeover(false);
+      setTime(180);
       setIsLoading(false);
       setIscodeVerified(false);
       setCodeError(false);
@@ -72,9 +81,9 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
     }
 
     if (actionData?.passwordLengthVerified) {
-      setPasswordError(false);
+      setPasswordLengthError(false);
     } else if (actionData?.passwordLengthVerified === false) {
-      setPasswordError(true);
+      setPasswordLengthError(true);
     }
 
     if (actionData?.isEqualsPassword) {
@@ -101,12 +110,26 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
     emailRef.current?.focus();
   }, [isLogin, isRetype]);
 
+  useEffect(() => {
+    let interval: number;
+    if (time > 0) {
+      interval = setInterval(() => {
+        setTime((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else if (time === 0) {
+      setShowTimer(false);
+      setTimeover(true);
+    }
+    return () => clearInterval(interval);
+  }, [time]);
+
   const verifyHandler = () => {
     setIsVerify(true);
     setIsRetype(false);
   };
 
   const retypeHandler = () => {
+    setShowTimer(false);
     setIsRetype(true);
     setData((prev) => {
       return { ...prev, email: '' };
@@ -188,8 +211,29 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
             인증코드 전송
           </Button>
         )}
-        {!isLogin && isVerify && <CodeField ref={codeRef} />}
-        <ErrorInform>올바른 코드를 입력하세요.</ErrorInform>
+
+        {!isLogin && isVerify && (
+          <>
+            <div onBlur={codeverifyHandler}>
+              <CodeField iscodeVerified={iscodeVerified} ref={codeRef} />
+            </div>
+
+            {showTimer ? (
+              !timeover ? (
+                <span>
+                  {minutes}:{seconds}
+                </span>
+              ) : (
+                <ErrorInform>인증코드 유효기간 초과</ErrorInform>
+              )
+            ) : null}
+          </>
+        )}
+
+        {!isLogin && isVerify && codeError && (
+          <ErrorInform>올바른 코드를 입력하세요.</ErrorInform>
+        )}
+
         {(isLogin || isVerify) && (
           <>
             <InputField className={isLogin ? '' : 'mt-md'}>
@@ -200,7 +244,11 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                 value={password}
                 onChange={dataHandler}
               />
-              <ErrorInform>비밀번호는 n자 이상의 문자/숫자/?여야 합니다.</ErrorInform>
+              {passwordLengthError && (
+                <ErrorInform>
+                  비밀번호는 8~24자이내 영문(대,소)/숫자/특수문자여야 합니다.
+                </ErrorInform>
+              )}
             </InputField>
             {!isLogin && (
               <InputField>
