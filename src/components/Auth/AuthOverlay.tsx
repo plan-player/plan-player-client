@@ -65,13 +65,18 @@ const AuthOverlay = ({ id, isOpen, onClose }: OverlayProps) => {
       <div className="flex-column gap-xl py-lg h-100">
         <div className="flex-column i-center gap-xs">
           <motion.img layout className="size-lg" src="/png/logo.png" alt="plot logo" />
-          <HeaderWrapper layout="position" className="flex-column i-center j-center gap-sm">
+          <HeaderWrapper
+            layout="position"
+            className="flex-column i-center j-center gap-sm"
+          >
             <h1>{title}</h1>
             {isSns && <p>SNS 계정으로 시작</p>}
           </HeaderWrapper>
         </div>
-        <div>{isSns ? <SnsButtons /> : <EmailForm isLogin={isLogin} />}</div>
-        <div className="w-80 mx-auto">
+        <div>
+          {isSns ? <SnsButtons /> : <EmailForm setLogin={setIsLogin} isLogin={isLogin} />}
+        </div>
+        <div className="w-80 mx-auto p-lg">
           <div className="flex j-between i-center gap-sm">
             <ExtraButton>{isLogin ? '로그인' : '가입'} 없이 둘러보기</ExtraButton>
             <motion.span layout>|</motion.span>
