@@ -10,6 +10,7 @@ import CodeField, { CodeHandle } from './CodeField';
 
 interface EmailFormProps {
   isLogin: boolean;
+  setLogin: (data: boolean) => void;
 }
 
 const EmailFormWrapper = styled(motion.div)`
@@ -24,8 +25,10 @@ const ErrorInform = ({ children }: PropsWithChildren) => {
   );
 };
 
-const EmailForm = ({ isLogin }: EmailFormProps) => {
+const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
   const submit = useSubmit();
+  const navigate = useNavigate();
+  let actionData = useActionData() as ActionDataProps;
 
   const emailRef = useRef<HTMLInputElement>(null);
   const codeRef = useRef<CodeHandle>(null);
@@ -38,6 +41,55 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
     password: '',
     passwordVerify: '',
   } as InputDataType);
+
+  useEffect(() => {
+    if (actionData?.codeVerified) {
+      setIscodeVerified(true);
+      setShowTimer(false);
+      setCodeError(false);
+    } else if (actionData?.codeVerified === false) {
+      setCodeError(true);
+    }
+
+    if (actionData?.verified) {
+      setIsVerify(true);
+      setIsRetype(false);
+      setShowTimer(true);
+      setDoneTimer(false);
+      setTimer(180);
+      setIsTimerActive(true);
+      setIsLoading(false);
+      setIscodeVerified(false);
+      setCodeError(false);
+      codeRef?.current?.clear();
+    }
+
+    if (actionData?.registered) {
+      console.log('회원가입성공');
+      setLogin(true);
+    } else if (actionData?.registered === false) {
+      console.log('이미 있는 회원입니다.');
+    }
+
+    if (actionData?.passwordLengthVerified) {
+      setPasswordError(false);
+    } else if (actionData?.passwordLengthVerified === false) {
+      setPasswordError(true);
+    }
+
+    if (actionData?.isEqualsPassword) {
+      setPasswordVerifyError(false);
+    } else if (actionData?.isEqualsPassword === false) {
+      setPasswordVerifyError(true);
+    }
+
+    if (actionData?.logined) {
+      console.log('로그인 성공');
+      navigate('/playlist');
+    } else if (actionData?.logined === false) {
+      console.log('로그인 실패');
+    }
+  }, [actionData]);
 
   useEffect(() => {
     if (isLogin) {
@@ -64,9 +116,32 @@ const EmailForm = ({ isLogin }: EmailFormProps) => {
 
   const registerHandler = (event: FormEvent) => {
     event.preventDefault();
-    const code = codeRef.current?.value() || '';
-    // TODO: 서버 측에서 정의된 요청 파라미터에 맞게 수정 필요
-    submit(`email=${email}&code=${code}&password=${password}`, { method: 'POST' });
+    !isLogin
+      ? submit(
+          `email=${email}&password=${password}&passwordVerify=${passwordVerify}&intent=register`,
+          { method: 'POST' }
+        )
+      : submit(`email=${email}&password=${password}&intent=login`, {
+          method: 'POST',
+        });
+  };
+
+  const emailErrorHandler = () => {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    if (emailRef.current && !emailPattern.test(emailRef.current.value)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  };
+
+  const codeverifyHandler = () => {
+    if (codeRef?.current?.value().length === 6) {
+      submit(`email=${email}&code=${codeRef?.current?.value()}&intent=codeverify`, {
+        method: 'POST',
+      });
+    }
   };
 
   return (
@@ -170,8 +245,55 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     case 'verify':
       break;
     case 'register':
-      break;
+      let passwordLengthVerified = false;
+      let isEqualsPassword = false;
+      const passwordLength = password?.toString().length;
+      let registerbody = {
+        username: email,
+        password,
+      };
+
+      // 비밀번호 형식 8~24자 이내 / 영문(대,소), 숫자, 특수문자 입력 가능
+      // 연속적인 숫자 3자 이상 사용 불가
+      if (passwordLength && passwordLength < 10) {
+        passwordLengthVerified = false;
+      } else if (passwordLength && passwordLength > 10) {
+        passwordLengthVerified = true;
+      }
+
+      if (password === passwordVerify) {
+        isEqualsPassword = true;
+      } else if (password !== passwordVerify) {
+        isEqualsPassword = false;
+      }
+
+      if (passwordLengthVerified && isEqualsPassword) {
+        try {
+          await fetchRequest({
+            url: 'http://localhost:8080/api/user/one',
+            method: 'POST',
+            body: registerbody,
+          });
+
+          return { registered: true, passwordLengthVerified, isEqualsPassword };
+        } catch {
+          return { registered: false, passwordLengthVerified, isEqualsPassword };
+        }
+      } else {
+        return { passwordLengthVerified, isEqualsPassword };
+      }
+
     case 'login':
-      break;
+      let loginbody = { username: email, password };
+      try {
+        await fetchRequest({
+          url: 'http://localhost:8080/api/login',
+          method: 'POST',
+          body: loginbody,
+        });
+        return { logined: true };
+      } catch {
+        return { logined: false };
+      }
   }
 };
