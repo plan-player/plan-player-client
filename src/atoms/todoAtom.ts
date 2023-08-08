@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
 export interface TodoType {
-  id: number; // 숫자?인건가? 전체 DB의 데이터 중 유일한 게 아닌가?
+  id: number | string;
   title: string;
   category_name: string;
   subtitle?: string;
@@ -9,7 +9,7 @@ export interface TodoType {
   total_time: number; // plan..이 들어가면 좋겠다
   cur_time: number; // 현재까지 진행된 시간이 totalTime이면 좋을 듯?
   star: boolean; // 숫자..로 들어오는가
-  icon_image_path: string; // icon필드와 image_path 필드를 따로 두는 것이 좋겠다
+  icon_image_path: string;
   finished: boolean; // done이 좋지 않을까... 너무 길다
   // 현재 목표 기간을 설정하는 UI는 없음... 디자인 필요 이 기능이 필요할까? 있으면 좋을 거 같긴 한데....
   // 그냥 배열을 받는 date가 필요한 듯

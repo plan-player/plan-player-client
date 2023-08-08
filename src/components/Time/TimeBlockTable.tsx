@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { styled } from 'styled-components';
-import { TimeListType } from '../../screens/Schedule';
+import { RecordType } from '../../atoms/scheduleAtom';
 import { formatTime } from '../../util/time';
 import TimeBlock from './TimeBlock';
 
 interface TimeBlockTableProps {
   height: string;
-  timestamps: TimeListType;
+  records: RecordType[];
   targetTodoId: number | null;
+  toggleTimeBlockHandler?: (value: number, checked: boolean) => void;
 }
 
 interface GridLineProps {
@@ -51,16 +52,20 @@ DUMMY_DATE.setFullYear(2023);
 DUMMY_DATE.setMonth(6);
 DUMMY_DATE.setDate(23);
 // NOTE: 현재 시각이 구간 사이일 경우 처리 확인을 위한 코드
-DUMMY_DATE.setHours(12);
-DUMMY_DATE.setMinutes(10);
+DUMMY_DATE.setHours(0);
+DUMMY_DATE.setMinutes(0);
 
-const TimeBlockTable = (props: TimeBlockTableProps) => {
-  const height = props.height;
-  const timestamps = getReducedTimestamp(props.timestamps);
+const TimeBlockTable = ({
+  height,
+  records: propsRecords,
+  toggleTimeBlockHandler,
+  targetTodoId,
+}: TimeBlockTableProps) => {
+  const records = getReducedRecords(propsRecords, targetTodoId);
 
   useEffect(() => {
     const startHourId = formatTime({ h: START_HOUR < 24 ? START_HOUR + 1 : START_HOUR });
-    document.getElementById(startHourId)?.scrollIntoView({ block: 'nearest' });
+    document.getElementById('hour-label-08:00')?.scrollIntoView({ block: 'nearest' });
   }, []);
 
   let timestampIdx = 0;
@@ -68,20 +73,41 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
 
   const getTimeBlock = (h: number, m: number) => {
     // TODO: DUMMY_DATE 값이 DateNav의 날짜와 동일하도록 처리 필요
-    const target = timestamps[timestampIdx];
+    const target = records[timestampIdx];
+
     const [current, next] = getCurrentNextTimes(DUMMY_DATE, h, m);
 
-    // TODO: 카테고리 색깔에 따라 bg 처리 필요
-    // TODO: todo 아이콘에 따라 icon 처리 필요
     let bg: string | undefined;
     let icon: string | undefined;
+    let opacity: number | undefined;
     let leftRounded = false;
     let rightRounded = false;
+    let checked = false;
+    let checkable = targetTodoId ? true : false;
 
     if (target && floorMinute(target.start) <= current && current < target.end) {
-      const { start, end, isHistory } = target;
+      const { start, end, is_history, todo_id, category_icon, category_group_color } =
+        target;
 
-      bg = isHistory ? 'primary' : 'gray';
+      // NOTE: 체크 여부 및 배경색 설정
+      const isTarget = targetTodoId === todo_id;
+
+      checked = targetTodoId ? isTarget : false;
+      checkable = checked;
+      bg = `${category_group_color}-${is_history ? '300' : '100'}`;
+
+      // NOTE: 투명도 설정
+      if (targetTodoId) {
+        if (todo_id === targetTodoId) {
+          opacity = 1;
+        } else {
+          opacity = 0.1;
+        }
+      } else if (!is_history) {
+        opacity = 0.5;
+      } else {
+        opacity = 1;
+      }
 
       // NOTE: 순서에 따른 round
       if (m === 0) {
@@ -92,7 +118,7 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
 
       // NOTE: 시작일 때 round
       if (!isStart && floorMinute(start) <= current) {
-        icon = isStartOfCurrent(isHistory, start) ? undefined : '📑';
+        icon = isStartOfCurrent(is_history, start) ? undefined : category_icon;
         leftRounded = true;
         isStart = true;
       }
@@ -112,8 +138,12 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
         key={formattedTime}
         id={formattedTime}
         value={current}
+        onChange={toggleTimeBlockHandler}
+        checked={checked}
         icon={icon}
         bg={bg}
+        opacity={opacity}
+        disabled={!checkable}
         leftRounded={leftRounded}
         rightRounded={rightRounded}
       />
@@ -136,10 +166,9 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
       <motion.div layout className="absolute w-100 flex-column gap-lg">
         {HOURS.map((_, h) => {
           const formattedHour = formatTime({ h });
-
           return (
             <div key={formattedHour} className="flex gap-2xs i-center">
-              <HourLabel id={formattedHour} className="text-sm">
+              <HourLabel id={`hour-label-${formattedHour}`} className="text-sm">
                 {formattedHour}
               </HourLabel>
               <BlockRow className="flex">
@@ -157,34 +186,38 @@ const TimeBlockTable = (props: TimeBlockTableProps) => {
 
 export default TimeBlockTable;
 
-const getReducedTimestamp = (timestamps: TimeListType) => {
-  return timestamps
-    .reduce((acc, time) => {
+const getReducedRecords = (records: RecordType[], taregtTodoId: number | null) => {
+  if (taregtTodoId) {
+    return records.filter((record) => !record.is_history);
+  }
+
+  return records
+    .reduce((acc, record) => {
       const now = DUMMY_DATE.getTime();
-      const { start, end, isHistory } = time;
+      const { start, end, is_history } = record;
 
       // NOTE: history의 end값이 현재보다 클 경우 - end를 현재로
-      if (start < now && now < end && isHistory) {
-        return [...acc, { ...time, end: now }];
+      if (start < now && now < end && is_history) {
+        return [...acc, { ...record, end: now }];
       }
 
       // NOTE: schedule의 start값이 현재보다 작을 경우 - start를 현재로
-      if (now < end && start < now && !isHistory) {
-        return [...acc, { ...time, start: now }];
+      if (now < end && start < now && !is_history) {
+        return [...acc, { ...record, start: now }];
       }
 
       // NOTE: history가 현재 시각 이전의 구간일 경우 포함
-      if (end <= now && isHistory) {
-        return [...acc, time];
+      if (end <= now && is_history) {
+        return [...acc, record];
       }
 
       // NOTE: schedule이 현재 시각 이후의 구간일 경우 포함
-      if (now < start && !isHistory) {
-        return [...acc, time];
+      if (now < start && !is_history) {
+        return [...acc, record];
       }
 
       return acc;
-    }, [] as TimeListType)
+    }, [] as RecordType[])
     .sort((a, b) => a.start - b.start);
 };
 

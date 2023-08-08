@@ -40,7 +40,7 @@ const Player = () => {
 
   return (
     <PlayerWrapper className="w-80 mx-auto flex-column i-center gap-lg">
-      <h6 className="bold">{category_name || ''}</h6>
+      <h6 className="bold">{category_name || '.'}</h6>
       <IconImageHolder className="my-sm" isCircle={true} size="3xxl">
         {icon_image_path}
       </IconImageHolder>
@@ -53,7 +53,7 @@ const Player = () => {
         isThin={true}
       />
 
-      <Timer className="my-md" defaultTime={cur_time} id={id} />
+      <Timer className="my-md" defaultTime={cur_time} id={id as number} />
       <ProgressBar current={60} total={180} />
       <span className="w-100 flex j-end">/{formatTime(total_time || 0, true)}</span>
       <div className="w-80 flex j-between i-center my-md">

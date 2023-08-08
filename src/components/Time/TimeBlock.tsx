@@ -8,9 +8,12 @@ interface TimeBlockLabelProps {
 interface TimeBlockProps {
   id: string;
   value: number;
+  onChange?: (value: number, checked: boolean) => void;
+  checked?: boolean;
+  disabled?: boolean;
   icon?: string;
   bg?: string;
-  checked?: boolean;
+  opacity?: number;
   leftRounded?: boolean;
   rightRounded?: boolean;
 }
@@ -39,18 +42,22 @@ const IconWrapper = styled.span`
 const TimeBlock = ({
   id,
   icon,
-  checked,
   value,
+  onChange,
+  checked,
+  disabled,
   bg,
+  opacity,
   leftRounded,
   rightRounded,
 }: TimeBlockProps) => {
   return (
     <div className="w-100 relative">
-      <IconWrapper className="flex i-center text-sm">{icon}</IconWrapper>
       <TimeBlockLabel
         htmlFor={id}
-        className={`inline-block w-100 h-100 pointer ${bg ? 'bg-' + bg : ''}`}
+        className={`inline-block w-100 h-100 pointer ${bg ? 'bg-' + bg : ''} ${
+          opacity ? 'o-' + (opacity * 10).toString() : ''
+        }`}
         $leftRounded={leftRounded}
         $rightRounded={rightRounded}
       />
@@ -60,8 +67,15 @@ const TimeBlock = ({
         type="checkbox"
         name="time-block"
         value={value}
+        onChange={() => {
+          onChange && onChange(value, checked || false);
+        }}
         checked={checked}
+        disabled={disabled}
       />
+      <IconWrapper className={`flex i-center text-sm ${opacity === 0.1 ? 'o-2' : ''}`}>
+        {icon}
+      </IconWrapper>
     </div>
   );
 };

@@ -21,7 +21,7 @@ const TodoBoard = ({ todos: propsTodos, onTodoClicked, className }: TodoBoardPro
           <li
             key={todo.id}
             onClick={() => {
-              onTodoClicked && onTodoClicked(todo.id);
+              onTodoClicked && onTodoClicked(todo.id as number);
             }}
           >
             <CircleLabel className="flex i-center gap-sm">
