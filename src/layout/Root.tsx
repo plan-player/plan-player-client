@@ -7,6 +7,7 @@ import { isPlayingAtom, slideMainAtom } from '../atoms/uiAtom';
 import Setting, { SETTING_SIZE } from '../components/UI/nav/Setting';
 import Player from '../screens/Player';
 import Nav from './Nav';
+import RequireAuth from './RequireAuth';
 
 const Main = styled.main`
   position: absolute;
@@ -125,7 +126,7 @@ const Root: React.FC = () => {
   }, [slideMain]);
 
   return (
-    <>
+    <RequireAuth>
       <Setting />
       <Main
         ref={main}
@@ -150,7 +151,7 @@ const Root: React.FC = () => {
           <Nav />
         </section>
       </Main>
-    </>
+    </RequireAuth>
   );
 };
 

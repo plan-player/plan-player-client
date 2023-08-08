@@ -17,7 +17,7 @@ const Landing = () => {
         <div className="flex-column i-center gap-3xl w-70 mx-auto">
           <div className="flex-column i-center gap-xs">
             <h1>PLOT</h1>
-            <p className="bold">Plan On Timer</p>
+            <p className="bold">Plot your day</p>
           </div>
           <IconImageHolder size="3xxl" isCircle={true}>
             <img className="size-2xxl" src="/png/logo.png" alt="plot logo" />
