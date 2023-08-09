@@ -3,6 +3,7 @@ import Button from './Button';
 export interface ConfirmCancelButtonsProps {
   onClose?: () => void;
   onConfirm?: () => void;
+  onCancel?: () => void;
   closeMsg?: string;
   confirmMsg?: string;
   className?: string;
@@ -16,6 +17,7 @@ export interface ConfirmCancelButtonsProps {
 function ConfirmCancelButtons({
   onClose,
   onConfirm,
+  onCancel,
   closeMsg,
   confirmMsg,
   className,
@@ -31,7 +33,10 @@ function ConfirmCancelButtons({
         <Button
           styleClass="extra"
           className={`w-50 ${cancelClass || ''}`}
-          onClick={onClose}
+          onClick={() => {
+            onCancel && onCancel();
+            onClose && onClose();
+          }}
         >
           {closeMsg || '취소'}
         </Button>

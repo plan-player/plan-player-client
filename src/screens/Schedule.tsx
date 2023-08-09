@@ -39,6 +39,7 @@ const Schedule = () => {
   // TODO: 사용자 입력에 따라 targetTodoId / timestamps 변경
   const [targetTodoId, setTargetTodoId] = useState<number | null>(null);
   const [todoBoardItems, setTodoBoardItems] = useState(todos);
+  const [prevRecords, setPrevRecords] = useState<RecordType[]>([]);
 
   // NOTE: 타임테이블과 타임바의 높이 일치를 위한 처리 (컴포넌트 로드 후 진행되어야 함)
   const [tableHeight, setTableHeight] = useState('100%');
@@ -48,6 +49,7 @@ const Schedule = () => {
 
   const setTargetTodoHandler = (id: number) => {
     setTargetTodoId(id);
+    setPrevRecords([...records]);
     setShowInput(false);
 
     const todo = todos.find((item) => item.id === id);
@@ -80,14 +82,20 @@ const Schedule = () => {
   };
 
   const cancelHandler = () => {
+    setRecords(prevRecords);
+  };
+
+  const closeHandler = () => {
     setTargetTodoId(null);
     setShowInput(true);
     setTodoBoardItems(todos);
+    setPrevRecords([]);
   };
 
   // TODO: 백엔드로 데이터 전송 로직 작성
   const submitHandler = () => {
-    submit({}, { method: 'POST' });
+    console.log(records);
+    // submit({}, { method: 'POST' });
   };
 
   return (
@@ -118,7 +126,8 @@ const Schedule = () => {
           {targetTodoId && (
             <ConfirmCancelButtons
               onConfirm={submitHandler}
-              onClose={cancelHandler}
+              onCancel={cancelHandler}
+              onClose={closeHandler}
               noMargin={true}
             />
           )}
