@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useSubmit } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import shortid from 'shortid';
 import { styled } from 'styled-components';
 import { RecordType, recordsAtom } from '../atoms/scheduleAtom';
-import { todosAtom } from '../atoms/todoAtom';
+import { TodoType, todosAtom } from '../atoms/todoAtom';
 import { showInputAtom } from '../atoms/uiAtom';
 import TimeBlockTable from '../components/Time/TimeBlockTable';
 import TodoBoard from '../components/Todo/TodoBoard';
@@ -32,7 +32,7 @@ const Polyfill = styled.div`
 const Schedule = () => {
   const submit = useSubmit();
 
-  const [todos, setTodos] = useRecoilState(todosAtom);
+  const todos = useRecoilValue(todosAtom);
   const setShowInput = useSetRecoilState(showInputAtom);
   const [records, setRecords] = useRecoilState(recordsAtom);
 
@@ -61,108 +61,17 @@ const Schedule = () => {
   const toggleScheduleHandler = (start: number, checked: boolean) => {
     const targetTodo = todos.find((todo) => targetTodoId === todo.id);
     if (targetTodo) {
-      const { id, icon_image_path, category_name } = targetTodo;
-      const duration = 600000;
-      const end = start + duration;
+      const end = start + 600000; // 스케줄 한 칸의 시간 길이 10분의 밀리초를 더함
+      
       if (!checked) {
         // 체크하기
         setRecords((prev) => {
-          const prevRecords = prev.filter(
-            (record) =>
-              !record.is_history &&
-              (record.start === end || record.end === start) &&
-              record.todo_id === targetTodoId
-          );
-
-          if (prevRecords.length === 1) {
-            const prevRecord = prevRecords[0];
-            const nextRecord = { ...prevRecord };
-
-            // 앞쪽에 인접한 경우
-            if (nextRecord.start === end) {
-              nextRecord.start = start;
-            }
-
-            // 뒤쪽에 인접한 경우
-            if (nextRecord.end === start) {
-              nextRecord.end = end;
-            }
-
-            return prev
-              .filter((record) => record.id !== nextRecord.id)
-              .concat(nextRecord)
-              .sort((a, b) => a.start - b.start);
-          } else if (prevRecords.length === 2) {
-            // TODO: 다른 투두 사이에 끼어있을 때도 이 조건에 해당되나? 안될 거 같은데... 알아보기
-            // 중간인 경우
-            const nextRecord = { ...prevRecords[0] };
-            nextRecord.end = prevRecords[1].end;
-
-            return prev
-              .filter(
-                (record) => ![prevRecords[0].id, prevRecords[1].id].includes(record.id)
-              )
-              .concat(nextRecord)
-              .sort((a, b) => a.start - b.start);
-          } else {
-            return [
-              ...prev,
-              {
-                id: shortid.generate(),
-                start,
-                end,
-                duration,
-                is_history: false,
-                todo_id: id,
-                category_icon: icon_image_path,
-                category_group_color: 'blue',
-              } as RecordType,
-            ].sort((a, b) => a.start - b.start);
-          }
+          return checkSchedule(prev, start, end, targetTodo);
         });
       } else {
         // 체크 해제하기
         setRecords((prev) => {
-          const prevRecord = prev.find(
-            (record) =>
-              !record.is_history &&
-              record.start <= start &&
-              end <= record.end &&
-              record.todo_id === targetTodoId
-          );
-
-          if (prevRecord) {
-            const nextRecord = { ...prevRecord };
-            const nextRecords = prev.filter((record) => record.id !== prevRecord.id);
-            const isStart = prevRecord.start === start;
-            const isEnd = prevRecord.end === end;
-
-            if (isStart && isEnd) {
-              // 한 칸짜리일 경우
-              return nextRecords;
-            } else if (isStart || isEnd) {
-              if (isStart) {
-                // 시작에 인접한 경우
-                nextRecord.start = end;
-              } else {
-                // 끝에 인접한 경우
-                nextRecord.end = start;
-              }
-              return [...nextRecords, nextRecord].sort((a, b) => a.start - b.start);
-            } else {
-              // 중간인 경우
-              const lastRecord = { ...nextRecord, id: shortid.generate() };
-
-              nextRecord.end = start;
-              lastRecord.start = end;
-
-              return [...nextRecords, nextRecord, lastRecord].sort(
-                (a, b) => a.start - b.start
-              );
-            }
-          } else {
-            return prev;
-          }
+          return unCheckSchedule(prev, start, end, targetTodo);
         });
       }
     } else {
@@ -232,6 +141,113 @@ export const action = async ({ request }: { request: Request }) => {
   return { ok: true };
 };
 
+// 블록 체크에 따른 상태 업데이트 함수
+const checkSchedule = (
+  prevRecords: RecordType[],
+  start: number,
+  end: number,
+  { id, icon_image_path, category_name }: TodoType
+) => {
+  const nearBlocks = prevRecords.filter(
+    (record) =>
+      !record.is_history &&
+      (record.start === end || record.end === start) &&
+      record.todo_id === id
+  );
+
+  // 인접한 스케줄의 개수에 따라 앞에 / 뒤에 / 중간에 / 새로 스케줄 생성
+  if (nearBlocks.length === 1) {
+    const newBlock = { ...nearBlocks[0] };
+
+    // 앞쪽에 인접한 경우 - 기존 start 확장
+    if (newBlock.start === end) {
+      newBlock.start = start;
+    }
+
+    // 뒤쪽에 인접한 경우 - 기존 end 확장
+    if (newBlock.end === start) {
+      newBlock.end = end;
+    }
+
+    return prevRecords
+      .filter((record) => record.id !== newBlock.id)
+      .concat(newBlock)
+      .sort((a, b) => a.start - b.start);
+  } else if (nearBlocks.length === 2) {
+    // 중간인 경우 - 중간을 포함하는 하나의 블록으로 합치기
+    const newBlock = { ...nearBlocks[0] };
+    newBlock.end = nearBlocks[1].end;
+
+    return prevRecords
+      .filter((record) => ![nearBlocks[0].id, nearBlocks[1].id].includes(record.id))
+      .concat(newBlock)
+      .sort((a, b) => a.start - b.start);
+  } else {
+    // 인접하지 않은 경우 - 새로 생성
+    return [
+      ...prevRecords,
+      {
+        id: shortid.generate(),
+        start,
+        end,
+        duration: 600000,
+        is_history: false,
+        todo_id: id,
+        category_icon: icon_image_path,
+        category_group_color: 'blue',
+      } as RecordType,
+    ].sort((a, b) => a.start - b.start);
+  }
+};
+
+// 블록 체크 해제에 따른 상태 업데이트 함수
+const unCheckSchedule = (
+  prevRecords: RecordType[],
+  start: number,
+  end: number,
+  { id }: TodoType
+) => {
+  const targetBlock = prevRecords.find(
+    (record) =>
+      !record.is_history &&
+      record.start <= start &&
+      end <= record.end &&
+      record.todo_id === id
+  );
+
+  if (targetBlock) {
+    const nextBlock = { ...targetBlock };
+    const nextBlocks = prevRecords.filter((record) => record.id !== targetBlock.id);
+    const isStart = targetBlock.start === start;
+    const isEnd = targetBlock.end === end;
+
+    if (isStart && isEnd) {
+      // 한 칸짜리일 경우 - 없애기
+      return nextBlocks;
+    } else if (isStart || isEnd) {
+      if (isStart) {
+        // 시작에 인접한 경우 - 시작 블록 줄이기
+        nextBlock.start = end;
+      } else {
+        // 끝에 인접한 경우 - 끝 블록 줄이기
+        nextBlock.end = start;
+      }
+      return [...nextBlocks, nextBlock].sort((a, b) => a.start - b.start);
+    } else {
+      // 중간인 경우 - 앞쪽과 뒤쪽 블록으로 나눔
+      const lastRecord = { ...nextBlock, id: shortid.generate() };
+
+      nextBlock.end = start;
+      lastRecord.start = end;
+
+      return [...nextBlocks, nextBlock, lastRecord].sort((a, b) => a.start - b.start);
+    }
+  } else {
+    return prevRecords;
+  }
+};
+
+// 시간 길이에 따라 높이 구하기
 const getTimeTableHeight = () => {
   const top = document.getElementById('hour-label-00:00')?.offsetTop;
   const bottom =

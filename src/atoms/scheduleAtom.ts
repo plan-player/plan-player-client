@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export interface RecordType {
   id: number | string;
@@ -13,7 +13,7 @@ export interface RecordType {
 
 // 2023. 07. 23. GMT+9 기준
 export const recordsAtom = atom<RecordType[]>({
-  key: 'history',
+  key: 'record',
   default: [
     {
       id: 10,
