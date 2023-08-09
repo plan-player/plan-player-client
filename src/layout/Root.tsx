@@ -126,7 +126,7 @@ const Root: React.FC = () => {
   }, [slideMain]);
 
   return (
-    <RequireAuth>
+    <>
       <Setting />
       <Main
         ref={main}
@@ -151,7 +151,7 @@ const Root: React.FC = () => {
           <Nav />
         </section>
       </Main>
-    </RequireAuth>
+    </>
   );
 };
 
