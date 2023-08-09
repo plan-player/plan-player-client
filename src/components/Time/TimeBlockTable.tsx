@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
-import { RecordType } from '../../atoms/scheduleAtom';
+import { RecordType, dividedRecordsSelector, scheduleSelector } from '../../atoms/recordAtom';
 import { formatTime } from '../../util/time';
 import TimeBlock from './TimeBlock';
 
@@ -40,10 +41,10 @@ const BlockRow = styled.div`
   left: ${HOUR_SIZE};
 `;
 
-const HOURS = Array.from(new Array(25));
-const MINUTES = Array.from(new Array(6));
-const START_HOUR = 8;
-const GRID_LINES = Array.from(new Array(7));
+const HOURS = Array.from(new Array(25)); // 24시간
+const MINUTES = Array.from(new Array(6)); // 60분
+const INITIAL_HOUR = 8; // 스크롤 초기값 위치에 해당하는 시간
+const GRID_LINES = Array.from(new Array(7)); // 6칸
 
 // TODO: DateNav의 날짜와 동일하도록 처리 필요
 // NOTE: 현재 DUMMY_TIMES의 날짜대로 임시 세팅
@@ -57,15 +58,17 @@ DUMMY_DATE.setMinutes(0);
 
 const TimeBlockTable = ({
   height,
-  records: propsRecords,
   toggleTimeBlockHandler,
   targetTodoId,
 }: TimeBlockTableProps) => {
-  const records = getReducedRecords(propsRecords, targetTodoId);
+  const schedules = useRecoilValue(scheduleSelector);
+  const dividedRecords = useRecoilValue(dividedRecordsSelector);
+
+  const records = targetTodoId ? schedules : dividedRecords;
 
   useEffect(() => {
-    const startHourId = formatTime({ h: START_HOUR < 24 ? START_HOUR + 1 : START_HOUR });
-    document.getElementById('hour-label-08:00')?.scrollIntoView({ block: 'nearest' });
+    const startHourId = formatTime({ h: INITIAL_HOUR < 24 ? INITIAL_HOUR : INITIAL_HOUR - 1 });
+    document.getElementById(`hour-label-${startHourId}`)?.scrollIntoView({ block: 'nearest' });
   }, []);
 
   let timestampIdx = 0;
@@ -185,41 +188,6 @@ const TimeBlockTable = ({
 };
 
 export default TimeBlockTable;
-
-const getReducedRecords = (records: RecordType[], taregtTodoId: number | null) => {
-  if (taregtTodoId) {
-    return records.filter((record) => !record.is_history);
-  }
-
-  return records
-    .reduce((acc, record) => {
-      const now = DUMMY_DATE.getTime();
-      const { start, end, is_history } = record;
-
-      // NOTE: history의 end값이 현재보다 클 경우 - end를 현재로
-      if (start < now && now < end && is_history) {
-        return [...acc, { ...record, end: now }];
-      }
-
-      // NOTE: schedule의 start값이 현재보다 작을 경우 - start를 현재로
-      if (now < end && start < now && !is_history) {
-        return [...acc, { ...record, start: now }];
-      }
-
-      // NOTE: history가 현재 시각 이전의 구간일 경우 포함
-      if (end <= now && is_history) {
-        return [...acc, record];
-      }
-
-      // NOTE: schedule이 현재 시각 이후의 구간일 경우 포함
-      if (now < start && !is_history) {
-        return [...acc, record];
-      }
-
-      return acc;
-    }, [] as RecordType[])
-    .sort((a, b) => a.start - b.start);
-};
 
 const floorMinute = (timestamp: number) => {
   const current = new Date(timestamp);

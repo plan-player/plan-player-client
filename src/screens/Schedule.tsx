@@ -4,7 +4,7 @@ import { useSubmit } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import shortid from 'shortid';
 import { styled } from 'styled-components';
-import { RecordType, recordsAtom } from '../atoms/scheduleAtom';
+import { RecordType, recordsAtom } from '../atoms/recordAtom';
 import { TodoType, todosAtom } from '../atoms/todoAtom';
 import { showInputAtom } from '../atoms/uiAtom';
 import TimeBlockTable from '../components/Time/TimeBlockTable';
@@ -62,7 +62,7 @@ const Schedule = () => {
     const targetTodo = todos.find((todo) => targetTodoId === todo.id);
     if (targetTodo) {
       const end = start + 600000; // 스케줄 한 칸의 시간 길이 10분의 밀리초를 더함
-      
+
       if (!checked) {
         // 체크하기
         setRecords((prev) => {
