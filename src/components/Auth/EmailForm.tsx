@@ -1,23 +1,39 @@
 import { motion } from 'framer-motion';
 import { FormEvent, PropsWithChildren, useEffect, useRef, useState } from 'react';
-import { ActionFunctionArgs, useSubmit } from 'react-router-dom';
+import {
+  ActionFunctionArgs,
+  useActionData,
+  useNavigate,
+  useSubmit,
+} from 'react-router-dom';
 import { styled } from 'styled-components';
-import useInput, { InputDataType } from '../../hooks/useInput';
+import useForm, { InputDataType } from '../../hooks/useForm';
 import Button from '../UI/button/Button';
 import Inform from '../UI/general/Inform';
 import InputField from '../UI/input/InputField';
 import CodeField, { CodeHandle } from './CodeField';
+import { fetchRequest } from '../../util/request';
+import EmailAuthTimer from './EmailAuthTimer';
 
 interface EmailFormProps {
   isLogin: boolean;
   setLogin: (data: boolean) => void;
 }
 
+interface ActionDataType {
+  codeVerified: boolean;
+  codeSend: boolean;
+  registered: boolean;
+  passwordLengthVerified: boolean;
+  isEqualsPassword: boolean;
+  logined: boolean;
+}
+
 const EmailFormWrapper = styled(motion.div)`
   margin: 1rem auto;
 `;
 
-const ErrorInform = ({ children }: PropsWithChildren) => {
+export const ErrorInform = ({ children }: PropsWithChildren) => {
   return (
     <Inform isError={true} isLeft={true}>
       {children}
@@ -28,25 +44,29 @@ const ErrorInform = ({ children }: PropsWithChildren) => {
 const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
   const submit = useSubmit();
   const navigate = useNavigate();
-  let actionData = useActionData() as ActionDataProps;
+  let actionData = useActionData() as ActionDataType;
 
   const emailRef = useRef<HTMLInputElement>(null);
   const codeRef = useRef<CodeHandle>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isVerify, setIsVerify] = useState(false);
   const [isRetype, setIsRetype] = useState(false);
-  const [emailError, setEmailError] = useState(false);
   const [codeError, setCodeError] = useState(false);
-  const [passwordLengthError, setPasswordLengthError] = useState(false);
-  const [passwordVerifyError, setPasswordVerifyError] = useState(false);
-  const [time, setTime] = useState(180);
   const [showTimer, setShowTimer] = useState(false);
-  const [timeover, setTimeover] = useState(false);
+  const [iscodeVerified, setIscodeVerified] = useState(false);
 
-  let minutes = '0' + Math.floor(time / 60);
-  let seconds = (time % 60).toString().padStart(2, '0');
-
-  const [{ email, password, passwordVerify }, dataHandler, setData] = useInput({
+  const [
+    { email, password, passwordVerify },
+    dataHandler,
+    setData,
+    emailErrorHandler,
+    emailError,
+    passwordLengthErrorHandler,
+    passwordLengthError,
+    passwordVerifyErrorHandler,
+    passwordVerifyError,
+  ] = useForm({
     email: '',
     password: '',
     passwordVerify: '',
@@ -54,19 +74,17 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
 
   useEffect(() => {
     if (actionData?.codeVerified) {
-      setIscodeVerified(true);
       setShowTimer(false);
+      setIscodeVerified(true);
       setCodeError(false);
     } else if (actionData?.codeVerified === false) {
       setCodeError(true);
     }
 
-    if (actionData?.verified) {
+    if (actionData?.codeSend) {
+      setShowTimer(true);
       setIsVerify(true);
       setIsRetype(false);
-      setShowTimer(true);
-      setTimeover(false);
-      setTime(180);
       setIsLoading(false);
       setIscodeVerified(false);
       setCodeError(false);
@@ -74,29 +92,15 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
     }
 
     if (actionData?.registered) {
-      console.log('회원가입성공');
       setLogin(true);
     } else if (actionData?.registered === false) {
-      console.log('이미 있는 회원입니다.');
-    }
-
-    if (actionData?.passwordLengthVerified) {
-      setPasswordLengthError(false);
-    } else if (actionData?.passwordLengthVerified === false) {
-      setPasswordLengthError(true);
-    }
-
-    if (actionData?.isEqualsPassword) {
-      setPasswordVerifyError(false);
-    } else if (actionData?.isEqualsPassword === false) {
-      setPasswordVerifyError(true);
+      // 이미 있는 회원
     }
 
     if (actionData?.logined) {
-      console.log('로그인 성공');
       navigate('/playlist');
     } else if (actionData?.logined === false) {
-      console.log('로그인 실패');
+      // 로그인 실패
     }
   }, [actionData]);
 
@@ -110,24 +114,6 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
     emailRef.current?.focus();
   }, [isLogin, isRetype]);
 
-  useEffect(() => {
-    let interval: number;
-    if (time > 0) {
-      interval = setInterval(() => {
-        setTime((prevTimer) => prevTimer - 1);
-      }, 1000);
-    } else if (time === 0) {
-      setShowTimer(false);
-      setTimeover(true);
-    }
-    return () => clearInterval(interval);
-  }, [time]);
-
-  const verifyHandler = () => {
-    setIsVerify(true);
-    setIsRetype(false);
-  };
-
   const retypeHandler = () => {
     setShowTimer(false);
     setIsRetype(true);
@@ -137,25 +123,36 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
     emailRef.current?.focus();
   };
 
-  const registerHandler = (event: FormEvent) => {
+  const submitHandler = (event: FormEvent, intent?: string) => {
     event.preventDefault();
-    !isLogin
-      ? submit(
-          `email=${email}&password=${password}&passwordVerify=${passwordVerify}&intent=register`,
-          { method: 'POST' }
-        )
-      : submit(`email=${email}&password=${password}&intent=login`, {
-          method: 'POST',
-        });
-  };
+    switch (intent) {
+      case 'codeSend':
+        if (!emailError) {
+          setIsLoading(true);
+          submit({ email, intent }, { method: 'POST' });
+        }
+        break;
 
-  const emailErrorHandler = () => {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      case 'resend':
+        if (!emailError) {
+          setIsLoading(true);
+          submit({ email, intent: 'codeSend' }, { method: 'POST' });
+        }
+        break;
 
-    if (emailRef.current && !emailPattern.test(emailRef.current.value)) {
-      setEmailError(true);
-    } else {
-      setEmailError(false);
+      case 'register':
+        if (!passwordLengthError && !passwordVerifyError) {
+          if (!iscodeVerified) {
+            alert('인증 코드를 입력하세요.');
+          } else {
+            submit({ email, password, intent }, { method: 'POST' });
+          }
+        }
+        break;
+
+      case 'login':
+        submit({ email, password, intent }, { method: 'POST' });
+        break;
     }
   };
 
@@ -168,8 +165,8 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
   };
 
   return (
-    <EmailFormWrapper layout className="w-85">
-      <motion.form layout className="flex-column gap-sm" onSubmit={registerHandler}>
+    <EmailFormWrapper className="w-85">
+      <motion.form layout className="flex-column gap-sm" onSubmit={submitHandler}>
         <InputField>
           <div className="flex j-between i-center">
             <label>이메일</label>
@@ -186,10 +183,9 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                 <Button
                   sizeClass="sm"
                   isFit={true}
-                  onClick={verifyHandler}
-                  isPending={false}
-                  name="intent"
-                  value="verify"
+                  value="resend"
+                  onClick={(e: any) => submitHandler(e, e.target.value)}
+                  isPending={isLoading ? true : false}
                 >
                   재전송
                 </Button>
@@ -202,12 +198,17 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
             name="email"
             value={email}
             onChange={dataHandler}
+            onBlur={emailErrorHandler}
             disabled={isVerify && !isRetype && !isLogin}
           />
-          <ErrorInform>올바른 이메일을 입력하세요.</ErrorInform>
+          {emailError && <ErrorInform>올바른 이메일을 입력하세요.</ErrorInform>}
         </InputField>
         {!isLogin && !isVerify && (
-          <Button onClick={verifyHandler} isPending={false} name="intent" value="verify">
+          <Button
+            value="codeSend"
+            onClick={(e: any) => submitHandler(e, e?.target.value)}
+            isPending={isLoading ? true : false}
+          >
             인증코드 전송
           </Button>
         )}
@@ -218,20 +219,12 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
               <CodeField iscodeVerified={iscodeVerified} ref={codeRef} />
             </div>
 
-            {showTimer ? (
-              !timeover ? (
-                <span>
-                  {minutes}:{seconds}
-                </span>
-              ) : (
-                <ErrorInform>인증코드 유효기간 초과</ErrorInform>
-              )
-            ) : null}
+            {showTimer ? <EmailAuthTimer /> : null}
           </>
         )}
 
         {!isLogin && isVerify && codeError && (
-          <ErrorInform>올바른 코드를 입력하세요.</ErrorInform>
+          <ErrorInform>코드가 일치하지 않습니다.</ErrorInform>
         )}
 
         {(isLogin || isVerify) && (
@@ -242,6 +235,7 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                 type="password"
                 name="password"
                 value={password}
+                onBlur={passwordLengthErrorHandler}
                 onChange={dataHandler}
               />
               {passwordLengthError && (
@@ -258,16 +252,19 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                   name="passwordVerify"
                   value={passwordVerify}
                   onChange={dataHandler}
+                  onBlur={passwordVerifyErrorHandler}
                 />
-                <ErrorInform>비밀번호와 일치하지 않습니다.</ErrorInform>
+                {passwordVerifyError && (
+                  <ErrorInform>비밀번호가 일치하지 않습니다.</ErrorInform>
+                )}
               </InputField>
             )}
             <Button
-              type="submit"
               className="mt-md"
               sizeClass="md"
               isPending={false}
               name="intent"
+              onClick={(e: any) => submitHandler(e, e.target.value)}
               value={isLogin ? 'login' : 'register'}
             >
               {isLogin ? '로그인하기' : '회원가입하기'}
@@ -288,56 +285,54 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const password = formData.get('password');
   const code = formData.get('code');
 
-  // TODO: requestFetch 함수를 활용하여 서버로 인증/회원가입/로그인 요청 보내기
+  const loginAndRegisterBody = {
+    username: email,
+    password,
+  };
+
   switch (formData.get('intent')) {
-    case 'verify':
-      break;
+    case 'codeSend':
+      try {
+        await fetchRequest({
+          url: '/login/mailConfirm',
+          method: 'POST',
+          body: { email },
+        });
+        return { codeSend: true };
+      } catch {
+        return { codeSend: false };
+      }
+
+    case 'codeverify':
+      try {
+        await fetchRequest({
+          url: '/login/authenticate',
+          method: 'POST',
+          body: { email, code },
+        });
+        return { codeVerified: true };
+      } catch {
+        return { codeVerified: false };
+      }
+
     case 'register':
-      let passwordLengthVerified = false;
-      let isEqualsPassword = false;
-      const passwordLength = password?.toString().length;
-      let registerbody = {
-        username: email,
-        password,
-      };
-
-      // 비밀번호 형식 8~24자 이내 / 영문(대,소), 숫자, 특수문자 입력 가능
-      // 연속적인 숫자 3자 이상 사용 불가
-      if (passwordLength && passwordLength < 10) {
-        passwordLengthVerified = false;
-      } else if (passwordLength && passwordLength > 10) {
-        passwordLengthVerified = true;
-      }
-
-      if (password === passwordVerify) {
-        isEqualsPassword = true;
-      } else if (password !== passwordVerify) {
-        isEqualsPassword = false;
-      }
-
-      if (passwordLengthVerified && isEqualsPassword) {
-        try {
-          await fetchRequest({
-            url: 'http://localhost:8080/api/user/one',
-            method: 'POST',
-            body: registerbody,
-          });
-
-          return { registered: true, passwordLengthVerified, isEqualsPassword };
-        } catch {
-          return { registered: false, passwordLengthVerified, isEqualsPassword };
-        }
-      } else {
-        return { passwordLengthVerified, isEqualsPassword };
+      try {
+        await fetchRequest({
+          url: '/api/user/one',
+          method: 'POST',
+          body: loginAndRegisterBody,
+        });
+        return { registered: true };
+      } catch {
+        return { registered: false };
       }
 
     case 'login':
-      let loginbody = { username: email, password };
       try {
         await fetchRequest({
-          url: 'http://localhost:8080/api/login',
+          url: '/api/login',
           method: 'POST',
-          body: loginbody,
+          body: loginAndRegisterBody,
         });
         return { logined: true };
       } catch {
@@ -345,3 +340,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       }
   }
 };
+
+// 비밀번호 형식 8~24자 이내 / 영문(대,소), 숫자, 특수문자 입력 가능
+// 연속적인 숫자 3자 이상 사용 불가

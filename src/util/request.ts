@@ -1,6 +1,6 @@
 const { PLOT_SERVER } = import.meta.env;
 
-const BASE_URL = `${PLOT_SERVER as string}/api`;
+const BASE_URL = `${PLOT_SERVER as string}`;
 
 interface requestParams {
   url: string;
@@ -35,7 +35,8 @@ export const fetchRequest = async <T>({
     throw new Error('NETWORK_NOT_AVAILABLE');
   }
 
-  const response = await fetch(BASE_URL + url, getConfig(method, body));
+  const response = await fetch(`${BASE_URL}${url}`, getConfig(method, body));
+
   const data = (await response.json()) as ResponseType<T> | Error;
 
   if (data instanceof Error) {
