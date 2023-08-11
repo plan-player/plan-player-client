@@ -17,7 +17,7 @@ const Main = styled.main`
 
   section {
     position: absolute;
-    width: 100vw;
+    width: 50%;
   }
 
   @media screen and (min-width: 960px) {
@@ -29,7 +29,6 @@ const Main = styled.main`
     transform: translate(-50%, -50%);
 
     section {
-      width: 50%;
       height: 100%;
     }
 
