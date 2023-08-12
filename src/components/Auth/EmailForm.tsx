@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FormEvent, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import {
   ActionFunctionArgs,
   useActionData,
@@ -7,13 +7,16 @@ import {
   useSubmit,
 } from 'react-router-dom';
 import { styled } from 'styled-components';
-import useForm, { InputDataType } from '../../hooks/useForm';
 import Button from '../UI/button/Button';
 import Inform from '../UI/general/Inform';
 import InputField from '../UI/input/InputField';
 import CodeField, { CodeHandle } from './CodeField';
 import { fetchRequest } from '../../util/request';
 import EmailAuthTimer from './EmailAuthTimer';
+import useInput, { InputDataType } from '../../hooks/useInput';
+import { useValidate } from '../../hooks/useValidate';
+import { registerValidate as rules } from '../../util/registerValidate';
+import { ObjectType } from '../../types/types';
 
 interface EmailFormProps {
   isLogin: boolean;
@@ -55,28 +58,27 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
   const [codeError, setCodeError] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [iscodeVerified, setIscodeVerified] = useState(false);
+  const [needCodeVerify, setNeedCodeVerify] = useState(false);
+  const [passwordVerified, setPasswordVerified] = useState(true);
 
-  const [
-    { email, password, passwordVerify },
-    dataHandler,
-    setData,
-    emailErrorHandler,
-    emailError,
-    passwordLengthErrorHandler,
-    passwordLengthError,
-    passwordVerifyErrorHandler,
-    passwordVerifyError,
-  ] = useForm({
+  const [{ email, password, passwordVerify }, Handler, setData] = useInput({
     email: '',
     password: '',
     passwordVerify: '',
   } as InputDataType);
+
+  const [errors, validate] = useValidate(rules as ObjectType<string>);
+
+  const notEmailError = errors.get('email') === '' || errors.get('email') === undefined;
+  const notPasswordError =
+    errors.get('password') === '' || errors.get('password') === undefined;
 
   useEffect(() => {
     if (actionData?.codeVerified) {
       setShowTimer(false);
       setIscodeVerified(true);
       setCodeError(false);
+      setNeedCodeVerify(false);
     } else if (actionData?.codeVerified === false) {
       setCodeError(true);
     }
@@ -123,35 +125,31 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
     emailRef.current?.focus();
   };
 
-  const submitHandler = (event: FormEvent, intent?: string) => {
+  const submitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    switch (intent) {
-      case 'codeSend':
-        if (!emailError) {
-          setIsLoading(true);
-          submit({ email, intent }, { method: 'POST' });
-        }
-        break;
+    const { value } = event.currentTarget;
 
-      case 'resend':
-        if (!emailError) {
+    switch (value) {
+      case 'codeSend':
+        if (notEmailError) {
           setIsLoading(true);
-          submit({ email, intent: 'codeSend' }, { method: 'POST' });
+          submit({ email, intent: value }, { method: 'POST' });
         }
         break;
 
       case 'register':
-        if (!passwordLengthError && !passwordVerifyError) {
+        if (passwordVerified) {
           if (!iscodeVerified) {
-            alert('인증 코드를 입력하세요.');
+            setNeedCodeVerify(true);
           } else {
-            submit({ email, password, intent }, { method: 'POST' });
+            setNeedCodeVerify(false);
+            submit({ email, password, intent: value }, { method: 'POST' });
           }
         }
         break;
 
       case 'login':
-        submit({ email, password, intent }, { method: 'POST' });
+        submit({ email, password, intent: value }, { method: 'POST' });
         break;
     }
   };
@@ -164,9 +162,17 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
     }
   };
 
+  const passwordVerifyHandler = () => {
+    if (password === passwordVerify) {
+      setPasswordVerified(true);
+    } else {
+      setPasswordVerified(false);
+    }
+  };
+
   return (
     <EmailFormWrapper className="w-85">
-      <motion.form layout className="flex-column gap-sm" onSubmit={submitHandler}>
+      <motion.form layout className="flex-column gap-sm">
         <InputField>
           <div className="flex j-between i-center">
             <label>이메일</label>
@@ -183,8 +189,8 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                 <Button
                   sizeClass="sm"
                   isFit={true}
-                  value="resend"
-                  onClick={(e: any) => submitHandler(e, e.target.value)}
+                  value="codeSend"
+                  onClick={submitHandler}
                   isPending={isLoading ? true : false}
                 >
                   재전송
@@ -197,16 +203,16 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
             type="email"
             name="email"
             value={email}
-            onChange={dataHandler}
-            onBlur={emailErrorHandler}
+            onChange={Handler}
+            onBlur={validate}
             disabled={isVerify && !isRetype && !isLogin}
           />
-          {emailError && <ErrorInform>올바른 이메일을 입력하세요.</ErrorInform>}
+          {!notEmailError && <ErrorInform>{errors.get('email')}</ErrorInform>}
         </InputField>
         {!isLogin && !isVerify && (
           <Button
             value="codeSend"
-            onClick={(e: any) => submitHandler(e, e?.target.value)}
+            onClick={submitHandler}
             isPending={isLoading ? true : false}
           >
             인증코드 전송
@@ -235,15 +241,12 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                 type="password"
                 name="password"
                 value={password}
-                onBlur={passwordLengthErrorHandler}
-                onChange={dataHandler}
+                onBlur={validate}
+                onChange={Handler}
               />
-              {passwordLengthError && (
-                <ErrorInform>
-                  비밀번호는 8~24자이내 영문(대,소)/숫자/특수문자여야 합니다.
-                </ErrorInform>
-              )}
+              {!notPasswordError && <ErrorInform>{errors.get('password')}</ErrorInform>}
             </InputField>
+
             {!isLogin && (
               <InputField>
                 <label>비밀번호 확인</label>
@@ -251,10 +254,10 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                   type="password"
                   name="passwordVerify"
                   value={passwordVerify}
-                  onChange={dataHandler}
-                  onBlur={passwordVerifyErrorHandler}
+                  onChange={Handler}
+                  onBlur={passwordVerifyHandler}
                 />
-                {passwordVerifyError && (
+                {!passwordVerified && (
                   <ErrorInform>비밀번호가 일치하지 않습니다.</ErrorInform>
                 )}
               </InputField>
@@ -264,11 +267,14 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
               sizeClass="md"
               isPending={false}
               name="intent"
-              onClick={(e: any) => submitHandler(e, e.target.value)}
+              onClick={submitHandler}
               value={isLogin ? 'login' : 'register'}
             >
               {isLogin ? '로그인하기' : '회원가입하기'}
             </Button>
+            {needCodeVerify && (
+              <ErrorInform>인증 코드 6자리를 모두 입력하세요.</ErrorInform>
+            )}
           </>
         )}
       </motion.form>
