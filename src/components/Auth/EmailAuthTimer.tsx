@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { ErrorInform } from './EmailForm';
 
-const EmailAuthTimer = () => {
-  const [time, setTime] = useState(180);
+interface EmailAuthTimerProps {
+  initTime?: number;
+}
+
+const EmailAuthTimer = ({ initTime }: EmailAuthTimerProps) => {
+  const [time, setTime] = useState(initTime ? initTime : 180);
   const [timeover, setTimeover] = useState(false);
 
   let minutes = '0' + Math.floor(time / 60);
@@ -22,7 +26,7 @@ const EmailAuthTimer = () => {
   return (
     <>
       {!timeover ? (
-        <span>
+        <span className="flex-center">
           {minutes}:{seconds}
         </span>
       ) : (

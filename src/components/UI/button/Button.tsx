@@ -12,7 +12,7 @@ interface ButtonProps {
   name?: string;
   value?: string;
   isFit?: boolean;
-  onClick?: (event?: React.MouseEvent) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   isPending?: boolean;
   disabled?: boolean;
 }
