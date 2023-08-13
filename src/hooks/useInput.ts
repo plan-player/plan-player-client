@@ -1,15 +1,14 @@
 import React, { useCallback, useState } from 'react';
 
-export interface InputDataType {
-  [name: string]: string;
-}
-export default (initialData: InputDataType) => {
-  const [data, setData] = useState(initialData);
+export default () => {
+  const [data, setData] = useState<Map<string, string>>(new Map());
 
   const handler = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { value, name } = event.target;
-      setData({ ...data, [name]: value });
+      setData((prev) => {
+        return new Map(prev).set(name, value);
+      });
     },
     [data]
   );
