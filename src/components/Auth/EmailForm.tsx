@@ -4,6 +4,7 @@ import {
   ActionFunctionArgs,
   useActionData,
   useNavigate,
+  useNavigation,
   useSubmit,
 } from 'react-router-dom';
 import { styled } from 'styled-components';
@@ -13,7 +14,7 @@ import InputField from '../UI/input/InputField';
 import CodeField, { CodeHandle } from './CodeField';
 import { fetchRequest } from '../../util/request';
 import EmailAuthTimer from './EmailAuthTimer';
-import useInput, { InputDataType } from '../../hooks/useInput';
+import useInput from '../../hooks/useInput';
 import { useValidate } from '../../hooks/useValidate';
 import { registerValidate as rules } from '../../util/registerValidate';
 import { ObjectType } from '../../types/types';
@@ -47,12 +48,12 @@ export const ErrorInform = ({ children }: PropsWithChildren) => {
 const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
   const submit = useSubmit();
   const navigate = useNavigate();
-  let actionData = useActionData() as ActionDataType;
+  const navigation = useNavigation();
+  const actionData = useActionData() as ActionDataType;
 
   const emailRef = useRef<HTMLInputElement>(null);
   const codeRef = useRef<CodeHandle>(null);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [isVerify, setIsVerify] = useState(false);
   const [isRetype, setIsRetype] = useState(false);
   const [codeError, setCodeError] = useState(false);
@@ -61,17 +62,22 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
   const [needCodeVerify, setNeedCodeVerify] = useState(false);
   const [passwordVerified, setPasswordVerified] = useState(true);
 
-  const [{ email, password, passwordVerify }, Handler, setData] = useInput({
-    email: '',
-    password: '',
-    passwordVerify: '',
-  } as InputDataType);
+  const nowIntent = navigation.formData?.get('intent');
+  const isSubmitting = navigation.state === 'submitting';
 
-  const [errors, validate] = useValidate(rules as ObjectType<string>);
+  const codeLoading = nowIntent === 'codeSend' && isSubmitting;
+  const registerAndLoginLoading =
+    nowIntent === 'register' || (nowIntent === 'login' && isSubmitting);
 
-  const notEmailError = errors.get('email') === '' || errors.get('email') === undefined;
-  const notPasswordError =
-    errors.get('password') === '' || errors.get('password') === undefined;
+  const [userData, dataHandler, setData] = useInput();
+  const [errors, validate] = useValidate(rules as ObjectType<(value: string) => string>);
+
+  const emailError = errors.get('email');
+  const passwordError = errors.get('password');
+
+  const getEmail = userData.get('email');
+  const getPassword = userData.get('password');
+  const getPasswordVerify = userData.get('passwordVerify');
 
   useEffect(() => {
     if (actionData?.codeVerified) {
@@ -87,7 +93,6 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
       setShowTimer(true);
       setIsVerify(true);
       setIsRetype(false);
-      setIsLoading(false);
       setIscodeVerified(false);
       setCodeError(false);
       codeRef?.current?.clear();
@@ -120,7 +125,7 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
     setShowTimer(false);
     setIsRetype(true);
     setData((prev) => {
-      return { ...prev, email: '' };
+      return new Map(prev).set('email', '');
     });
     emailRef.current?.focus();
   };
@@ -128,42 +133,53 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
   const submitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const { value } = event.currentTarget;
+    const submitbody = {
+      email: `${getEmail}`,
+      password: `${getPassword}`,
+    };
 
     switch (value) {
       case 'codeSend':
-        if (notEmailError) {
-          setIsLoading(true);
-          submit({ email, intent: value }, { method: 'POST' });
+        if (!emailError) {
+          setShowTimer(false);
+          submit({ ...submitbody, intent: value }, { method: 'POST' });
         }
         break;
 
       case 'register':
-        if (passwordVerified) {
+        if (passwordVerified && !passwordError) {
           if (!iscodeVerified) {
             setNeedCodeVerify(true);
           } else {
             setNeedCodeVerify(false);
-            submit({ email, password, intent: value }, { method: 'POST' });
+            submit({ ...submitbody, intent: value }, { method: 'POST' });
           }
         }
         break;
 
       case 'login':
-        submit({ email, password, intent: value }, { method: 'POST' });
+        submit({ ...submitbody, intent: value }, { method: 'POST' });
         break;
     }
   };
 
   const codeverifyHandler = () => {
     if (codeRef?.current?.value().length === 6) {
-      submit(`email=${email}&code=${codeRef?.current?.value()}&intent=codeverify`, {
-        method: 'POST',
-      });
+      submit(
+        {
+          email: `${getEmail}`,
+          code: `${codeRef?.current?.value()}`,
+          intent: 'codeverify',
+        },
+        {
+          method: 'POST',
+        }
+      );
     }
   };
 
   const passwordVerifyHandler = () => {
-    if (password === passwordVerify) {
+    if (getPassword === getPasswordVerify) {
       setPasswordVerified(true);
     } else {
       setPasswordVerified(false);
@@ -191,7 +207,7 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                   isFit={true}
                   value="codeSend"
                   onClick={submitHandler}
-                  isPending={isLoading ? true : false}
+                  isPending={codeLoading ? true : false}
                 >
                   재전송
                 </Button>
@@ -202,18 +218,18 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
             ref={emailRef}
             type="email"
             name="email"
-            value={email}
-            onChange={Handler}
+            value={getEmail}
+            onChange={dataHandler}
             onBlur={validate}
             disabled={isVerify && !isRetype && !isLogin}
           />
-          {!notEmailError && <ErrorInform>{errors.get('email')}</ErrorInform>}
+          {emailError && <ErrorInform>{emailError}</ErrorInform>}
         </InputField>
         {!isLogin && !isVerify && (
           <Button
             value="codeSend"
             onClick={submitHandler}
-            isPending={isLoading ? true : false}
+            isPending={codeLoading ? true : false}
           >
             인증코드 전송
           </Button>
@@ -240,11 +256,11 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
               <input
                 type="password"
                 name="password"
-                value={password}
+                value={getPassword}
                 onBlur={validate}
-                onChange={Handler}
+                onChange={dataHandler}
               />
-              {!notPasswordError && <ErrorInform>{errors.get('password')}</ErrorInform>}
+              {passwordError && <ErrorInform>{passwordError}</ErrorInform>}
             </InputField>
 
             {!isLogin && (
@@ -253,8 +269,8 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
                 <input
                   type="password"
                   name="passwordVerify"
-                  value={passwordVerify}
-                  onChange={Handler}
+                  value={getPasswordVerify}
+                  onChange={dataHandler}
                   onBlur={passwordVerifyHandler}
                 />
                 {!passwordVerified && (
@@ -265,7 +281,7 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
             <Button
               className="mt-md"
               sizeClass="md"
-              isPending={false}
+              isPending={registerAndLoginLoading ? true : false}
               name="intent"
               onClick={submitHandler}
               value={isLogin ? 'login' : 'register'}

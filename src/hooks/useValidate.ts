@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ObjectType } from '../types/types';
 
-export const useValidate = (rules: ObjectType<string>) => {
+export const useValidate = (rules: ObjectType<(value: string) => string>) => {
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
 
   // onBlur 시 유효성 검증
