@@ -20,7 +20,9 @@ const TodoBoard = ({ setTodo, className }: TodoBoardProps) => {
           <li key={todo.id}>
             <CircleLabel className="flex i-center gap-sm">
               <IconImageHolder size="sm">{todo.icon_image_path}</IconImageHolder>
-              <span className="text-md break-word">{todo.title}</span>
+              <span className="text-md break-word text-ellipsis hidden nowrap">
+                {todo.title}
+              </span>
             </CircleLabel>
           </li>
         ))}

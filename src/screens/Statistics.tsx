@@ -4,18 +4,8 @@ import DateNav from '../components/UI/nav/DateNav';
 import StatisticsDay from '../components/Statistics/StatisticsDay';
 import { useState } from 'react';
 import StatisticsCategory from '../components/Statistics/StatisticsCategory';
-import StatisticsCategoryItem from '../components/Statistics/StatisticsCategoryItem';
 import CircleLabel from '../components/UI/label/CircleLabel';
-
-const StatisticsBoard = styled.div`
-  height: 40%;
-  overflow: hidden;
-  div {
-    span {
-      white-space: nowrap;
-    }
-  }
-`;
+import TodoBoard from '../components/Todo/TodoBoard';
 
 const StatisticsCategoryWrapper = styled.div`
   min-height: 5%;
@@ -95,7 +85,7 @@ const Statistics = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [weekLine, setWeekLine] = useState(0);
-
+  const [targetTodoId, setTargetTodoId] = useState<string | null>(null);
   const onHandleMonth = (newDate: Date) => {
     setCurrentDate(newDate);
   };
@@ -110,7 +100,7 @@ const Statistics = () => {
         handleDate={currentDate}
       />
 
-      <StatisticsCategoryWrapper className="w-80 flex-i-center j-between mt-md">
+      <StatisticsCategoryWrapper className="w-80 flex-i-center j-between mt-sm mb-md">
         <input
           id="all"
           className="hide"
@@ -147,10 +137,12 @@ const Statistics = () => {
           />
         </div>
 
-        <div className="w-40">
-          <StatisticsBoard className="round-md bg-gray-50 flex-column i-center pd-lg gap-xs text-xs ml-lg">
-            <StatisticsCategoryItem />
-          </StatisticsBoard>
+        <div className="w-35 ml-sm">
+          <TodoBoard
+            setTodo={(id: string) => {
+              setTargetTodoId(id);
+            }}
+          />
 
           <WeekWrapper className="text-sm gap-md mt-lg flex-column i-center j-around">
             {weeks.slice(0, weekLine).map((week, index) => {

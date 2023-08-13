@@ -146,7 +146,7 @@ const StatisticsDay = ({ weekHandle, handleDate }: StatisticsDayProps) => {
           <span className="text-xs extra-bold">{week[day.getDay()]}</span>
           <span className="text-lg extra-bold">{date}</span>
         </div>
-        <TimeWrapper className="flex i-center j-start gap-sm w-70 ml-lg">
+        <TimeWrapper className="flex i-center j-start gap-sm w-100 ml-lg">
           {timeTestdata
             ?.filter((a) => a.day === haveTimeDate)?.[0]
             ?.data?.map((b) => (

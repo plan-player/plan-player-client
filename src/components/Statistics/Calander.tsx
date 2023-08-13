@@ -198,12 +198,12 @@ const Calander = ({ weekHandle, handleDate, onLine }: StatisticsCalanderProps) =
         j += 1;
       } else {
         if (format(startMonth, 'M') !== format(day, 'M')) {
-          days.push(<Day key={shortid.generate()} className="o0 mg-xxs text-xxs"></Day>);
+          days.push(<Day key={shortid.generate()} className="o0 m-xxs text-xxs"></Day>);
         } else {
           days.push(
             <Day
               key={id}
-              className={`flex-center bg-light round-sm mg-xxs ${
+              className={`flex-center bg-light round-sm m-xxs ${
                 MonthMockData.filter((date) => date.day === id).length !== 0 &&
                 'bg-primary'
               }`}
