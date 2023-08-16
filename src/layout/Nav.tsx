@@ -9,6 +9,7 @@ import { styled } from 'styled-components';
 import TodoInputOverlay from '../components/Todo/TodoInputOverlay';
 import { useSetRecoilState } from 'recoil';
 import { slideMainAtom } from '../atoms/uiAtom';
+import CategoryInputOverlay from '../components/Category/CategoryInputOverlay';
 
 const ACTIVE_CLASS = 'active-nav-item';
 
@@ -120,8 +121,17 @@ const Nav = ({
             setHideNav={setHideNav}
           />
         )}
+      {!hideInput && currentPath.startsWith('/category') && (
+        <CategoryInputOverlay
+          isOpen={showInput}
+          setIsOpen={setShowInput}
+          setHideNav={setHideNav}
+        />
+      )}
       {!hideNav && (
-        <NavWrapper className={`nav w-100 flex i-center ${isBright ? '' : 'bg-primary'} `}>
+        <NavWrapper
+          className={`nav w-100 flex i-center ${isBright ? '' : 'bg-primary'} `}
+        >
           <AnimatePresence>
             {!hideNav && (
               <motion.nav

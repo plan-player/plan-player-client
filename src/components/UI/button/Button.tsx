@@ -63,6 +63,9 @@ function Button({
       height = '3.5rem';
       fontSize = 'var(--text-root)';
       break;
+    case 'md':
+      height = '2.5rem';
+      fontSize = 'var(--text-md)';
     case 'sm':
       height = '1.5rem';
       fontSize = 'var(--text-sm)';

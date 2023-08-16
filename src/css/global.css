@@ -424,6 +424,22 @@ h6 {
   padding: var(--p-lg) 0;
 }
 
+.pt-xl {
+  padding-top: 2rem;
+}
+
+.pt-lg {
+  padding-top: 1.25rem;
+}
+
+.pl-root {
+  padding-left: var(--p-root);
+}
+
+.pr-root {
+  padding-right: var(--p-root);
+}
+
 /* height */
 .h-100 {
   height: 100%;
@@ -439,6 +455,10 @@ h6 {
 
 .h-50 {
   height: 50%;
+}
+
+.h-5 {
+  height: 5%;
 }
 
 /* width */
@@ -687,6 +707,12 @@ h6 {
 }
 
 /* classes - grid */
+
+.grid-cols-5 {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .grid-cols-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -695,6 +721,10 @@ h6 {
 .grid-cols-2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.g-center {
+  place-items: center;
 }
 
 /* align */
@@ -709,6 +739,10 @@ h6 {
 
 .keep-all {
   word-break: keep-all;
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 /* 공용 css */
@@ -730,6 +764,10 @@ h6 {
 
 .hidden {
   overflow: hidden;
+}
+
+.auto {
+  overflow: auto;
 }
 
 /* display */
