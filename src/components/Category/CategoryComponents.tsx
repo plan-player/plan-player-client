@@ -28,3 +28,47 @@ export interface CategoryMockDataProps {
   id: number;
   category?: CategoryProps[];
 }
+
+interface TagsMockDataProps {
+  id: number;
+  text: string;
+}
+
+export const TagsMockData: TagsMockDataProps[] = [
+  {
+    id: 0,
+    text: 'Tags0',
+  },
+  {
+    id: 1,
+    text: 'This is Tags1',
+  },
+  {
+    id: 2,
+    text: 'I am Tags 2',
+  },
+  {
+    id: 3,
+    text: 'Hi Tags 3',
+  },
+];
+
+interface GroupsMockDataProps {
+  groupName: string;
+  color: string;
+}
+
+export const GroupsMockData: GroupsMockDataProps[] = [
+  {
+    groupName: 'Study kim',
+    color: 'mint',
+  },
+  {
+    groupName: 'Project park',
+    color: 'yellow',
+  },
+  {
+    groupName: 'Fitness choi',
+    color: 'red',
+  },
+];

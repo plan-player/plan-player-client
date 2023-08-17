@@ -15,6 +15,17 @@
   --bg: var(--gray-50);
   --error-text: #e51010;
   --error-bg: #fdefef;
+
+  --mint: #b6cece;
+  --sky: #b6c8d9;
+  --blue: #8f9eb5;
+  --violet: #a09fb9;
+  --pink: #edc9df;
+  --green: #a0b99c;
+  --yellow: #f8e49d;
+  --orange: #eac0a8;
+  --red: #e89c9c;
+  --brown: #807575;
 }
 
 * {

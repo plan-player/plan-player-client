@@ -40,7 +40,7 @@ const CategoryDetail = () => {
   const isCardWrapper = selectedView === 'cardview';
 
   return (
-    <div className="wrapper scroll flex-column">
+    <div className="w-100 scroll flex-column border-box p-h-xl">
       <NavButton to="/category" />
       <CategoryBox className="mx-auto flex-column i-center j-around">
         <span className="text-xxl">⚛</span>

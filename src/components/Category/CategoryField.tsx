@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import InputField from '../UI/input/InputField';
 import { PropsWithChildren } from 'react';
 import CategoryTag from './CategoryTag';
+import { TagsMockData } from './CategoryComponents';
 
 interface FieldDivProps {
   $heightSize: string;
@@ -46,8 +47,10 @@ const CategoryField = ({ onClickHandler }: CategoryFieldProps) => {
     <div className="w-80 mx-auto flex-column gap-md">
       <Field labelName="그룹" heightSize="3rem" onClickHandler={onClickHandler}></Field>
       <Field labelName="태그" heightSize="7rem">
-        {TagsMockData.map(({ id, text }) => (
-          <CategoryTag id={id}>{text}</CategoryTag>
+        {TagsMockData.map(({ id, text }, index) => (
+          <CategoryTag key={index} id={id}>
+            {text}
+          </CategoryTag>
         ))}
       </Field>
     </div>
@@ -55,27 +58,3 @@ const CategoryField = ({ onClickHandler }: CategoryFieldProps) => {
 };
 
 export default CategoryField;
-
-interface TagsMockDataProps {
-  id: number;
-  text: string;
-}
-
-const TagsMockData: TagsMockDataProps[] = [
-  {
-    id: 0,
-    text: 'Tags0',
-  },
-  {
-    id: 1,
-    text: 'This is Tags1',
-  },
-  {
-    id: 2,
-    text: 'I am Tags 2',
-  },
-  {
-    id: 3,
-    text: 'Hi Tags 3',
-  },
-];
