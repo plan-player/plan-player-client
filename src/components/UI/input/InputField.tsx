@@ -27,7 +27,7 @@ const InputFieldWrapper = styled(motion.div)<InputFieldWrapperProps>`
   ${({ $isInnerLabel }) =>
     $isInnerLabel
       ? `
-      input, textarea { 
+      input, textarea, div { 
         padding-top: 1.5rem; 
       }
 
