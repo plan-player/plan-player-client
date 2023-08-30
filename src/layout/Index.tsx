@@ -100,18 +100,18 @@ const Index: React.FC = () => {
 
   // NOTE: Player 화면으로 슬라이드
   const slideHandler = async (isPlayer: boolean) => {
-    // if (window.innerWidth < 960 ) {
-    //   if (isPlayer) {
-    //     animate(main.current, { left: 0, right: 'unset' });
-    //     setShowLeftNav(true);
-    //   } else {
-    //     await animate(main.current, { right: 0, left: 'unset' });
-    //     setShowLeftNav(false);
-    //   }
-    //   // TODO: UI 전역변수로 플레이어 화면 슬라이드
-    // } else {
-    //   animate(main.current, { right: 0, left: '50%' });
-    // }
+    if (window.innerWidth < 960 ) {
+      if (isPlayer) {
+        animate(main.current, { left: 0, right: 'unset' });
+        setShowLeftNav(true);
+      } else {
+        await animate(main.current, { right: 0, left: 'unset' });
+        setShowLeftNav(false);
+      }
+      // TODO: UI 전역변수로 플레이어 화면 슬라이드
+    } else {
+      animate(main.current, { right: 0, left: '50%' });
+    }
   };
 
   useEffect(() => {
