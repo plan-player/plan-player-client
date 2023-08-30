@@ -15,6 +15,13 @@ export interface ResponseType<T> {
   message: string;
 }
 
+export interface ErrorType {
+  timestamp: string;
+  status: number;
+  error: string;
+  path: string;
+}
+
 const getConfig = (method: string, body?: unknown) => {
   return {
     method,
@@ -37,19 +44,19 @@ export const fetchRequest = async <T>({
 
   const response = await fetch(`${BASE_URL}${url}`, getConfig(method, body));
 
-  const data = (await response.json()) as ResponseType<T> | Error;
+  const data = (await response.json()) as ResponseType<T> | ErrorType;
 
   if (data instanceof Error) {
     throw new Error(`${data?.name}: ${data?.message}`);
   }
 
   if (!response.ok) {
-    throw new Error(`[${response.status}] ${response.statusText}`);
+    throw data;
   }
 
   if (data.status === 'OK') {
-    return data.data;
+    return (data as ResponseType<T>).data;
   } else {
-    throw new Error(`${data.status}: ${data.message}`);
+    throw data;
   }
 };
