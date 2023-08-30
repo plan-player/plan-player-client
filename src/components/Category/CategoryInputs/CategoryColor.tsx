@@ -26,7 +26,7 @@ const CategoryColor = ({ name, color, checked, setChecked }: CategoryColorsProps
   return (
     <CategoryColorWrapper
       $color={color}
-      className="bg-light flex j-center i-center size-md"
+      className="bg-light flex j-center i-center size-md round-md"
       onClick={() => {
         setChecked(name);
       }}
