@@ -95,7 +95,8 @@ const InputOverlay = ({
   return (
     <InputWrapperContainer layout>
       <AnimatePresence>{isOpen && <Backdrop onClose={closeHandler} />}</AnimatePresence>
-      <Form>
+      {/* TODO: props로 바꾸기! && 애니메이션 유지될 수 있는 방법 연구 */}
+      <Form action="/playlist" method="post">
         <InputWrapper ref={wrapper} className="flex j-center">
           <InputBg ref={bg} />
           <InputArea onClick={openHandler} isExpand={isOpen}>

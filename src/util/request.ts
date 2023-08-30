@@ -8,7 +8,7 @@ interface requestParams {
   body?: unknown;
 }
 
-interface ResponseType<T> {
+export interface ResponseType<T> {
   data: T;
   status: string;
   code: number;

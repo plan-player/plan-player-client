@@ -8,16 +8,16 @@ import {
   useSubmit,
 } from 'react-router-dom';
 import { styled } from 'styled-components';
+import useInput from '../../hooks/useInput';
+import { useValidate } from '../../hooks/useValidate';
+import { ObjectType } from '../../types/types';
+import { registerValidate as rules } from '../../util/registerValidate';
+import { fetchRequest } from '../../util/request';
 import Button from '../UI/button/Button';
 import Inform from '../UI/general/Inform';
 import InputField from '../UI/input/InputField';
 import CodeField, { CodeHandle } from './CodeField';
-import { fetchRequest } from '../../util/request';
 import EmailAuthTimer from './EmailAuthTimer';
-import useInput from '../../hooks/useInput';
-import { useValidate } from '../../hooks/useValidate';
-import { registerValidate as rules } from '../../util/registerValidate';
-import { ObjectType } from '../../types/types';
 
 interface EmailFormProps {
   isLogin: boolean;
@@ -75,9 +75,9 @@ const EmailForm = ({ isLogin, setLogin }: EmailFormProps) => {
   const emailError = errors.get('email');
   const passwordError = errors.get('password');
 
-  const getEmail = userData.get('email');
-  const getPassword = userData.get('password');
-  const getPasswordVerify = userData.get('passwordVerify');
+  const getEmail = userData.get('email') as string;
+  const getPassword = userData.get('password') as string;
+  const getPasswordVerify = userData.get('passwordVerify') as string;
 
   useEffect(() => {
     if (actionData?.codeVerified) {

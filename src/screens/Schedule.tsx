@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import shortid from 'shortid';
 import { styled } from 'styled-components';
 import { RecordType, recordsAtom } from '../atoms/recordAtom';
-import { TodoType, todosAtom } from '../atoms/todoAtom';
+import { DailyTodoType, todosAtom } from '../atoms/todoAtom';
 import { showInputAtom } from '../atoms/uiAtom';
 import TimeBlockTable from '../components/Time/TimeBlockTable';
 import TodoBoard from '../components/Todo/TodoBoard';
@@ -52,7 +52,7 @@ const Schedule = () => {
     setPrevRecords([...records]);
     setShowInput(false);
 
-    const todo = todos.find((item) => item.id === id);
+    const todo = todos.find((item) => item.daily_todo_id === id);
     if (todo) {
       setTodoBoardItems([todo]);
     } else {
@@ -61,7 +61,7 @@ const Schedule = () => {
   };
 
   const toggleScheduleHandler = (start: number, checked: boolean) => {
-    const targetTodo = todos.find((todo) => targetTodoId === todo.id);
+    const targetTodo = todos.find((todo) => targetTodoId === todo.daily_todo_id);
     if (targetTodo) {
       const end = start + 600000; // 스케줄 한 칸의 시간 길이 10분의 밀리초를 더함
 
@@ -94,7 +94,6 @@ const Schedule = () => {
 
   // TODO: 백엔드로 데이터 전송 로직 작성
   const submitHandler = () => {
-    console.log(records);
     // submit({}, { method: 'POST' });
   };
 
@@ -155,13 +154,13 @@ const checkSchedule = (
   prevRecords: RecordType[],
   start: number,
   end: number,
-  { id, icon_image_path, category_name }: TodoType
+  { daily_todo_id, todo_emoji, category_name }: DailyTodoType
 ) => {
   const nearBlocks = prevRecords.filter(
     (record) =>
       !record.is_history &&
       (record.start === end || record.end === start) &&
-      record.todo_id === id
+      record.todo_id === daily_todo_id
   );
 
   // 인접한 스케줄의 개수에 따라 앞에 / 뒤에 / 중간에 / 새로 스케줄 생성
@@ -201,8 +200,8 @@ const checkSchedule = (
         end,
         duration: 600000,
         is_history: false,
-        todo_id: id,
-        category_icon: icon_image_path,
+        todo_id: daily_todo_id,
+        category_icon: todo_emoji,
         category_group_color: 'blue',
       } as RecordType,
     ].sort((a, b) => a.start - b.start);
@@ -214,14 +213,14 @@ const unCheckSchedule = (
   prevRecords: RecordType[],
   start: number,
   end: number,
-  { id }: TodoType
+  { daily_todo_id }: DailyTodoType
 ) => {
   const targetBlock = prevRecords.find(
     (record) =>
       !record.is_history &&
       record.start <= start &&
       end <= record.end &&
-      record.todo_id === id
+      record.todo_id === daily_todo_id
   );
 
   if (targetBlock) {
