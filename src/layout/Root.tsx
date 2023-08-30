@@ -1,9 +1,10 @@
 import { useAnimate } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import { isPlayingAtom, slideMainAtom } from '../atoms/uiAtom';
+import LoadingSpinner from '../components/UI/general/LoadingSpinner';
 import Setting, { SETTING_SIZE } from '../components/UI/nav/Setting';
 import Player from '../screens/Player';
 import Nav from './Nav';
@@ -126,7 +127,7 @@ const Root: React.FC = () => {
   }, [slideMain]);
 
   return (
-    <>
+    <RequireAuth>
       <Setting />
       <Main
         ref={main}
@@ -145,13 +146,15 @@ const Root: React.FC = () => {
         <section className="right-section right-0 hidden">
           <ContentWrapperContainer>
             <ContentWrapper className="scroll">
-              <Outlet />
+              <Suspense fallback={<LoadingSpinner />}>
+                <Outlet />
+              </Suspense>
             </ContentWrapper>
           </ContentWrapperContainer>
           <Nav />
         </section>
       </Main>
-    </>
+    </RequireAuth>
   );
 };
 

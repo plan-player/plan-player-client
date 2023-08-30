@@ -5,6 +5,7 @@ import { action as emailAuthAction } from './components/Auth/EmailForm';
 import SnsAuthRedirect, {
   action as snsAuthAction,
 } from './components/Auth/SnsAuthRedirect';
+import { action as todoAction } from './components/Todo/TodoInputOverlay';
 import './css/_reset.css';
 import './css/color.css';
 import './css/global.css';
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
             path: '/playlist',
             index: true,
             element: <Playlist />,
+            action: todoAction,
           },
           {
             path: '/schedule',

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { TodoType, todosAtom } from '../../atoms/todoAtom';
+import { DailyTodoType, todosAtom } from '../../atoms/todoAtom';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import CircleLabel from '../UI/label/CircleLabel';
 
 interface TodoBoardProps {
-  todos?: TodoType[];
+  todos?: DailyTodoType[];
   onTodoClicked?: (id: number) => void;
   className?: string;
 }
@@ -19,16 +19,16 @@ const TodoBoard = ({ todos: propsTodos, onTodoClicked, className }: TodoBoardPro
       <ul className="flex-column gap-sm">
         {(propsTodos ? propsTodos : todos).map((todo) => (
           <li
-            key={todo.id}
+            key={todo.daily_todo_id}
             onClick={() => {
-              onTodoClicked && onTodoClicked(todo.id as number);
+              onTodoClicked && onTodoClicked(todo.daily_todo_id);
             }}
           >
             <CircleLabel className="flex i-center gap-sm">
-              <IconImageHolder size="sm">{todo.icon_image_path}</IconImageHolder>
-              <span className="text-md break-word text-ellipsis hidden nowrap">
-                {todo.title}
-              </span>
+              <IconImageHolder size="sm">
+                {todo.todo_emoji || todo.category_emoji}
+              </IconImageHolder>
+              <span className="text-md break-word">{todo.title}</span>
             </CircleLabel>
           </li>
         ))}

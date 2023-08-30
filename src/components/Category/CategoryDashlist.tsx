@@ -1,7 +1,7 @@
 import { HiMenuAlt4 } from 'react-icons/hi';
 import { useNavigate } from 'react-router';
 import { styled } from 'styled-components';
-import { TodoType } from '../../atoms/todoAtom';
+import { DailyTodoType } from '../../atoms/todoAtom';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import { Barmargin, ItemSize } from './CategoryComponents';
 
@@ -22,11 +22,11 @@ const Barstyle = styled.span`
 `;
 
 const CategoryDashlist = ({
-  icon_image_path,
+  todo_emoji,
   title,
-  cur_time,
+  history_sum,
   category_name,
-}: TodoType) => {
+}: DailyTodoType) => {
   const navigate = useNavigate();
   return (
     <Wrapper
@@ -38,11 +38,11 @@ const CategoryDashlist = ({
       </Barstyle>
 
       <IconImageHolder size="2xl" isCircle={true} bg="white">
-        {icon_image_path}
+        {todo_emoji}
       </IconImageHolder>
       <div className="flex-column j-center i-center mt-sm">
         <span className="text-3xs">{category_name}</span>
-        <h6>{cur_time}</h6>
+        <h6>{history_sum}</h6>
       </div>
     </Wrapper>
   );
