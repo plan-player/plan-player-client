@@ -10,7 +10,6 @@ const LandingWrapper = styled.div`
 
 const Landing = () => {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-
   return (
     <>
       <LandingWrapper className="vw-100 vh-100 w-max-640 mx-auto flex-center">

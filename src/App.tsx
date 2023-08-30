@@ -9,8 +9,9 @@ import { action as todoAction } from './components/Todo/TodoInputOverlay';
 import './css/_reset.css';
 import './css/color.css';
 import './css/global.css';
+import Index from './layout/Index';
+import RequireAuth, { loader as userLoader } from './layout/RequireAuth';
 import Root from './layout/Root';
-import RootContainer from './layout/RootContainer';
 import CategoryDetail from './screens/CategoryDetail';
 import CategoryGroup from './screens/CategoryGroup';
 import Landing from './screens/Landing';
@@ -21,12 +22,21 @@ import Statistics from './screens/Statistics';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootContainer />,
+    element: (
+      <RequireAuth>
+        <Root />
+      </RequireAuth>
+    ),
     errorElement: <ErrorBoundary />,
     children: [
       {
         path: '/landing',
-        element: <Landing />,
+        element: (
+          <RequireAuth>
+            <Landing />
+          </RequireAuth>
+        ),
+        loader: userLoader,
         action: emailAuthAction,
       },
       {
@@ -41,7 +51,12 @@ const router = createBrowserRouter([
       },
       {
         path: '/',
-        element: <Root />,
+        element: (
+          <RequireAuth authRequired={true}>
+            <Index />
+          </RequireAuth>
+        ),
+        loader: userLoader,
         children: [
           {
             path: '/',
