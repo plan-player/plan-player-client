@@ -103,7 +103,7 @@ export const AddCategory = () => {
 
 const CategoryGroup = () => {
   return (
-    <div className="wrapper scroll">
+    <div className="scroll w-100 h-90 flex-column i-center">
       {CategoryTestData.map((a, index) => (
         <CategoryItems key={index} name={a.name} category={a.category} id={a.id} />
       ))}
