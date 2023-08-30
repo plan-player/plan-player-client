@@ -10,6 +10,8 @@ export interface ConfirmCancelButtonsProps {
   cancelClass?: string;
   hideCancle?: boolean;
   isPending?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  name?: string;
 }
 
 function ConfirmCancelButtons({
@@ -22,6 +24,8 @@ function ConfirmCancelButtons({
   cancelClass,
   hideCancle,
   isPending,
+  type,
+  name,
 }: ConfirmCancelButtonsProps) {
   return (
     <div className={`flex mt-lg ${className || ''}`}>
@@ -35,7 +39,8 @@ function ConfirmCancelButtons({
         </Button>
       )}
       <Button
-        type="submit"
+        name={name}
+        type={type ? type : 'submit'}
         className={confirmClass || ''}
         onClick={() => {
           onConfirm && onConfirm();

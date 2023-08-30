@@ -1,11 +1,36 @@
 import { styled } from 'styled-components';
 import CircleLabel from '../../UI/label/CircleLabel';
 import { PropsWithChildren } from 'react';
+import { useSetRecoilState } from 'recoil';
+import {
+  currentCategoryGroupAtom,
+  currentCategoryGroupNameAtom,
+} from '../../../atoms/categoryAtom';
 
-const CategoryAddGroup = ({ children }: PropsWithChildren) => {
+interface CategoryAddGroupProps {
+  categoryId: string;
+  color: string;
+  onClick: () => void;
+}
+
+const CategoryAddGroup = ({
+  children,
+  categoryId,
+  color,
+  onClick,
+}: PropsWithChildren<CategoryAddGroupProps>) => {
+  const setCurrentCategoryGroup = useSetRecoilState(currentCategoryGroupAtom);
+  const setCurrentCategoryGroupName = useSetRecoilState(currentCategoryGroupNameAtom);
+
+  const handleClick = () => {
+    setCurrentCategoryGroup(categoryId);
+    setCurrentCategoryGroupName(children + '');
+    onClick();
+  };
+
   return (
-    <Wrapper className="flex-j-center text-root">
-      <CircleLabel>{children}</CircleLabel>
+    <Wrapper onClick={handleClick} className="flex i-center text-root">
+      <CircleLabel color={color}>{children}</CircleLabel>
     </Wrapper>
   );
 };

@@ -9,60 +9,72 @@ interface ColorsProps {
 
 const Colors: ColorsProps[] = [
   {
-    name: 'mint',
+    name: 'MINT',
     color: '#B6CECE',
   },
   {
-    name: 'sky',
+    name: 'SKY',
     color: '#B6C8D9',
   },
   {
-    name: 'blue',
+    name: 'BLUE',
     color: '#8F9EB5',
   },
   {
-    name: 'violet',
+    name: 'VIOLET',
     color: '#A09FB9',
   },
   {
-    name: 'pink',
+    name: 'PINK',
     color: '#EDC9DF',
   },
   {
-    name: 'green',
+    name: 'GREEN',
     color: '#A0B99C',
   },
   {
-    name: 'yellow',
+    name: 'YELLOW',
     color: '#F8E49D',
   },
   {
-    name: 'orange',
+    name: 'ORANGE',
     color: '#EAC0A8',
   },
   {
-    name: 'red',
+    name: 'RED',
     color: '#E89C9C',
   },
   {
-    name: 'brown',
+    name: 'BROWN',
     color: '#807575',
   },
 ];
 
 const CategoryAddGroupColor = () => {
-  const [checkedColor, setCheckedColor] = useState('mint');
+  const [checkedColor, setCheckedColor] = useState('MINT');
   return (
     <AddGroupColorWrapper className="w-100 p-lg border-box bg-white absolute bottom-0">
       <div className="bg-gray-50 round-md">
         <AddGroupColorInputWrapper className="flex-i-center j-between">
-          <input className="text-lg semi-bold" placeholder="· 새로운 그룹 추가" />
-          <button className="round-sm text-white bg-primary">추가</button>
+          <input
+            name="groupName"
+            className="text-lg semi-bold"
+            placeholder="●   새로운 그룹 추가"
+          />
+          <button
+            type="submit"
+            value="addColor"
+            name="intent"
+            className="round-sm text-white bg-primary"
+          >
+            추가
+          </button>
         </AddGroupColorInputWrapper>
 
         <ColorsWrapper className="bg-gray-50 border-box p-lg">
           {Colors.map(({ name, color }) => (
             <CategoryColor
+              key={name}
               name={name}
               color={color}
               checked={checkedColor === name}
@@ -71,11 +83,16 @@ const CategoryAddGroupColor = () => {
           ))}
         </ColorsWrapper>
       </div>
+      <Color value={checkedColor} name="color" />
     </AddGroupColorWrapper>
   );
 };
 
 export default CategoryAddGroupColor;
+
+const Color = styled.input`
+  visibility: hidden;
+`;
 
 const AddGroupColorWrapper = styled.div`
   min-height: 250px;

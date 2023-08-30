@@ -1,16 +1,33 @@
 import { styled } from 'styled-components';
 import CategoryAddGroup from './CategoryAddGroup';
+import { useRecoilValue } from 'recoil';
+import { categoryGroupAtom } from '../../../atoms/categoryAtom';
 
 interface CategoryAddGroupsProps {
-  onClick?: () => void;
+  onClick?: (
+    event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  ) => void;
+  selectGroup: () => void;
 }
 
-const CategoryAddGroups = ({ onClick }: CategoryAddGroupsProps) => {
+const CategoryAddGroups = ({ onClick, selectGroup }: CategoryAddGroupsProps) => {
+  const categoryGroups: any = useRecoilValue(categoryGroupAtom);
+
   return (
     <AddGroupWrapper className="flex-column j-between i-center w-100 absolute bottom-0 border-box p-lg bg-white">
       <GroupsWrapper className="grid-cols-2 w-100 border-box">
-        <CategoryAddGroup>Study Kim</CategoryAddGroup>
+        {categoryGroups.map((cateGroup: any) => (
+          <CategoryAddGroup
+            onClick={selectGroup}
+            categoryId={cateGroup.category_group_id}
+            color={cateGroup.color}
+            key={cateGroup.category_group_id}
+          >
+            {cateGroup.category_group_name}
+          </CategoryAddGroup>
+        ))}
       </GroupsWrapper>
+
       <AddGroupButton className="w-50 text-md semi-bold" onClick={onClick}>
         + 그룹 추가하기
       </AddGroupButton>

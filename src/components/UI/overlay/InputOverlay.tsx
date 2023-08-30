@@ -43,6 +43,7 @@ export interface InputOverlayProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setHideNav: React.Dispatch<React.SetStateAction<boolean>>;
+  formAction?: string;
 }
 
 const InputOverlay = ({
@@ -50,6 +51,7 @@ const InputOverlay = ({
   setIsOpen,
   setHideNav,
   children,
+  formAction,
 }: PropsWithChildren<InputOverlayProps>) => {
   const location = useLocation();
 
@@ -95,7 +97,7 @@ const InputOverlay = ({
   return (
     <InputWrapperContainer layout>
       <AnimatePresence>{isOpen && <Backdrop onClose={closeHandler} />}</AnimatePresence>
-      <Form>
+      <Form method="POST" action={formAction ? formAction : '/playlist'}>
         <InputWrapper ref={wrapper} className="flex j-center">
           <InputBg ref={bg} />
           <InputArea onClick={openHandler} isExpand={isOpen}>

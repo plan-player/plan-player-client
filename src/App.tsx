@@ -16,6 +16,7 @@ import Landing from './screens/Landing';
 import Playlist from './screens/Playlist';
 import Schedule, { action as scheduleAction } from './screens/Schedule';
 import Statistics from './screens/Statistics';
+import { action as categoryAction } from './components/Category/CategoryInputs/CategoryInputOverlay';
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
           {
             path: '/category',
             element: <CategoryGroup />,
+            action: categoryAction,
           },
           {
             path: '/category/:id',

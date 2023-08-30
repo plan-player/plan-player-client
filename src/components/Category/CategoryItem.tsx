@@ -31,17 +31,17 @@ const ItemLabel = styled.div`
   // 추후 label개수가 3개이상일경우 ...으로 표시되게 수정필요!
 `;
 
-const CategoryItem = ({ id, categoryName, categoryIcon, labels }: CategoryProps) => {
+const CategoryItem = ({ category_id, category_name, tagName, emoji }: CategoryProps) => {
   const navigate = useNavigate();
   return (
-    <Item onClick={() => navigate(`/category/${id}`)}>
+    <Item onClick={() => navigate(`/category/${category_id}`)}>
       <ItemMain className="flex-column j-center i-center mx-auto">
-        <span className="text-md">{categoryIcon}</span>
-        <span className="text-gray-300 extra-bold text-root">{categoryName}</span>
+        <span className="text-md">{emoji}</span>
+        <span className="text-gray-300 extra-bold text-root">{category_name}</span>
       </ItemMain>
       <ItemLabel className="mx-auto flex-center gap-xs">
-        {labels?.map((a) => (
-          <Label key={a.labelID}>#{a.labelName}</Label>
+        {tagName?.map((tag: string, index: number) => (
+          <Label key={index}>#{tag}</Label>
         ))}
       </ItemLabel>
     </Item>

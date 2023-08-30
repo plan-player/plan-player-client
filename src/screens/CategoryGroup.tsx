@@ -1,11 +1,15 @@
 import CategoryItems from '../components/Category/CategoryItems';
-import { CategoryMockDataProps } from '../components/Category/CategoryComponents';
+import { CategoryGroupsProps } from '../components/Category/CategoryComponents';
 import { styled } from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { categoryGroupAtom } from '../atoms/categoryAtom';
 
 const InputWrapper = styled.label`
   width: 22.125rem;
   height: 4rem;
+
   border-radius: 0.563rem;
+
   input {
     width: 80%;
     height: 80%;
@@ -30,59 +34,6 @@ const InputWrapper = styled.label`
   }
 `;
 
-export const CategoryTestData: CategoryMockDataProps[] = [
-  {
-    name: 'Study kim',
-    id: 0,
-    category: [
-      {
-        categoryName: 'Learn React',
-        categoryIcon: '⚛',
-        labels: [
-          {
-            labelID: 0,
-            labelName: 'React',
-          },
-          {
-            labelID: 1,
-            labelName: 'Course',
-          },
-          {
-            labelID: 2,
-            labelName: 'fe',
-          },
-        ],
-      },
-      {
-        categoryName: 'Algorithm',
-        categoryIcon: '🧮',
-      },
-      {
-        categoryName: 'Refactoring 2E',
-        categoryIcon: '📚',
-      },
-    ],
-  },
-  {
-    name: 'Project Park',
-    id: 1,
-    category: [
-      {
-        categoryName: 'During Budget',
-        categoryIcon: '🐈‍⬛',
-      },
-      {
-        categoryName: 'Plan Player',
-        categoryIcon: '⏯',
-      },
-    ],
-  },
-  {
-    name: 'Fitness Choi',
-    id: 3,
-  },
-];
-
 export const AddCategory = () => {
   return (
     <div
@@ -102,11 +53,26 @@ export const AddCategory = () => {
 };
 
 const CategoryGroup = () => {
+  const categoryGroups: any = useRecoilValue(categoryGroupAtom);
+
   return (
     <div className="wrapper scroll">
-      {CategoryTestData.map((a, index) => (
-        <CategoryItems key={index} name={a.name} category={a.category} id={a.id} />
-      ))}
+      {categoryGroups?.map(
+        ({
+          category_group_id,
+          category_group_name,
+          category_list,
+          color,
+        }: CategoryGroupsProps) => (
+          <CategoryItems
+            key={category_group_id}
+            category_group_name={category_group_name}
+            category_list={category_list}
+            category_group_id={category_group_id}
+            color={color}
+          />
+        )
+      )}
     </div>
   );
 };

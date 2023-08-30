@@ -6,8 +6,20 @@ import { useEffect, useState } from 'react';
 import CategoryAddGroups from './CategoryAddGroups';
 import { useAnimate } from 'framer-motion';
 import CategoryAddGroupColor from './CategoryAddGroupColor';
+import { ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
+import { fetchRequest } from '../../../util/request';
+
+export interface submitProps {
+  (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>): void;
+}
+
+interface actionDataProps {
+  status?: boolean;
+}
 
 const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) => {
+  const actionData = useActionData() as actionDataProps;
+
   const [onGroups, setOnGroups] = useState(false);
   const [onColors, setOnColors] = useState(false);
 
@@ -16,7 +28,12 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
     setOnGroups(true);
   };
 
-  const onAddColors = () => {
+  const closeAddGroups = () => {
+    setOnGroups(false);
+  };
+
+  const onAddColors: submitProps = (event) => {
+    event.preventDefault();
     setOnColors(true);
   };
 
@@ -25,6 +42,15 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
     setOnGroups(false);
     setOnColors(false);
   };
+
+  useEffect(() => {
+    if (actionData?.status) {
+      window.location.reload();
+    } else {
+      console.log('실패');
+      closeHandler();
+    }
+  }, [actionData]);
 
   const [wrapper, setWrapper] = useAnimate();
   const [groups, setGroups] = useAnimate();
@@ -64,23 +90,70 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
   return (
     <>
       <div ref={wrapper}>
-        <InputOverlay isOpen={isOpen} setIsOpen={setIsOpen} setHideNav={setHideNav}>
+        <InputOverlay
+          formAction="/category"
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          setHideNav={setHideNav}
+        >
           <CategoryInput />
           <CategoryField onClick={onAddGroups} />
         </InputOverlay>
       </div>
 
       <div className="hide" ref={groups}>
-        <CategoryAddGroups onClick={onAddColors} />
+        <CategoryAddGroups onClick={onAddColors} selectGroup={closeAddGroups} />
         <Backdrop onClose={closeHandler} />
       </div>
 
-      <div className="hide" ref={colors}>
+      <Form method="POST" action="/category" className="hide" ref={colors}>
         <CategoryAddGroupColor />
         <Backdrop onClose={closeHandler} />
-      </div>
+      </Form>
     </>
   );
 };
 
 export default CategoryInputOverlay;
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const intent = formData.get('intent');
+
+  if (intent == 'addColor') {
+    const submission = {
+      groupName: formData.get('groupName'),
+      color: formData.get('color'),
+    };
+    try {
+      await fetchRequest({
+        url: '/api/category-groups',
+        method: 'POST',
+        body: submission,
+      });
+
+      return { status: true };
+    } catch {
+      return { status: false };
+    }
+  } else {
+    try {
+      const selectedCategoryId = formData.get('categoryId');
+      const submission = {
+        categoryName: formData.get('addCategory'),
+        emoji: formData.get('emoji'),
+        // tags:formData.get('tags')
+        tags: 'tag1/tag2/tag3',
+      };
+      await fetchRequest({
+        url: `/api/categories/add/${selectedCategoryId}`,
+        method: 'POST',
+        body: submission,
+      });
+
+      return { status: true };
+    } catch {
+      return { status: false };
+    }
+  }
+};
