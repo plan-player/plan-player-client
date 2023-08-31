@@ -33,7 +33,7 @@ const ItemTags = styled.div`
 const CategoryItem = ({ category_id, category_name, tagName, emoji }: CategoryProps) => {
   const navigate = useNavigate();
   return (
-    <Item onClick={() => navigate(`/category/${category_id}`)}>
+    <Item className="bg round-xs" onClick={() => navigate(`/category/${category_id}`)}>
       <ItemMain className="flex-column j-center i-center mx-auto h-60 w-80 relative gap-xs">
         <span className="text-md">{emoji}</span>
         <span className="text-gray-300 extra-bold text-root">{category_name}</span>

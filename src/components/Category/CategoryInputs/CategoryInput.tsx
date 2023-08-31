@@ -36,7 +36,11 @@ const CategoryInput = () => {
       )} */}
 
       <div className="flex i-center">
-        <input name="addCategory" placeholder="카테고리 추가" className="bold text-lg" />
+        <input
+          name="addCategory"
+          placeholder="카테고리 이름을 입력해주세요."
+          className="semi-bold text-md"
+        />
       </div>
     </div>
   );

@@ -56,7 +56,7 @@ const CategoryGroup = () => {
   const categoryGroups: any = useRecoilValue(categoryGroupAtom);
 
   return (
-    <div className="wrapper scroll w-100 h-90 flex-column i-center">
+    <div className="scroll w-100 flex-column i-center">
       {categoryGroups?.map(
         ({
           category_group_id,

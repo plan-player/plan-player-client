@@ -124,7 +124,7 @@ const Nav = ({
         )}
       {!hideInput && currentPath.startsWith('/category') && (
         <CategoryInputOverlay
-          isOpen={showInput}
+          isOpen={openInput}
           setIsOpen={setOpenInput}
           setHideNav={setHideNav}
         />

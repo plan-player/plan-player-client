@@ -142,8 +142,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       const submission = {
         categoryName: formData.get('addCategory'),
         emoji: formData.get('emoji'),
-        // tags:formData.get('tags')
-        tags: 'tag1/tag2/tag3',
+        tags: formData.get('tag'),
       };
       await fetchRequest({
         url: `/api/categories/add/${selectedCategoryId}`,
