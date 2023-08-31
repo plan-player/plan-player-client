@@ -16,19 +16,26 @@ const TopMargin = '1.25rem';
 
 const CategoryBox = styled.div`
   width: 13.5rem;
-  height: 12.5rem;
+  height: 11.5rem;
+
   span:first-child {
     margin-top: ${TopMargin};
   }
 `;
+
 const IndexBar = styled.div`
   margin-top: 3.125rem;
   height: 2vh;
 `;
+
 const Wrapper = styled.div`
   margin: 0 auto;
   margin-top: ${TopMargin};
-  margin-bottom: 8rem;
+
+  @media screen and (min-width: 500px) {
+    grid-row-gap: 1.5rem;
+  }
+  grid-row-gap: 0.75rem;
 `;
 
 const CategoryDetail = () => {
@@ -127,7 +134,7 @@ const CategoryDetail = () => {
       )}
 
       {isCardWrapper && (
-        <Wrapper className="w-100 scroll gap-sm grid-cols-3">
+        <Wrapper className="w-100 scroll gap-sm grid-cols-3 grid-center">
           {todos.map((todo, index) => (
             <CategoryCard key={index} {...todo} />
           ))}

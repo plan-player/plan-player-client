@@ -8,15 +8,11 @@ import { Barmargin, ItemSize } from './CategoryComponents';
 const Wrapper = styled.div`
   width: ${ItemSize};
   height: ${ItemSize};
-  background-color: var(--gray-50);
-  position: relative;
+
   flex-grow: 1;
-  overflow: hidden;
-  box-sizing: border-box;
 `;
 
 const Barstyle = styled.span`
-  position: absolute;
   top: ${Barmargin}rem;
   right: ${Barmargin}rem;
 `;
@@ -31,9 +27,9 @@ const CategoryDashlist = ({
   return (
     <Wrapper
       onClick={() => navigate('/player')}
-      className="round-md flex-column j-center i-center"
+      className="round-md flex-column j-center i-center border-box hidden relative bg"
     >
-      <Barstyle className="text-xs">
+      <Barstyle className="text-xs absolute">
         <HiMenuAlt4 />
       </Barstyle>
 

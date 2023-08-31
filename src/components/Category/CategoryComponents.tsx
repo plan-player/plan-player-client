@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 
 export const ItemSize = '6.125rem';
+export const ItemBigSize = '8.125rem';
 export const Barmargin = 0.375;
 
 export const Circle = styled.div`
