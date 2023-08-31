@@ -3,17 +3,19 @@ import { useNavigate } from 'react-router';
 import { styled } from 'styled-components';
 import { DailyTodoType } from '../../atoms/todoAtom';
 import IconImageHolder from '../UI/general/IconImageHolder';
-import { Barmargin, ItemSize } from './CategoryComponents';
+import { Barmargin, ItemBigSize, ItemSize } from './CategoryComponents';
 
 const ItemWrapper = styled.div`
   width: ${ItemSize};
   height: ${ItemSize};
-  background-color: var(--gray-50);
-  position: relative;
+
+  @media screen and (min-width: 500px) {
+    width: ${ItemBigSize};
+    height: ${ItemBigSize};
+  }
 `;
 
 const Barstyle = styled.span`
-  position: absolute;
   top: ${Barmargin}rem;
   right: ${Barmargin}rem;
 `;
@@ -29,9 +31,9 @@ export const CategoryCard = ({
   return (
     <ItemWrapper
       onClick={() => navigate('/player')}
-      className="round-md flex-column j-center i-center"
+      className="round-md flex-column j-center i-center bg relative"
     >
-      <Barstyle className="text-xs">
+      <Barstyle className="text-xs absolute">
         <HiMenuAlt4 />
       </Barstyle>
 

@@ -4,7 +4,7 @@ import { CategoryMockDataProps } from './CategoryComponents';
 import CircleLabel from '../UI/label/CircleLabel';
 
 const ItemWrapper = styled.div`
-  grid-row-gap: 4.5rem;
+  grid-row-gap: 2.25rem;
 
   @media screen and (max-width: 500px) {
     grid-row-gap: 1.875rem;
