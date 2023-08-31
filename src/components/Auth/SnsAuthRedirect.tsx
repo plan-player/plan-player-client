@@ -65,7 +65,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   await fetchRequest<null>({
-    url: '/social-login',
+    url: '/api/social-login',
     method: 'POST',
     body: { provider, code },
   });

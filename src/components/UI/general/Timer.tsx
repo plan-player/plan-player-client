@@ -23,7 +23,6 @@ const Timer = ({ className, defaultTime, id }: TimerProps) => {
 
   // NOTE: 1000밀리초마다 1000씩 더하여 시간 측정 (1초 주기)
   useEffect(() => {
-    console.log('isPlaying', isPlaying);
     let intervalId: ReturnType<typeof setInterval>;
     if (isPlaying) {
       intervalId = setInterval(() => setTime(time + 1000), 1000);

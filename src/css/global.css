@@ -355,6 +355,10 @@ h6 {
   margin-left: 1rem;
 }
 
+.ml-sm {
+  margin-left: 0.625rem;
+}
+
 .m-2xl {
   margin: 1.75rem;
 }
@@ -377,6 +381,10 @@ h6 {
 
 .m-xs {
   margin: 0.25rem;
+}
+
+.m-xxs {
+  margin: 0.15rem;
 }
 
 .mt-2xl {
@@ -422,6 +430,10 @@ h6 {
 
 .py-lg {
   padding: var(--p-lg) 0;
+}
+
+.pb-lg {
+  padding-bottom: var(--p-lg);
 }
 
 /* height */
@@ -819,4 +831,13 @@ h6 {
 
 .o-10 {
   opacity: 1;
+}
+
+/* text-control */
+.text-ellipsis {
+  text-overflow: ellipsis;
+}
+
+.nowrap {
+  white-space: nowrap;
 }

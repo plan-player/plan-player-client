@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import ProgressBar from './ProgressBar';
@@ -10,7 +11,7 @@ interface TimeBarWrapperProps {
   $height?: string;
 }
 
-const TimeBarWrapper = styled.div<TimeBarWrapperProps>`
+const TimeBarWrapper = styled(motion.div)<TimeBarWrapperProps>`
   height: ${({ $height }) => $height || '100%'};
 `;
 
@@ -25,8 +26,8 @@ const TimeBar = ({ height }: TimeBarPros) => {
   }, [currentHour]);
 
   return (
-    <TimeBarWrapper $height={height}>
-      <ProgressBar isVertical={true} current={currentHour} total={24} />
+    <TimeBarWrapper layout $height={height}>
+      <ProgressBar isVertical={true} current={0} total={24} />
     </TimeBarWrapper>
   );
 };

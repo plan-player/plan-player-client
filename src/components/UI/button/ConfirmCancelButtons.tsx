@@ -3,6 +3,7 @@ import Button from './Button';
 export interface ConfirmCancelButtonsProps {
   onClose?: () => void;
   onConfirm?: () => void;
+  onCancel?: () => void;
   closeMsg?: string;
   confirmMsg?: string;
   className?: string;
@@ -12,11 +13,13 @@ export interface ConfirmCancelButtonsProps {
   isPending?: boolean;
   type?: 'button' | 'submit' | 'reset';
   name?: string;
+  noMargin?: boolean;
 }
 
 function ConfirmCancelButtons({
   onClose,
   onConfirm,
+  onCancel,
   closeMsg,
   confirmMsg,
   className,
@@ -26,14 +29,18 @@ function ConfirmCancelButtons({
   isPending,
   type,
   name,
+  noMargin,
 }: ConfirmCancelButtonsProps) {
   return (
-    <div className={`flex mt-lg ${className || ''}`}>
+    <div className={`flex ${noMargin ? '' : 'mt-lg'} ${className || ''}`}>
       {!hideCancle && (
         <Button
           styleClass="extra"
           className={`w-50 ${cancelClass || ''}`}
-          onClick={onClose}
+          onClick={() => {
+            onCancel && onCancel();
+            onClose && onClose();
+          }}
         >
           {closeMsg || '취소'}
         </Button>

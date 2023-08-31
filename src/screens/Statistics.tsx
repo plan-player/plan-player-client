@@ -4,21 +4,11 @@ import DateNav from '../components/UI/nav/DateNav';
 import StatisticsDay from '../components/Statistics/StatisticsDay';
 import { useState } from 'react';
 import StatisticsCategory from '../components/Statistics/StatisticsCategory';
-import StatisticsCategoryItem from '../components/Statistics/StatisticsCategoryItem';
 import CircleLabel from '../components/UI/label/CircleLabel';
+import TodoBoard from '../components/Todo/TodoBoard';
 
-const Wrapper = styled.div`
-  height: 89%;
-`;
-
-const StatisticsBoard = styled.div`
-  height: 40%;
-  overflow: hidden;
-  div {
-    span {
-      white-space: nowrap;
-    }
-  }
+const StatisticsCategoryWrapper = styled.div`
+  min-height: 5%;
 `;
 
 const WeekWrapper = styled.div`
@@ -95,18 +85,22 @@ const Statistics = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [weekLine, setWeekLine] = useState(0);
-
+  const [targetTodoId, setTargetTodoId] = useState<string | null>(null);
   const onHandleMonth = (newDate: Date) => {
     setCurrentDate(newDate);
   };
 
   return (
-    <Wrapper className="flex-column scroll i-center w-100">
+    <div className="flex-column scroll i-center w-100 h-95">
       <DateNav onNext={onHandleMonth} onPrev={onHandleMonth} isMonth={true} />
 
-      <Calander onLine={setWeekLine} handleDate={currentDate} />
+      <Calander
+        weekHandle={weeks[selectedIndex].text}
+        onLine={setWeekLine}
+        handleDate={currentDate}
+      />
 
-      <div className="w-80 flex-i-center j-between m-lg">
+      <StatisticsCategoryWrapper className="w-80 flex-i-center j-between mt-sm mb-md">
         <input
           id="all"
           className="hide"
@@ -133,9 +127,9 @@ const Statistics = () => {
             {cate.text}
           </StatisticsCategory>
         ))}
-      </div>
+      </StatisticsCategoryWrapper>
 
-      <div className="flex j-around mt-md scroll w-90 h-60">
+      <div className="flex j-around mt-md scroll w-90">
         <div className="flex-column w-70 ml-md">
           <StatisticsDay
             weekHandle={weeks[selectedIndex].value}
@@ -143,10 +137,12 @@ const Statistics = () => {
           />
         </div>
 
-        <div className="w-40">
-          <StatisticsBoard className="round-md bg-gray-50 flex-column i-center pd-lg gap-xs text-xs ml-lg">
-            <StatisticsCategoryItem />
-          </StatisticsBoard>
+        <div className="w-35 ml-sm">
+          <TodoBoard
+            setTodo={(id: string) => {
+              setTargetTodoId(id);
+            }}
+          />
 
           <WeekWrapper className="text-sm gap-md mt-lg flex-column i-center j-around">
             {weeks.slice(0, weekLine).map((week, index) => {
@@ -169,7 +165,7 @@ const Statistics = () => {
           </WeekWrapper>
         </div>
       </div>
-    </Wrapper>
+    </div>
   );
 };
 

@@ -9,3 +9,8 @@ export const isPlayingAtom = atom({
   key: 'isPlaying',
   default: false,
 });
+
+export const showInputAtom = atom({
+  key: 'hideInput',
+  default: true,
+});
