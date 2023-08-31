@@ -43,6 +43,11 @@ const HiddenInput = styled.input`
 
 const TagWrapper = styled.div`
   margin-top: -0.625rem;
+  height: 5rem;
+
+  @media screen and (min-width: 960px) {
+    height: 5.5rem;
+  }
 `;
 
 const Field = ({ labelName, height, onClick, isGroup }: fieldProps) => {
@@ -123,7 +128,7 @@ const CategoryField = ({ onClick }: CategoryFieldProps) => {
   return (
     <div className="w-80 mx-auto flex-column gap-md">
       <Field onClick={onClick} labelName="그룹" isGroup={true}></Field>
-      <Field height={'130px'} labelName="태그" />
+      <Field labelName="태그" />
     </div>
   );
 };

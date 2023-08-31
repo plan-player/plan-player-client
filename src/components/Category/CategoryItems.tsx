@@ -7,7 +7,7 @@ const ItemWrapper = styled.div`
   grid-row-gap: 2.25rem;
 
   @media screen and (max-width: 500px) {
-    grid-row-gap: 1.875rem;
+    grid-row-gap: 1rem;
   }
 
   margin-bottom: 1.25rem;
@@ -20,10 +20,12 @@ const CategoryItems = ({
   color,
 }: CategoryGroupsProps) => {
   return (
-    <div className="flex-column j-center i-center w-100 h-100">
-      <div className="flex-i-center j-between w-70 h-10">
-        <CircleLabel color={color}>{category_group_name}</CircleLabel>
-        <span className="text-sm extra-bold">↑</span>
+    <div className="flex-column j-center i-center w-100 h-100 scroll">
+      <div className="flex-i-center j-between w-85 h-10">
+        <CircleLabel className="extra-bold" color={color}>
+          {category_group_name}
+        </CircleLabel>
+        <span className="text-md heavy pointer">↑</span>
       </div>
 
       <ItemWrapper className="grid-cols-2 grid-center scroll w-100 p-xl border-box h-100">

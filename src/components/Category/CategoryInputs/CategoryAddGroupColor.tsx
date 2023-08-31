@@ -54,12 +54,12 @@ const CategoryAddGroupColor = () => {
   const [checkedColor, setCheckedColor] = useState('MINT');
   return (
     <AddGroupColorWrapper className="w-100 p-lg border-box bg-white absolute bottom-0">
-      <div className="bg-gray-50 round-md">
-        <AddGroupColorInputWrapper className="flex-i-center j-between">
+      <div className="bg-gray-50 round-lg">
+        <AddGroupColorInputWrapper className="flex-i-center j-between round-lg">
           <input
             name="groupName"
-            className="text-lg semi-bold"
-            placeholder="●   새로운 그룹 추가"
+            className="text-md semi-bold"
+            placeholder="●   추가할 그룹 이름을 입력해 주세요."
           />
           <button
             type="submit"
@@ -71,7 +71,7 @@ const CategoryAddGroupColor = () => {
           </button>
         </AddGroupColorInputWrapper>
 
-        <ColorsWrapper className="bg-gray-50 border-box p-lg">
+        <ColorsWrapper className="bg-gray-50 border-box p-lg round-lg">
           {Colors.map(({ name, color }) => (
             <CategoryColor
               key={name}
@@ -99,6 +99,8 @@ const AddGroupColorWrapper = styled.div`
 
   border-radius: 10% 10% 0 0;
   z-index: 100;
+
+  box-shadow: inset 0 0 10px var(--gray-100);
 `;
 
 const AddGroupColorInputWrapper = styled.div`

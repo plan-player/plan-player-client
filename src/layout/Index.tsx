@@ -100,7 +100,7 @@ const Index: React.FC = () => {
 
   // NOTE: Player 화면으로 슬라이드
   const slideHandler = async (isPlayer: boolean) => {
-    if (window.innerWidth < 960 ) {
+    if (window.innerWidth < 960) {
       if (isPlayer) {
         animate(main.current, { left: 0, right: 'unset' });
         setShowLeftNav(true);

@@ -14,9 +14,9 @@ const CategoryAddGroups = ({ onClick, selectGroup }: CategoryAddGroupsProps) => 
   const categoryGroups: any = useRecoilValue(categoryGroupAtom);
 
   return (
-    <AddGroupWrapper className="flex-column j-between i-center w-100 absolute bottom-0 border-box p-lg bg-white">
+    <AddGroupWrapper className="w-100 flex-column j-between i-center absolute bottom-0 border-box p-lg bg-white">
       <GroupsWrapper className="grid-cols-2 w-100 border-box">
-        {categoryGroups.map((cateGroup: any) => (
+        {categoryGroups?.map((cateGroup: any) => (
           <CategoryAddGroup
             onClick={selectGroup}
             categoryId={cateGroup.category_group_id}
@@ -42,6 +42,8 @@ const AddGroupWrapper = styled.div`
 
   border-radius: 10% 10% 0 0;
   z-index: 100;
+
+  box-shadow: inset 0 0 10px var(--gray-100);
 `;
 
 const GroupsWrapper = styled.div`

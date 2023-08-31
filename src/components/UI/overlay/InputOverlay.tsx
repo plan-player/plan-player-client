@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useAnimate } from 'framer-motion';
-import { Children, PropsWithChildren, useEffect } from 'react';
+import { Children, PropsWithChildren, useEffect, useState } from 'react';
 import { Form, useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import ConfirmCancelButtons from '../button/ConfirmCancelButtons';
@@ -55,6 +55,20 @@ const InputOverlay = ({
 }: PropsWithChildren<InputOverlayProps>) => {
   const location = useLocation();
 
+  const [browserWidth, setBrowserWidth] = useState(window.innerWidth);
+
+  const handleResize = () => {
+    setBrowserWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const [wrapper, animateWrapper] = useAnimate();
   const [bg, animateBg] = useAnimate();
 
@@ -63,7 +77,12 @@ const InputOverlay = ({
   useEffect(() => {
     if (isOpen) {
       setHideNav(true);
-      animateWrapper(wrapper.current, { transform: 'translateY(0) translateZ(0)' });
+      animateWrapper(wrapper.current, {
+        transform:
+          browserWidth > 960
+            ? 'translateY(-5rem) translateZ(0)'
+            : 'translateY(0) translateZ(0)',
+      });
       animateBg(
         bg.current,
         {

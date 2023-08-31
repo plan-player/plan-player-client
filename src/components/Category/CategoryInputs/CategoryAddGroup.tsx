@@ -29,7 +29,10 @@ const CategoryAddGroup = ({
   };
 
   return (
-    <Wrapper onClick={handleClick} className="flex i-center text-root">
+    <Wrapper
+      onClick={handleClick}
+      className="flex i-center text-root pointer round-md border-box"
+    >
       <CircleLabel color={color}>{children}</CircleLabel>
     </Wrapper>
   );
@@ -39,6 +42,10 @@ export default CategoryAddGroup;
 
 const Wrapper = styled.div`
   min-height: 50px;
+  padding: 0 0.625rem 0 0.625rem;
 
   white-space: nowrap;
+  &:hover {
+    background-color: var(--gray-50);
+  }
 `;

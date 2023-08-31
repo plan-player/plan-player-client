@@ -18,7 +18,10 @@ const LabelWrapper = styled.div<LabelStyledProps>`
 
 const Label = ({ children, size }: PropsWithChildren<LabelSizeProps>) => {
   return (
-    <LabelWrapper className="semi-bold text-white text-2xs round-xs" $isSize={size}>
+    <LabelWrapper
+      className="semi-bold text-white text-2xs round-xs nowrap"
+      $isSize={size}
+    >
       {children}
     </LabelWrapper>
   );

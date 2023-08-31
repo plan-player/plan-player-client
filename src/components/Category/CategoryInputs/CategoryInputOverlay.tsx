@@ -8,6 +8,15 @@ import { useAnimate } from 'framer-motion';
 import CategoryAddGroupColor from './CategoryAddGroupColor';
 import { ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
 import { fetchRequest } from '../../../util/request';
+import { styled } from 'styled-components';
+
+const Wrapper = styled.div`
+  @media screen and (min-width: 960px) {
+    #backdrop {
+      background-color: var(--white);
+    }
+  }
+`;
 
 export interface submitProps {
   (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>): void;
@@ -88,7 +97,7 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
   }, [onGroups, onColors]);
 
   return (
-    <>
+    <Wrapper>
       <div ref={wrapper}>
         <InputOverlay
           formAction="/category"
@@ -110,7 +119,7 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
         <CategoryAddGroupColor />
         <Backdrop onClose={closeHandler} />
       </Form>
-    </>
+    </Wrapper>
   );
 };
 

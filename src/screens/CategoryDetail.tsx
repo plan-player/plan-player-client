@@ -85,7 +85,7 @@ const CategoryDetail = () => {
         <BiMenuAltLeft />
         <div className="flex">
           <div>
-            <label htmlFor="listview">
+            <label htmlFor="listview" className="pointer">
               <div className={selectedView === 'listview' ? '' : 'o-3'}>
                 <TiThList />
               </div>
@@ -101,7 +101,7 @@ const CategoryDetail = () => {
           </div>
 
           <div>
-            <label htmlFor="dashview">
+            <label htmlFor="dashview" className="pointer">
               <div className={selectedView === 'dashview' ? '' : 'o-3'}>
                 <MdDashboard />
               </div>
@@ -117,7 +117,7 @@ const CategoryDetail = () => {
           </div>
 
           <div>
-            <label htmlFor="cardview">
+            <label htmlFor="cardview" className="pointer">
               <div className={selectedView === 'cardview' ? '' : 'o-3'}>
                 <TiThSmall />
               </div>

@@ -35,7 +35,7 @@ const CategoryInput = () => {
         </EmojiWrapper>
       )} */}
 
-      <div className="flex i-center">
+      <div className="flex i-center w-100">
         <input
           name="addCategory"
           placeholder="카테고리 이름을 입력해주세요."
