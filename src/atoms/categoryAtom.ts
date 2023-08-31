@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil';
 import { fetchRequest } from '../util/request';
+import { CategoryGroupsProps } from '../components/Category/CategoryComponents';
 
 export const categoryGroupAtom = selector({
   key: 'categoryGroup',
@@ -9,7 +10,7 @@ export const categoryGroupAtom = selector({
         url: '/api/category-groups/all',
         method: 'GET',
       });
-      return response;
+      return response as CategoryGroupsProps;
     } catch {
       return null;
     }

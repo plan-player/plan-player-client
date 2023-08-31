@@ -80,7 +80,7 @@ const router = createBrowserRouter([
             action: categoryAction,
           },
           {
-            path: '/category/:id',
+            path: '/category/:groupId/:categoryId',
             element: <CategoryDetail />,
           },
           {

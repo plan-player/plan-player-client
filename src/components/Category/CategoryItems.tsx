@@ -15,6 +15,7 @@ const ItemWrapper = styled.div`
 
 const CategoryItems = ({
   category_group_name,
+  category_group_id,
   category_list,
   color,
 }: CategoryGroupsProps) => {
@@ -31,6 +32,7 @@ const CategoryItems = ({
             key={index}
             emoji={item?.emoji}
             category_name={item.category_name}
+            category_group_id={category_group_id}
             tagName={item?.tagName}
             category_id={item.category_id}
           />

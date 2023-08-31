@@ -13,6 +13,7 @@ export const Circle = styled.div`
 `;
 
 export interface CategoryProps {
+  category_group_id: number;
   category_name: string;
   tagName?: string[];
   emoji?: string;

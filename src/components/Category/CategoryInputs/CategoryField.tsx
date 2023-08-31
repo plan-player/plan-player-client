@@ -84,7 +84,7 @@ const Field = ({ labelName, height, onClick, isGroup }: fieldProps) => {
               currentCategoryGroupName ? currentCategoryGroupName : '그룹을 선택해주세요.'
             }
           />
-          <HiddenInput name="categoryId" value={currentCategoryGroupId} />
+          <HiddenInput readOnly name="categoryId" value={currentCategoryGroupId} />
         </>
       )}
 
@@ -108,7 +108,7 @@ const Field = ({ labelName, height, onClick, isGroup }: fieldProps) => {
             value={text}
             onChange={handleText}
           />
-          <HiddenInput value={tag} name="tag" />
+          <HiddenInput readOnly value={tag} name="tag" />
         </FieldDiv>
       )}
     </InputField>
