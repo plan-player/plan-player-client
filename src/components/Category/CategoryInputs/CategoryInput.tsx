@@ -1,39 +1,52 @@
 import { useEffect, useState } from 'react';
 import IconImageHolder from '../../UI/general/IconImageHolder';
-import InputEmoji from 'react-input-emoji';
 import { styled } from 'styled-components';
+import EmojiPicker from 'emoji-picker-react';
 
-const CategoryInput = () => {
-  // const [emoji, setEmoji] = useState('');
-  // const [savedEmoji, setSavedEmoji] = useState('');
+interface CategoryInputProps {
+  isOpen?: boolean;
+}
 
-  // const [openEmoji, setOpenEmoji] = useState(false);
+interface EmojiPickerProps {
+  activeSkinTone: string;
+  emoji: string;
+  getImageUrl: any;
+  names: string[];
+  unified: string;
+  unifiedWithoutSkinTone: string;
+}
 
-  // useEffect(() => {
-  //   setSavedEmoji(emoji);
-  //   setOpenEmoji(false);
-  // }, [emoji]);
+const CategoryInput = ({ isOpen }: CategoryInputProps) => {
+  const [emoji, setEmoji] = useState('');
+  const [openEmoji, setOpenEmoji] = useState(false);
 
-  // const onOpen = () => {
-  //   setOpenEmoji(true);
-  // };
+  const onOpen = () => {
+    setOpenEmoji(true);
+  };
+  const onClose = () => {
+    setOpenEmoji(false);
+  };
+  const handleEmoji = (emoji: EmojiPickerProps) => {
+    setEmoji(emoji.emoji);
+    onClose();
+  };
+
+  useEffect(() => {
+    if (!isOpen) onClose();
+  }, [isOpen]);
 
   return (
     <div className="flex gap-sm i-center relative">
-      <IconImageHolder size="xl" />
+      <div onClick={onOpen}>
+        <IconImageHolder size="xl">{emoji}</IconImageHolder>
+      </div>
 
-      {/* {openEmoji && (
+      {openEmoji && (
         <EmojiWrapper className="absolute round-md w-100 bg-white">
-          <InputEmoji
-            value={emoji}
-            borderColor={'white'}
-            maxLength="1"
-            onChange={setEmoji}
-            placeholder="이모지를 추가해주세요"
-          />
-          <input name="emoji" value={savedEmoji} />
+          <EmojiPicker autoFocusSearch={false} onEmojiClick={handleEmoji} />
         </EmojiWrapper>
-      )} */}
+      )}
+      <input name="emoji" value={emoji} readOnly className="hide" />
 
       <div className="flex i-center w-100">
         <input
@@ -49,9 +62,8 @@ const CategoryInput = () => {
 export default CategoryInput;
 
 const EmojiWrapper = styled.div`
-  top: -70px;
+  left: -2.188rem;
+  top: -6.25rem;
 
-  input {
-    display: none;
-  }
+  z-index: 101;
 `;

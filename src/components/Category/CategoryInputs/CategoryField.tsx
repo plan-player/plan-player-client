@@ -100,7 +100,7 @@ const Field = ({ labelName, height, onClick, isGroup }: fieldProps) => {
           className="round-sm border-box p-md flex-col bg scroll"
         >
           <TagWrapper className="flex i-start gap-md">
-            {tags.map((tag: TagProps, idx: number) => (
+            {tags?.map((tag: TagProps, idx: number) => (
               <Tag onDelete={() => deleteTag(tag.id)} key={idx}>
                 {tag.text}
               </Tag>

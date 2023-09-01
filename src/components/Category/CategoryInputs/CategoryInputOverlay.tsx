@@ -56,7 +56,7 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
     if (actionData?.status) {
       window.location.reload();
     } else {
-      console.log('실패');
+      // 추가 실패
       closeHandler();
     }
   }, [actionData]);
@@ -105,7 +105,7 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
           setIsOpen={setIsOpen}
           setHideNav={setHideNav}
         >
-          <CategoryInput />
+          <CategoryInput isOpen={isOpen} />
           <CategoryField onClick={onAddGroups} />
         </InputOverlay>
       </div>
@@ -153,6 +153,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         emoji: formData.get('emoji'),
         tags: formData.get('tag'),
       };
+      console.log(submission);
       await fetchRequest({
         url: `/api/categories/add/${selectedCategoryId}`,
         method: 'POST',
