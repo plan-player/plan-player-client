@@ -1,6 +1,7 @@
-import { useState } from 'react';
 import { FaBackwardStep, FaForwardStep } from 'react-icons/fa6';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
+import { todayAtom } from '../../../atoms/todoAtom';
 
 interface DateProps {
   isMonth?: boolean;
@@ -23,7 +24,7 @@ const Polyfill = styled.div`
 
 const DateNav = ({ isMonth, onPrev, onNext }: DateProps) => {
   // TODO: locale 설정 가져오기 / 설정하기
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useRecoilState(todayAtom);
 
   const today = date.toLocaleDateString(undefined, {
     month: 'long',
