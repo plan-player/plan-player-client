@@ -1,5 +1,20 @@
-import { atom, selector } from 'recoil';
+import { selector } from 'recoil';
+import { fetchRequest } from '../util/request';
 import { timeSliderValueAtom } from './timeSliderAtom';
+import { todayAtom } from './todoAtom';
+
+export interface RecordDataType {
+  id: number;
+  start_date: string;
+  end_date: string;
+  duration: number;
+  daily_todo: {
+    daily_todo_id: number;
+    title: string;
+    todo_emoji: string;
+    color: string;
+  };
+}
 
 export interface RecordType {
   id: number | string;
@@ -12,71 +27,30 @@ export interface RecordType {
   category_group_color: string;
 }
 
-// 2023. 07. 23. GMT+9 기준
-export const recordsAtom = atom<RecordType[]>({
-  key: 'record',
-  default: [
-    {
-      id: 10,
-      start: 1690066800000, // 08:00
-      end: 1690071600000, // 09:20
-      is_history: false,
-      todo_id: 1,
-      duration: 0,
-      category_icon: '🖇',
-      category_group_color: 'blue',
-    },
-    {
-      id: 20,
-      start: 1690075800000, // 10:30
-      end: 1690083000000, // 12:30
-      is_history: false,
-      todo_id: 2,
-      duration: 0,
-      category_icon: '📑',
-      category_group_color: 'blue',
-    },
-    {
-      id: 30,
-      start: 1690094400000, // 15:40
-      end: 1690097400000, // 16:30
-      is_history: false,
-      todo_id: 3,
-      duration: 0,
-      category_icon: '📚',
-      category_group_color: 'blue',
-    },
-    {
-      id: 40,
-      start: 1690067537000, // 08:12:17
-      end: 1690073246000, // 09:47:26
-      is_history: true,
-      todo_id: 1,
-      duration: 0,
-      category_icon: '🖇',
-      category_group_color: 'blue',
-    },
-    {
-      id: 50,
-      start: 1690075819000, // 10:30:19
-      end: 1690082340000, // 12:19:00
-      is_history: true,
-      todo_id: 2,
-      duration: 0,
-      category_icon: '📑',
-      category_group_color: 'blue',
-    },
-    {
-      id: 60,
-      start: 1690095300000, // 15:55:00
-      end: 1690097447000, // 16:30:47
-      is_history: true,
-      todo_id: 3,
-      duration: 0,
-      category_icon: '📚',
-      category_group_color: 'blue',
-    },
-  ],
+export const recordsAtom = selector<RecordType[]>({
+  key: 'records',
+  get: async ({ get }) => {
+    const today = get(todayAtom).toLocaleDateString('sv-SE'); // yyyy-mm-dd
+    const recordData = await fetchRequest<RecordDataType[]>({
+      url: `/api/daily-todos/time-sequence/${today}`,
+      method: 'get',
+    });
+
+    const records = recordData.map((record) => {
+      const { id, start_date, end_date, duration, daily_todo } = record;
+      return {
+        id,
+        start: new Date(start_date).getMilliseconds(),
+        end: new Date(end_date).getMilliseconds(),
+        duration,
+        todo_id: daily_todo.daily_todo_id,
+        category_icon: daily_todo.todo_emoji,
+        category_group_color: daily_todo.color,
+      } as RecordType;
+    });
+
+    return records;
+  },
 });
 
 export const scheduleSelector = selector({
