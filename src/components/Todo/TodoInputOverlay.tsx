@@ -1,6 +1,7 @@
 import { ActionFunctionArgs } from 'react-router';
+import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
-import { TodoType } from '../../atoms/todoAtom';
+import { TodoType, todayAtom } from '../../atoms/todoAtom';
 import { fetchRequest } from '../../util/request';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import InputField from '../UI/input/InputField';
@@ -11,13 +12,15 @@ const StyledInput = styled.input`
 `;
 
 const TodoInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) => {
+  const today = useRecoilValue(todayAtom);
+
   return (
     <InputOverlay isOpen={isOpen} setIsOpen={setIsOpen} setHideNav={setHideNav}>
       {/* todo input */}
       <div className="flex gap-sm i-center">
         <IconImageHolder size="xl"></IconImageHolder>
         <div className="flex-column mt-sm">
-          <span className="text-sm text-gray-200 bold">알 수 없는 카테고리</span>
+          <span className="text-sm text-gray-200 bold">이름없는 카테고리</span>
           <StyledInput className="bold" placeholder="할 일을 입력하세요" name="title" />
         </div>
       </div>
@@ -33,6 +36,8 @@ const TodoInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) 
           <label>메모</label>
           <textarea className="w-100 h-100 text-md medium" rows={4} name="memo" />
         </InputField>
+        {/* date */}
+        <input type="hidden" name="date" value={today.toLocaleDateString('sv-SE')} />
       </div>
     </InputOverlay>
   );
@@ -49,8 +54,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const emoji = formData.get('emoji') || '';
 
   // TODO: categoryId, date 제출 구현 필요
-  const categoryId = (formData.get('category') as string) || '';
-  const date = formData.get('date') || new Date().toLocaleDateString('sv-SE');
+  const categoryId = (formData.get('category') as string) || '-1';
+  const dailyTodoDate = formData.get('date');
+
+  if (!dailyTodoDate) {
+    throw new Error('현재 날짜를 찾을 수 없습니다.');
+  }
 
   // Create new todo
   const todo = await fetchRequest<TodoType>({
@@ -65,17 +74,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 
   // Add todo to today
-  if (todo.id) {
+  if (todo.todo_id) {
     await fetchRequest({
-      url: `/api/daily-todos/${todo.id}`, // todo.id
+      url: `/api/daily-todos/${todo.todo_id}`,
       method: 'post',
-      body: {
-        dailyTodoDate: date,
-      },
+      body: { dailyTodoDate },
     });
   } else {
     throw new Error('등록할 할 일을 찾을 수 없습니다.');
   }
 
-  return todo;
+  return {};
 };
