@@ -2,7 +2,8 @@ import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
-import { RecordType, dividedRecordsSelector, scheduleSelector } from '../../atoms/recordAtom';
+import { RecordType, dividedRecordsSelector } from '../../atoms/recordAtom';
+import { todayAtom } from '../../atoms/todoAtom';
 import { formatTime } from '../../util/time';
 import TimeBlock from './TimeBlock';
 
@@ -46,29 +47,26 @@ const MINUTES = Array.from(new Array(6)); // 60분
 const INITIAL_HOUR = 8; // 스크롤 초기값 위치에 해당하는 시간
 const GRID_LINES = Array.from(new Array(7)); // 6칸
 
-// TODO: DateNav의 날짜와 동일하도록 처리 필요
-// NOTE: 현재 DUMMY_TIMES의 날짜대로 임시 세팅
-const DUMMY_DATE = new Date();
-DUMMY_DATE.setFullYear(2023);
-DUMMY_DATE.setMonth(6);
-DUMMY_DATE.setDate(23);
-// NOTE: 현재 시각이 구간 사이일 경우 처리 확인을 위한 코드
-DUMMY_DATE.setHours(0);
-DUMMY_DATE.setMinutes(0);
-
 const TimeBlockTable = ({
   height,
+  records: prevRecords,
   toggleTimeBlockHandler,
   targetTodoId,
 }: TimeBlockTableProps) => {
-  const schedules = useRecoilValue(scheduleSelector);
+  const schedules = prevRecords.filter((record) => !record.is_history);
+
   const dividedRecords = useRecoilValue(dividedRecordsSelector);
+  const today = useRecoilValue(todayAtom);
 
   const records = targetTodoId ? schedules : dividedRecords;
 
   useEffect(() => {
-    const startHourId = formatTime({ h: INITIAL_HOUR < 24 ? INITIAL_HOUR : INITIAL_HOUR - 1 });
-    document.getElementById(`hour-label-${startHourId}`)?.scrollIntoView({ block: 'nearest' });
+    const startHourId = formatTime({
+      h: INITIAL_HOUR < 24 ? INITIAL_HOUR : INITIAL_HOUR - 1,
+    });
+    document
+      .getElementById(`hour-label-${startHourId}`)
+      ?.scrollIntoView({ block: 'nearest' });
   }, []);
 
   let timestampIdx = 0;
@@ -78,7 +76,7 @@ const TimeBlockTable = ({
     // TODO: DUMMY_DATE 값이 DateNav의 날짜와 동일하도록 처리 필요
     const target = records[timestampIdx];
 
-    const [current, next] = getCurrentNextTimes(DUMMY_DATE, h, m);
+    const [current, next] = getCurrentNextTimes(today, h, m);
 
     let bg: string | undefined;
     let icon: string | undefined;
@@ -97,7 +95,7 @@ const TimeBlockTable = ({
 
       checked = targetTodoId ? isTarget : false;
       checkable = checked;
-      bg = `${category_group_color}-${is_history ? '300' : '100'}`;
+      bg = `${category_group_color.toLowerCase()}-${is_history ? '300' : '100'}`;
 
       // NOTE: 투명도 설정
       if (targetTodoId) {
@@ -121,7 +119,7 @@ const TimeBlockTable = ({
 
       // NOTE: 시작일 때 round
       if (!isStart && floorMinute(start) <= current) {
-        icon = isStartOfCurrent(is_history, start) ? undefined : category_icon;
+        icon = isStartOfCurrent(is_history, start, today) ? undefined : category_icon;
         leftRounded = true;
         isStart = true;
       }
@@ -210,9 +208,9 @@ const getCurrentNextTimes = (date: Date, h: number, m: number) => {
   return [current, next];
 };
 
-const isStartOfCurrent = (isHistory: boolean, start: number) => {
+const isStartOfCurrent = (isHistory: boolean, start: number, date: Date) => {
   if (!isHistory) {
-    const currentHour = DUMMY_DATE.getHours();
+    const currentHour = date.getHours();
     const targetHour = new Date(start).getHours();
     return targetHour <= currentHour;
   } else {

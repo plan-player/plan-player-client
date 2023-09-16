@@ -16,7 +16,10 @@ import CategoryDetail from './screens/CategoryDetail';
 import CategoryGroup from './screens/CategoryGroup';
 import Landing from './screens/Landing';
 import Playlist from './screens/Playlist';
-import Schedule, { action as scheduleAction } from './screens/Schedule';
+import Schedule, {
+  action as scheduleAction,
+  loader as scheduleLoader,
+} from './screens/Schedule';
 import Statistics from './screens/Statistics';
 
 const router = createBrowserRouter([
@@ -72,6 +75,7 @@ const router = createBrowserRouter([
             path: '/schedule',
             element: <Schedule />,
             action: scheduleAction,
+            loader: scheduleLoader,
           },
           {
             path: '/category',

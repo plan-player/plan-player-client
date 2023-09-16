@@ -1,19 +1,17 @@
-import { selector } from 'recoil';
-import { fetchRequest } from '../util/request';
+import { atom, selector } from 'recoil';
 import { timeSliderValueAtom } from './timeSliderAtom';
-import { todayAtom } from './todoAtom';
 
+// TODO: 서버에서 todo_id 반환 작업 완료 시 키 확인
 export interface RecordDataType {
-  id: number;
+  record_id: number;
+  daily_todo_id: number;
   start_date: string;
   end_date: string;
   duration: number;
-  daily_todo: {
-    daily_todo_id: number;
-    title: string;
-    todo_emoji: string;
-    color: string;
-  };
+  todo_title: string;
+  emoji: string;
+  color: string;
+  _history: false;
 }
 
 export interface RecordType {
@@ -27,30 +25,9 @@ export interface RecordType {
   category_group_color: string;
 }
 
-export const recordsAtom = selector<RecordType[]>({
+export const recordsAtom = atom<RecordType[]>({
   key: 'records',
-  get: async ({ get }) => {
-    const today = get(todayAtom).toLocaleDateString('sv-SE'); // yyyy-mm-dd
-    const recordData = await fetchRequest<RecordDataType[]>({
-      url: `/api/daily-todos/time-sequence/${today}`,
-      method: 'get',
-    });
-
-    const records = recordData.map((record) => {
-      const { id, start_date, end_date, duration, daily_todo } = record;
-      return {
-        id,
-        start: new Date(start_date).getMilliseconds(),
-        end: new Date(end_date).getMilliseconds(),
-        duration,
-        todo_id: daily_todo.daily_todo_id,
-        category_icon: daily_todo.todo_emoji,
-        category_group_color: daily_todo.color,
-      } as RecordType;
-    });
-
-    return records;
-  },
+  default: [],
 });
 
 export const scheduleSelector = selector({
