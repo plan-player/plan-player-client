@@ -36,7 +36,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     method: 'get',
   });
 
-  return todoData;
+  const todos = todoData.map((todo) => {
+    todo.history_sum = todo.history_sum * 1000;
+    return todo;
+  })
+
+  return todos;
 };
 
 export default Playlist;
