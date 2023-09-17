@@ -34,21 +34,24 @@ const Polyfill = styled.div`
 const Schedule = () => {
   const submit = useSubmit();
 
-  const todos = useRecoilValue(todosAtom);
+  const [todos, setTodos] = useRecoilState(todosAtom);
   const setShowInput = useSetRecoilState(showInputAtom);
   const [prevRecords, setPrevRecords] = useRecoilState(recordsAtom);
   const date = useRecoilValue(todayAtom);
 
-  const recordData = useLoaderData() as Awaited<ReturnType<typeof loader>>;
-
-  useEffect(() => {
-    setPrevRecords(recordData);
-  }, [recordData]);
+  const { todoData, recordData } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
 
   // TODO: 사용자 입력에 따라 targetTodoId / timestamps 변경
   const [targetTodoId, setTargetTodoId] = useState<number | null>(null);
   const [todoBoardItems, setTodoBoardItems] = useState(todos);
   const [records, setRecords] = useState(prevRecords);
+
+  useEffect(() => {
+    setPrevRecords(recordData);
+    setTodos(todoData);
+    setTodoBoardItems(todoData);
+    console.log(todoData);
+  }, [recordData, todoData]);
 
   // NOTE: 타임테이블과 타임바의 높이 일치를 위한 처리 (컴포넌트 로드 후 진행되어야 함)
   const [tableHeight, setTableHeight] = useState('100%');
@@ -185,6 +188,11 @@ export const action = async ({ request }: { request: Request }) => {
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const today = params.today || new Date().toLocaleDateString('sv-SE');
 
+  const todoData = await fetchRequest<DailyTodoType[]>({
+    url: `/api/daily-todos/date/${today}`,
+    method: 'get',
+  });
+
   const recordData = await fetchRequest<RecordDataType[]>({
     url: `/api/daily-todos/time-sequence/${today}`,
     method: 'get',
@@ -213,7 +221,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     };
   });
 
-  return records;
+  return { todoData, recordData: records };
 };
 
 // 블록 체크에 따른 상태 업데이트 함수
