@@ -1,5 +1,4 @@
-import { atom, selector } from 'recoil';
-import { fetchRequest } from '../util/request';
+import { atom } from 'recoil';
 
 interface TodoBase {
   title: string;
@@ -31,16 +30,9 @@ export const todayAtom = atom({
   default: new Date(),
 });
 
-export const todosAtom = selector<DailyTodoType[]>({
+export const todosAtom = atom<DailyTodoType[]>({
   key: 'todos',
-  get: async ({ get }) => {
-    const today = get(todayAtom).toLocaleDateString('sv-SE'); // yyyy-mm-dd
-    const todoData = await fetchRequest<DailyTodoType[]>({
-      url: `/api/daily-todos/date/${today}`,
-      method: 'get',
-    });
-    return todoData;
-  },
+  default: []
 });
 
 export const todoAtom = atom<DailyTodoType | Record<string, never>>({

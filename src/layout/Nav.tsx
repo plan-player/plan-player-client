@@ -6,6 +6,7 @@ import { RiPlayList2Fill } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
+import { todayAtom } from '../atoms/todoAtom';
 import { showInputAtom, slideMainAtom } from '../atoms/uiAtom';
 import TodoInputOverlay from '../components/Todo/TodoInputOverlay';
 
@@ -101,6 +102,7 @@ const Nav = ({
 
   const setSlideMain = useSetRecoilState(slideMainAtom);
   const showInput = useRecoilValue(showInputAtom);
+  const today = useRecoilValue(todayAtom);
 
   const [hideNav, setHideNav] = useState(false);
   const [openInput, setOpenInput] = useState(false);
@@ -112,7 +114,8 @@ const Nav = ({
   return (
     <div>
       {/* TODO: 추후 전역 UI 상태로 관리? */}
-      {!hideInput && showInput &&
+      {!hideInput &&
+        showInput &&
         (currentPath.startsWith('/playlist') || currentPath.startsWith('/schedule')) && (
           <TodoInputOverlay
             isOpen={openInput}
@@ -121,7 +124,9 @@ const Nav = ({
           />
         )}
       {!hideNav && (
-        <NavWrapper className={`nav w-100 flex i-center ${isBright ? '' : 'bg-primary'} `}>
+        <NavWrapper
+          className={`nav w-100 flex i-center ${isBright ? '' : 'bg-primary'} `}
+        >
           <AnimatePresence>
             {!hideNav && (
               <motion.nav
@@ -134,7 +139,7 @@ const Nav = ({
                   <Link
                     key={path}
                     className={getActiveClass(path)}
-                    to={path}
+                    to={`${path}/${today.toLocaleDateString('sv-SE')}`}
                     onClick={() => {
                       setSlideMain(false);
                     }}

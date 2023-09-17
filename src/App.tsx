@@ -15,13 +15,14 @@ import Root from './layout/Root';
 import CategoryDetail from './screens/CategoryDetail';
 import CategoryGroup from './screens/CategoryGroup';
 import Landing from './screens/Landing';
-import Playlist from './screens/Playlist';
+import Playlist, { loader as todoLoader } from './screens/Playlist';
 import Schedule, {
   action as scheduleAction,
   loader as scheduleLoader,
 } from './screens/Schedule';
 import Statistics from './screens/Statistics';
 
+const today = new Date().toLocaleDateString('sv-SE');
 const router = createBrowserRouter([
   {
     path: '/',
@@ -66,13 +67,14 @@ const router = createBrowserRouter([
             element: <Navigate to="/playlist" />,
           },
           {
-            path: '/playlist',
+            path: '/playlist/:today?',
             index: true,
             element: <Playlist />,
             action: todoAction,
+            loader: todoLoader,
           },
           {
-            path: '/schedule',
+            path: '/schedule/:today?',
             element: <Schedule />,
             action: scheduleAction,
             loader: scheduleLoader,

@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
-import { useActionData } from 'react-router';
-import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
-import { todosAtom } from '../atoms/todoAtom';
+import { LoaderFunctionArgs, useLoaderData } from 'react-router';
+import { useRecoilState } from 'recoil';
+import { DailyTodoType, todosAtom } from '../atoms/todoAtom';
 import TodoListItem from '../components/Todo/TodoListItem';
 import DateNav from '../components/UI/nav/DateNav';
+import { fetchRequest } from '../util/request';
 
 const Playlist = () => {
-  const newTodo = useActionData();
+  const [todos, setTodo] = useRecoilState(todosAtom);
 
-  const todos = useRecoilValue(todosAtom);
-  const refreshTodos = useRecoilRefresher_UNSTABLE(todosAtom);
+  const todoData = useLoaderData() as Awaited<ReturnType<typeof loader>>;
 
   useEffect(() => {
-    refreshTodos();
-  }, [newTodo]);
+    setTodo(todoData);
+  }, [todoData]);
 
   return (
     <div className="w-85 flex-column gap-lg mx-auto">
@@ -26,6 +26,17 @@ const Playlist = () => {
       </ol>
     </div>
   );
+};
+
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  const today = params.today || new Date().toLocaleDateString('sv-SE');
+
+  const todoData = await fetchRequest<DailyTodoType[]>({
+    url: `/api/daily-todos/date/${today}`,
+    method: 'get',
+  });
+
+  return todoData;
 };
 
 export default Playlist;
