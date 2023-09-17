@@ -1,18 +1,19 @@
 import { styled } from 'styled-components';
 import CategoryAddGroup from './CategoryAddGroup';
-import { useRecoilValue } from 'recoil';
-import { categoryGroupAtom } from '../../../atoms/categoryAtom';
 
 interface CategoryAddGroupsProps {
   onClick?: (
     event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => void;
   selectGroup: () => void;
+  categoryGroups: any;
 }
 
-const CategoryAddGroups = ({ onClick, selectGroup }: CategoryAddGroupsProps) => {
-  const categoryGroups: any = useRecoilValue(categoryGroupAtom);
-
+const CategoryAddGroups = ({
+  onClick,
+  selectGroup,
+  categoryGroups,
+}: CategoryAddGroupsProps) => {
   return (
     <AddGroupWrapper className="w-100 flex-column j-between i-center absolute bottom-0 border-box p-lg bg-white">
       <GroupsWrapper className="grid-cols-2 w-100 border-box">

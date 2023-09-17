@@ -32,7 +32,13 @@ const CategoryColor = ({ name, color, checked, setChecked }: CategoryColorsProps
       }}
     >
       <label htmlFor={name} />
-      <input className="hide" id={name} type="radio" checked={checked} />
+      <input
+        className="hide"
+        id={name}
+        type="radio"
+        // checked={checked}
+        defaultChecked={checked}
+      />
       {checked && (
         <Check>
           <HiCheck />

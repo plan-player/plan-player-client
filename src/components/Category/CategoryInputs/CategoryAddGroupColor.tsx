@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import CategoryColor from './CategoryColor';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface ColorsProps {
   name: string;
@@ -83,7 +83,13 @@ const CategoryAddGroupColor = () => {
           ))}
         </ColorsWrapper>
       </div>
-      <Color value={checkedColor} name="color" />
+      <Color
+        value={checkedColor}
+        onChange={(event: any) => {
+          setCheckedColor(event.currentTarget.value);
+        }}
+        name="color"
+      />
     </AddGroupColorWrapper>
   );
 };

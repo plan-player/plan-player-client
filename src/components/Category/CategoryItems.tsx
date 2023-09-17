@@ -19,6 +19,8 @@ const Title = styled.div`
   min-height: 1.25rem;
 
   margin-top: 0.313rem;
+
+  margin: 1.25rem 0;
 `;
 
 const CategoryItems = ({

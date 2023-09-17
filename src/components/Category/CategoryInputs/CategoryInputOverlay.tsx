@@ -4,11 +4,13 @@ import CategoryInput from './CategoryInput';
 import Backdrop from '../../UI/overlay/Backdrop';
 import { useEffect, useState } from 'react';
 import CategoryAddGroups from './CategoryAddGroups';
-import { useAnimate } from 'framer-motion';
+import { AnimatePresence, useAnimate } from 'framer-motion';
 import CategoryAddGroupColor from './CategoryAddGroupColor';
 import { ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
 import { fetchRequest } from '../../../util/request';
 import { styled } from 'styled-components';
+import { useQuery } from 'react-query';
+import { getCategoryGroups } from '../../../util/categoryQueries';
 
 const Wrapper = styled.div`
   @media screen and (min-width: 960px) {
@@ -24,10 +26,15 @@ export interface submitProps {
 
 interface actionDataProps {
   status?: boolean;
+  addColorStatus?: boolean;
 }
 
 const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) => {
   const actionData = useActionData() as actionDataProps;
+  const { data: categoryGroups, refetch: getCategoryGroupsQuery } = useQuery(
+    ['categoryGroups'],
+    getCategoryGroups
+  );
 
   const [onGroups, setOnGroups] = useState(false);
   const [onColors, setOnColors] = useState(false);
@@ -46,6 +53,10 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
     setOnColors(true);
   };
 
+  const closeAddColors = () => {
+    setOnColors(false);
+  };
+
   const closeHandler = () => {
     setIsOpen(false);
     setOnGroups(false);
@@ -53,11 +64,12 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
   };
 
   useEffect(() => {
+    if (actionData?.addColorStatus) {
+      closeAddColors();
+      getCategoryGroupsQuery();
+    }
     if (actionData?.status) {
       window.location.reload();
-    } else {
-      // 추가 실패
-      closeHandler();
     }
   }, [actionData]);
 
@@ -73,6 +85,9 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
       });
       setWrapper(wrapper.current, {
         opacity: 0.8,
+      });
+      setColors(colors.current, {
+        display: 'none',
       });
     }
 
@@ -111,13 +126,21 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
       </div>
 
       <div className="hide" ref={groups}>
-        <CategoryAddGroups onClick={onAddColors} selectGroup={closeAddGroups} />
-        <Backdrop onClose={closeHandler} />
+        <CategoryAddGroups
+          categoryGroups={categoryGroups}
+          onClick={onAddColors}
+          selectGroup={closeAddGroups}
+        />
+        <AnimatePresence>
+          <Backdrop onClose={closeHandler} />
+        </AnimatePresence>
       </div>
 
       <Form method="POST" action="/category" className="hide" ref={colors}>
         <CategoryAddGroupColor />
-        <Backdrop onClose={closeHandler} />
+        <AnimatePresence>
+          <Backdrop onClose={closeHandler} />
+        </AnimatePresence>
       </Form>
     </Wrapper>
   );
@@ -141,9 +164,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         body: submission,
       });
 
-      return { status: true };
+      return { addColorStatus: true };
     } catch {
-      return { status: false };
+      return { addColorStatus: false };
     }
   } else {
     try {
@@ -153,7 +176,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         emoji: formData.get('emoji'),
         tags: formData.get('tag'),
       };
-      console.log(submission);
+
       await fetchRequest({
         url: `/api/categories/add/${selectedCategoryId}`,
         method: 'POST',

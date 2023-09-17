@@ -1,9 +1,9 @@
 import CategoryItems from '../components/Category/CategoryItems';
 import { CategoryGroupsProps } from '../components/Category/CategoryComponents';
-import { useRecoilValue } from 'recoil';
-import { categoryGroupAtom } from '../atoms/categoryAtom';
 import { styled } from 'styled-components';
 import { BsThreeDots } from 'react-icons/bs';
+import { useQuery } from 'react-query';
+import { getCategoryGroups } from '../util/categoryQueries';
 
 const Wrapper = styled.div`
   padding: 0 1rem 3rem 1rem;
@@ -19,7 +19,7 @@ const Title = styled.div`
 `;
 
 const CategoryGroup = () => {
-  const categoryGroups: any = useRecoilValue(categoryGroupAtom);
+  const { data: categoryGroups } = useQuery(['categoryGroups'], getCategoryGroups);
 
   return (
     <Wrapper className="scroll w-100 flex-column i-center border-box">

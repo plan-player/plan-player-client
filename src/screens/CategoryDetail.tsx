@@ -12,7 +12,8 @@ import TodoListItem from '../components/Todo/TodoListItem';
 import NavButton from '../components/UI/button/NavButton';
 import Label from '../components/UI/general/Label';
 import { useMatch } from 'react-router';
-import { categoryGroupAtom } from '../atoms/categoryAtom';
+import { useQuery } from 'react-query';
+import { getCategoryGroups } from '../util/categoryQueries';
 
 const TopMargin = '1.25rem';
 
@@ -42,7 +43,8 @@ const Wrapper = styled.div`
 
 const CategoryDetail = () => {
   const todos = useRecoilValue(todosAtom);
-  const getCategory = useRecoilValue(categoryGroupAtom);
+  // const getCategory = useRecoilValue(categoryGroupAtom);
+  const { data: getCategory } = useQuery(['categoryGroups'], getCategoryGroups);
 
   const pathMatch = useMatch('/category/:groupId/:categoryId');
   const selectedGroupId = pathMatch?.params.groupId;

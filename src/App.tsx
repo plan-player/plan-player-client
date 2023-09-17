@@ -19,6 +19,7 @@ import Playlist from './screens/Playlist';
 import Schedule, { action as scheduleAction } from './screens/Schedule';
 import Statistics from './screens/Statistics';
 import { action as categoryAction } from './components/Category/CategoryInputs/CategoryInputOverlay';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const router = createBrowserRouter([
   {
@@ -94,10 +95,13 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const queryClient = new QueryClient();
   return (
-    <RecoilRoot>
-      <RouterProvider router={router} />
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <RouterProvider router={router} />
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 };
 
