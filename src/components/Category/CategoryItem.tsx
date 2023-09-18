@@ -2,11 +2,12 @@ import { styled } from 'styled-components';
 import { useNavigate } from 'react-router';
 import { CategoryProps } from './CategoryComponents';
 import Label from '../UI/general/Label';
+import { FaGripLines } from 'react-icons/fa';
 
 const squreSize = '8.25rem';
 const squreBigSize = '11.5rem';
 
-const Item = styled.div`
+const ItemWrapper = styled.div`
   width: ${squreSize};
   height: ${squreSize};
 
@@ -15,7 +16,9 @@ const Item = styled.div`
     height: ${squreBigSize};
   }
 `;
-
+const Tap = styled.div`
+  right: 0.75rem;
+`;
 const ItemMain = styled.div`
   top: 3vh;
 
@@ -27,27 +30,37 @@ const ItemMain = styled.div`
 const ItemTags = styled.div`
   bottom: -1.25rem;
 
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 `;
 
-const CategoryItem = ({ id, categoryName, categoryIcon, labels }: CategoryProps) => {
+const CategoryItem = ({
+  category_group_id,
+  category_id,
+  category_name,
+  tagName,
+  emoji,
+}: CategoryProps) => {
   const navigate = useNavigate();
   return (
-    <Item
-      className="round-lg bg border-box p-sm"
-      onClick={() => navigate(`/category/${id}`)}
-    >
+    <ItemWrapper className="bg round-md relative border-box p-md">
+      <Tap
+        onClick={() => navigate(`/category/${category_group_id}/${category_id}`)}
+        className="absolute text-2xs pointer"
+      >
+        <FaGripLines />
+      </Tap>
+
       <ItemMain className="flex-column j-center i-center mx-auto h-60 w-80 relative gap-xs">
-        <span className="text-md">{categoryIcon}</span>
-        <span className="text-gray-300 extra-bold text-root">{categoryName}</span>
+        <span className="text-md">{emoji}</span>
+        <span className="text-gray-300 extra-bold text-root">{category_name}</span>
       </ItemMain>
 
       <ItemTags className="mx-auto flex-center gap-xs w-100 h-20 relative scroll">
-        {labels?.map((a) => (
-          <Label key={a.labelID}>#{a.labelName}</Label>
+        {tagName?.map((tag: string, index: number) => (
+          <Label key={index}>#{tag}</Label>
         ))}
       </ItemTags>
-    </Item>
+    </ItemWrapper>
   );
 };
 

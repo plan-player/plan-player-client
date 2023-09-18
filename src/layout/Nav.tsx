@@ -9,6 +9,7 @@ import { styled } from 'styled-components';
 import { todayAtom } from '../atoms/todoAtom';
 import { showInputAtom, slideMainAtom } from '../atoms/uiAtom';
 import TodoInputOverlay from '../components/Todo/TodoInputOverlay';
+import CategoryInputOverlay from '../components/Category/CategoryInputs/CategoryInputOverlay';
 
 const ACTIVE_CLASS = 'active-nav-item';
 
@@ -123,6 +124,14 @@ const Nav = ({
             setHideNav={setHideNav}
           />
         )}
+      {!hideInput && currentPath.startsWith('/category') && (
+        <CategoryInputOverlay
+          isOpen={openInput}
+          setIsOpen={setOpenInput}
+          setHideNav={setHideNav}
+        />
+      )}
+
       {!hideNav && (
         <NavWrapper
           className={`nav w-100 flex i-center ${isBright ? '' : 'bg-primary'} `}

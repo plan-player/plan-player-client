@@ -12,20 +12,18 @@ export const Circle = styled.div`
   background-color: var(--gray-200);
 `;
 
-export interface LabelProps {
-  labelID: number;
-  labelName: string;
-}
-
 export interface CategoryProps {
-  categoryName: string;
-  categoryIcon: string;
-  labels?: LabelProps[];
-  id?: number;
+  category_group_id: number;
+  category_name: string;
+  tagName?: string[];
+  emoji?: string;
+  category_id?: number;
+  star?: boolean;
 }
 
-export interface CategoryMockDataProps {
-  name: string;
-  id: number;
-  category?: CategoryProps[];
+export interface CategoryGroupsProps {
+  category_group_name: string;
+  category_group_id: number;
+  color: string;
+  category_list?: CategoryProps[];
 }

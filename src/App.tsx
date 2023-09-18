@@ -21,6 +21,8 @@ import Schedule, {
   loader as scheduleLoader,
 } from './screens/Schedule';
 import Statistics from './screens/Statistics';
+import { action as categoryAction } from './components/Category/CategoryInputs/CategoryInputOverlay';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const today = new Date().toLocaleDateString('sv-SE');
 const router = createBrowserRouter([
@@ -82,9 +84,10 @@ const router = createBrowserRouter([
           {
             path: '/category',
             element: <CategoryGroup />,
+            action: categoryAction,
           },
           {
-            path: '/category/:id',
+            path: '/category/:groupId/:categoryId',
             element: <CategoryDetail />,
           },
           {
@@ -98,10 +101,13 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const queryClient = new QueryClient();
   return (
-    <RecoilRoot>
-      <RouterProvider router={router} />
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <RouterProvider router={router} />
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 };
 

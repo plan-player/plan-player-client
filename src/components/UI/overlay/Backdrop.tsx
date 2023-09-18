@@ -21,7 +21,7 @@ const Backdrop = ({ onClose }: BackdropProps) => {
       id="backdrop"
       onClick={onClose}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 0.8 }}
+      animate={{ opacity: 0.7 }}
       exit={{ opacity: 0 }}
     />
   );

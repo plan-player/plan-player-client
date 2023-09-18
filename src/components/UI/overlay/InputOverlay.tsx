@@ -43,6 +43,7 @@ export interface InputOverlayProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setHideNav: React.Dispatch<React.SetStateAction<boolean>>;
+  formAction?: string;
 }
 
 const InputOverlay = ({
@@ -50,8 +51,23 @@ const InputOverlay = ({
   setIsOpen,
   setHideNav,
   children,
+  formAction,
 }: PropsWithChildren<InputOverlayProps>) => {
   const submit = useSubmit();
+
+  const [browserWidth, setBrowserWidth] = useState(window.innerWidth);
+
+  const handleResize = () => {
+    setBrowserWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const [wrapper, animateWrapper] = useAnimate();
   const [bg, animateBg] = useAnimate();
@@ -61,7 +77,12 @@ const InputOverlay = ({
   useEffect(() => {
     if (isOpen) {
       setHideNav(true);
-      animateWrapper(wrapper.current, { transform: 'translateY(0) translateZ(0)' });
+      animateWrapper(wrapper.current, {
+        transform:
+          browserWidth > 960
+            ? 'translateY(-5rem) translateZ(0)'
+            : 'translateY(0) translateZ(0)',
+      });
       animateBg(
         bg.current,
         {

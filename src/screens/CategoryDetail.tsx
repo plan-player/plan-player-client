@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { MdDashboard } from 'react-icons/md';
 import { TiThList, TiThSmall } from 'react-icons/ti';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import { todosAtom } from '../atoms/todoAtom';
 import CategoryCard from '../components/Category/CategoryCard';
@@ -11,6 +11,9 @@ import CategoryDashlist from '../components/Category/CategoryDashlist';
 import TodoListItem from '../components/Todo/TodoListItem';
 import NavButton from '../components/UI/button/NavButton';
 import Label from '../components/UI/general/Label';
+import { useMatch } from 'react-router';
+import { useQuery } from 'react-query';
+import { getCategoryGroups } from '../util/categoryQueries';
 
 const TopMargin = '1.25rem';
 
@@ -39,7 +42,22 @@ const Wrapper = styled.div`
 `;
 
 const CategoryDetail = () => {
-  const [todos, setTodos] = useRecoilState(todosAtom);
+  const todos = useRecoilValue(todosAtom);
+  // const getCategory = useRecoilValue(categoryGroupAtom);
+  const { data: getCategory } = useQuery(['categoryGroups'], getCategoryGroups);
+
+  const pathMatch = useMatch('/category/:groupId/:categoryId');
+  const selectedGroupId = pathMatch?.params.groupId;
+  const selectedCategoryId = pathMatch?.params.categoryId;
+
+  const currentGroup = getCategory?.filter(
+    (current: { category_group_id: number | string }) =>
+      current.category_group_id == selectedGroupId
+  );
+  const data = currentGroup[0]?.category_list?.filter(
+    (current: { category_id: string | number }) =>
+      current.category_id == selectedCategoryId
+  );
 
   const [selectedView, setSelectedView] = useState('listview');
   const isListWrapper = selectedView === 'listview';
@@ -50,16 +68,18 @@ const CategoryDetail = () => {
     <div className="w-100 scroll flex-column border-box p-h-xl">
       <NavButton to="/category" />
       <CategoryBox className="mx-auto flex-column i-center j-around">
-        <span className="text-xxl">⚛</span>
-        <span className="text-3xl extra-bold text-black">Learn React</span>
+        <span className="text-xxl">{data[0]?.emoji}</span>
+        <span className="text-3xl extra-bold text-black">{data[0]?.category_name}</span>
         <span className="flex regular text-sm text-black">
           <Circle style={{ position: 'relative', marginTop: '0.313rem' }} />
-          Study Kim
+          {data[0]?.category_group_name}
         </span>
         <div className="flex gap-xs">
-          <Label size="sm">#React</Label>
-          <Label size="sm">#Course</Label>
-          <Label size="sm">#fe</Label>
+          {data[0]?.tagName?.map((tag: string, idx: number) => (
+            <Label key={idx} size="sm">
+              #{tag}
+            </Label>
+          ))}
         </div>
       </CategoryBox>
 
@@ -67,7 +87,7 @@ const CategoryDetail = () => {
         <BiMenuAltLeft />
         <div className="flex">
           <div>
-            <label htmlFor="listview">
+            <label htmlFor="listview" className="pointer">
               <div className={selectedView === 'listview' ? '' : 'o-3'}>
                 <TiThList />
               </div>
@@ -83,7 +103,7 @@ const CategoryDetail = () => {
           </div>
 
           <div>
-            <label htmlFor="dashview">
+            <label htmlFor="dashview" className="pointer">
               <div className={selectedView === 'dashview' ? '' : 'o-3'}>
                 <MdDashboard />
               </div>
@@ -99,7 +119,7 @@ const CategoryDetail = () => {
           </div>
 
           <div>
-            <label htmlFor="cardview">
+            <label htmlFor="cardview" className="pointer">
               <div className={selectedView === 'cardview' ? '' : 'o-3'}>
                 <TiThSmall />
               </div>

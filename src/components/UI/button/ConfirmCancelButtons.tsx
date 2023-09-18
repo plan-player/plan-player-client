@@ -11,6 +11,8 @@ export interface ConfirmCancelButtonsProps {
   cancelClass?: string;
   hideCancle?: boolean;
   isPending?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  name?: string;
   noMargin?: boolean;
 }
 
@@ -25,6 +27,8 @@ function ConfirmCancelButtons({
   cancelClass,
   hideCancle,
   isPending,
+  type,
+  name,
   noMargin,
 }: ConfirmCancelButtonsProps) {
   return (
@@ -42,7 +46,8 @@ function ConfirmCancelButtons({
         </Button>
       )}
       <Button
-        type="submit"
+        name={name}
+        type={type ? type : 'submit'}
         className={confirmClass || ''}
         onClick={() => {
           onConfirm && onConfirm();
