@@ -1,17 +1,19 @@
+import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useSubmit } from 'react-router-dom';
+import { LoaderFunctionArgs, useLoaderData, useSubmit } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import shortid from 'shortid';
 import { styled } from 'styled-components';
-import { RecordType, recordsAtom } from '../atoms/recordAtom';
-import { DailyTodoType, todosAtom } from '../atoms/todoAtom';
+import { RecordDataType, RecordType, recordsAtom } from '../atoms/recordAtom';
+import { DailyTodoType, todayAtom, todosAtom } from '../atoms/todoAtom';
 import { showInputAtom } from '../atoms/uiAtom';
 import TimeBlockTable from '../components/Time/TimeBlockTable';
 import TodoBoard from '../components/Todo/TodoBoard';
 import ConfirmCancelButtons from '../components/UI/button/ConfirmCancelButtons';
 import TimeBar from '../components/UI/graph/TimeBar';
 import DateNav from '../components/UI/nav/DateNav';
+import { fetchRequest } from '../util/request';
 
 const now = new Date();
 now.setMinutes(0);
@@ -32,14 +34,24 @@ const Polyfill = styled.div`
 const Schedule = () => {
   const submit = useSubmit();
 
-  const todos = useRecoilValue(todosAtom);
+  const [todos, setTodos] = useRecoilState(todosAtom);
   const setShowInput = useSetRecoilState(showInputAtom);
-  const [records, setRecords] = useRecoilState(recordsAtom);
+  const [prevRecords, setPrevRecords] = useRecoilState(recordsAtom);
+  const date = useRecoilValue(todayAtom);
+
+  const { todoData, recordData } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
 
   // TODO: 사용자 입력에 따라 targetTodoId / timestamps 변경
   const [targetTodoId, setTargetTodoId] = useState<number | null>(null);
   const [todoBoardItems, setTodoBoardItems] = useState(todos);
-  const [prevRecords, setPrevRecords] = useState<RecordType[]>([]);
+  const [records, setRecords] = useState(prevRecords);
+
+  useEffect(() => {
+    setPrevRecords(recordData);
+    setTodos(todoData);
+    setTodoBoardItems(todoData);
+    console.log(todoData);
+  }, [recordData, todoData]);
 
   // NOTE: 타임테이블과 타임바의 높이 일치를 위한 처리 (컴포넌트 로드 후 진행되어야 함)
   const [tableHeight, setTableHeight] = useState('100%');
@@ -49,7 +61,6 @@ const Schedule = () => {
 
   const setTargetTodoHandler = (id: number) => {
     setTargetTodoId(id);
-    setPrevRecords([...records]);
     setShowInput(false);
 
     const todo = todos.find((item) => item.daily_todo_id === id);
@@ -89,12 +100,25 @@ const Schedule = () => {
     setTargetTodoId(null);
     setShowInput(true);
     setTodoBoardItems(todos);
-    setPrevRecords([]);
   };
 
   // TODO: 백엔드로 데이터 전송 로직 작성
   const submitHandler = () => {
-    // submit({}, { method: 'POST' });
+    const schedules = records
+      .filter((record) => !record.is_history)
+      .map((record) => {
+        const { todo_id, start, end } = record;
+        return {
+          dailyTodoId: typeof todo_id === 'number' ? todo_id : undefined,
+          startDate: formatDateString(new Date(start)),
+          endDate: formatDateString(new Date(end)),
+        };
+      });
+
+    submit(
+      { schedules: JSON.stringify(schedules), date: date.toLocaleDateString('sv-SE') },
+      { method: 'POST' }
+    );
   };
 
   return (
@@ -142,11 +166,62 @@ export default Schedule;
 // TODO: 백엔드로 데이터 전송 로직 작성
 export const action = async ({ request }: { request: Request }) => {
   const data = await request.formData();
-  data.get('');
-  await fetch('url', {
+  const schedules = data.get('schedules') as string;
+  const date = data.get('date') as string;
+
+  if (!schedules) {
+    throw new Error('등록할 스케줄 정보가 존재하지 않습니다.');
+  }
+
+  if (!date) {
+    throw new Error('날짜 정보가 존재하지 않습니다.');
+  }
+
+  const records = await fetchRequest<RecordDataType[]>({
+    url: `/api/schedules?date=${date}`,
+    body: JSON.parse(schedules) as BodyInit,
     method: 'POST',
   });
-  return { ok: true };
+  return records;
+};
+
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  const today = params.today || new Date().toLocaleDateString('sv-SE');
+
+  const todoData = await fetchRequest<DailyTodoType[]>({
+    url: `/api/daily-todos/date/${today}`,
+    method: 'get',
+  });
+
+  const recordData = await fetchRequest<RecordDataType[]>({
+    url: `/api/daily-todos/time-sequence/${today}`,
+    method: 'get',
+  });
+
+  const records = recordData.map((record) => {
+    const {
+      record_id: id,
+      daily_todo_id: todo_id,
+      start_date,
+      end_date,
+      duration,
+      emoji,
+      color,
+      _history,
+    } = record;
+    return {
+      id,
+      start: new Date(start_date).getTime(),
+      end: new Date(end_date).getTime(),
+      duration,
+      is_history: _history,
+      todo_id,
+      category_icon: emoji,
+      category_group_color: color,
+    };
+  });
+
+  return { todoData, recordData: records };
 };
 
 // 블록 체크에 따른 상태 업데이트 함수
@@ -264,4 +339,9 @@ const getTimeTableHeight = () => {
 
   const height = (bottom || 0) - (top || 0);
   return height ? `${height}px` : '100%';
+};
+
+// 서버 제출을 위한 날짜 포맷팅
+const formatDateString = (date: Date) => {
+  return format(date, 'yyyy-MM-dd HH:mm');
 };

@@ -6,6 +6,7 @@ import { RiPlayList2Fill } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
+import { todayAtom } from '../atoms/todoAtom';
 import { showInputAtom, slideMainAtom } from '../atoms/uiAtom';
 import TodoInputOverlay from '../components/Todo/TodoInputOverlay';
 import CategoryInputOverlay from '../components/Category/CategoryInputs/CategoryInputOverlay';
@@ -102,6 +103,7 @@ const Nav = ({
 
   const setSlideMain = useSetRecoilState(slideMainAtom);
   const showInput = useRecoilValue(showInputAtom);
+  const today = useRecoilValue(todayAtom);
 
   const [hideNav, setHideNav] = useState(false);
   const [openInput, setOpenInput] = useState(false);
@@ -146,7 +148,7 @@ const Nav = ({
                   <Link
                     key={path}
                     className={getActiveClass(path)}
-                    to={path}
+                    to={`${path}/${today.toLocaleDateString('sv-SE')}`}
                     onClick={() => {
                       setSlideMain(false);
                     }}

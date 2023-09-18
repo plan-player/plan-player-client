@@ -1,6 +1,8 @@
-import { useState } from 'react';
 import { FaBackwardStep, FaForwardStep } from 'react-icons/fa6';
+import { useLocation, useNavigate } from 'react-router';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
+import { todayAtom } from '../../../atoms/todoAtom';
 
 interface DateProps {
   isMonth?: boolean;
@@ -22,8 +24,11 @@ const Polyfill = styled.div`
 `;
 
 const DateNav = ({ isMonth, onPrev, onNext }: DateProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   // TODO: locale 설정 가져오기 / 설정하기
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useRecoilState(todayAtom);
 
   const today = date.toLocaleDateString(undefined, {
     month: 'long',
@@ -57,6 +62,10 @@ const DateNav = ({ isMonth, onPrev, onNext }: DateProps) => {
     setDate((prev) => {
       const date = new Date(prev);
       date.setDate(prev.getDate() + 1);
+      navigate(
+        '/' +
+          [location.pathname.split('/')[1], date.toLocaleDateString('sv-SE')].join('/')
+      );
       return date;
     });
   };
@@ -65,6 +74,10 @@ const DateNav = ({ isMonth, onPrev, onNext }: DateProps) => {
     setDate((prev) => {
       const date = new Date(prev);
       date.setDate(prev.getDate() - 1);
+      navigate(
+        '/' +
+          [location.pathname.split('/')[1], date.toLocaleDateString('sv-SE')].join('/')
+      );
       return date;
     });
   };

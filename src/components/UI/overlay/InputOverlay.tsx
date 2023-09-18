@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useAnimate } from 'framer-motion';
-import { Children, PropsWithChildren, useEffect, useState } from 'react';
-import { Form, useLocation } from 'react-router-dom';
+import React, { Children, PropsWithChildren, useEffect } from 'react';
+import { Form, useSubmit } from 'react-router-dom';
 import { styled } from 'styled-components';
 import ConfirmCancelButtons from '../button/ConfirmCancelButtons';
 import InputArea from '../input/InputArea';
@@ -53,7 +53,7 @@ const InputOverlay = ({
   children,
   formAction,
 }: PropsWithChildren<InputOverlayProps>) => {
-  const location = useLocation();
+  const submit = useSubmit();
 
   const [browserWidth, setBrowserWidth] = useState(window.innerWidth);
 
@@ -116,7 +116,19 @@ const InputOverlay = ({
   return (
     <InputWrapperContainer layout>
       <AnimatePresence>{isOpen && <Backdrop onClose={closeHandler} />}</AnimatePresence>
-      <Form method="POST" action={formAction ? formAction : '/playlist'}>
+      {/* TODO: props로 바꾸기! && 애니메이션 유지될 수 있는 방법 연구 */}
+      <Form
+        action="/playlist"
+        method="post"
+        onSubmit={(event: React.FormEvent) => {
+          event.preventDefault();
+
+          const form = event.currentTarget as HTMLFormElement;
+
+          submit(form);
+          form.reset();
+        }}
+      >
         <InputWrapper ref={wrapper} className="flex j-center">
           <InputBg ref={bg} />
           <InputArea onClick={openHandler} isExpand={isOpen}>
