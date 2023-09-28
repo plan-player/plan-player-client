@@ -15,9 +15,6 @@ import TimeBar from '../components/UI/graph/TimeBar';
 import DateNav from '../components/UI/nav/DateNav';
 import { fetchRequest } from '../util/request';
 
-const now = new Date();
-now.setMinutes(0);
-
 const ScheduleWrapper = styled.div`
   box-sizing: border-box;
   padding: 0rem 2rem 2rem 2rem;

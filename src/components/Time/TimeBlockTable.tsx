@@ -73,7 +73,6 @@ const TimeBlockTable = ({
   let isStart = false;
 
   const getTimeBlock = (h: number, m: number) => {
-    // TODO: DUMMY_DATE 값이 DateNav의 날짜와 동일하도록 처리 필요
     const target = records[timestampIdx];
 
     const [current, next] = getCurrentNextTimes(today, h, m);
