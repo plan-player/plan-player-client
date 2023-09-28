@@ -1,20 +1,9 @@
 import { atom, selector } from 'recoil';
 
-// TODO: 추후 타임슬라이더 개발되면 현재 시간 new Date().getTime()을 기본값으로..
-const getDummyDate = () => {
-  const DUMMY_DATE = new Date();
-  DUMMY_DATE.setFullYear(2023);
-  DUMMY_DATE.setMonth(6);
-  DUMMY_DATE.setDate(23);
-  DUMMY_DATE.setHours(12);
-  DUMMY_DATE.setMinutes(10);
-  return DUMMY_DATE.getTime();
-};
-
 // 타임 슬라이더의 값을 timestamp (milliseconds) 타입으로 저장
 export const timeSliderValueAtom = atom({
   key: 'timeSliderValue',
-  default: getDummyDate(),
+  default: new Date().getTime(),
 });
 
 // '시간' 값, 즉 0 ~ 12의 숫자로 타임슬라이더 값을 반홚받고 & 설정하는 함수

@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import ProgressBar from './ProgressBar';
+import { useRecoilState } from 'recoil';
+import { timeSliderValueAtom } from '../../../atoms/timeSliderAtom';
 
 interface TimeBarPros {
   height?: string;
@@ -16,18 +18,18 @@ const TimeBarWrapper = styled(motion.div)<TimeBarWrapperProps>`
 `;
 
 const TimeBar = ({ height }: TimeBarPros) => {
-  const [currentHour, setCurrentHour] = useState(new Date().getHours());
+  const [timeValue, setTimeValue] = useRecoilState(timeSliderValueAtom);
 
-  // NOTE: 10분마다 타임바 자동 업데이트
+  // NOTE: 5분마다 타임바 자동 업데이트
   useEffect(() => {
     setTimeout(() => {
-      setCurrentHour(new Date().getHours());
-    }, 600000);
-  }, [currentHour]);
+      setTimeValue(new Date().getTime());
+    }, 300000);
+  }, [timeValue]);
 
   return (
     <TimeBarWrapper layout $height={height}>
-      <ProgressBar isVertical={true} current={0} total={24} />
+      <ProgressBar isVertical={true} current={new Date(timeValue).getHours()} total={24} />
     </TimeBarWrapper>
   );
 };
