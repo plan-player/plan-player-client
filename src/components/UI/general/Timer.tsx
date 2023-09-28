@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { isPlayingAtom } from '../../../atoms/uiAtom';
 import { formatTime } from '../../../util/time';
-import ContextButton from '../button/ContextButton';
+import MenuButton from '../button/OptionButton';
 import PlayPauseButton from '../button/PlayPauseButton';
 
 interface TimerProps {
@@ -54,7 +54,7 @@ const Timer = ({ className, defaultTime, id }: TimerProps) => {
       <span className="timer-time text-xxl extra-bold" onClick={startAndStop}>
         {formatTime({ h, m, s })}
       </span>
-      <ContextButton size="lg" />
+      <MenuButton size="lg" menu={[]} />
     </div>
   );
 };

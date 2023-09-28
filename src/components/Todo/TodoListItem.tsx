@@ -2,7 +2,7 @@ import { useSetRecoilState } from 'recoil';
 import { DailyTodoType, todoAtom } from '../../atoms/todoAtom';
 import { isPlayingAtom, slideMainAtom } from '../../atoms/uiAtom';
 import { formatTime } from '../../util/time';
-import ContextButton from '../UI/button/ContextButton';
+import OptionButton from '../UI/button/OptionButton';
 import PlayPauseButton from '../UI/button/PlayPauseButton';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import MainSubTitle from '../UI/general/MainSubTitle';
@@ -29,11 +29,13 @@ const TodoListItem = (todo: DailyTodoType) => {
     return;
   };
 
+  const menu = [];
+
   return (
     <li>
-      <div onClick={setPlayerHandler} className="flex i-center gap-sm">
+      <div className="flex i-center gap-sm">
         <PlayPauseButton />
-        <div className="w-100 flex j-between">
+        <div className="w-100 flex j-between i-center">
           <div className="flex i-center gap-sm break-word">
             <IconImageHolder>{todo_emoji || category_emoji}</IconImageHolder>
             <MainSubTitle main={title} sub={category_name} />
@@ -42,7 +44,7 @@ const TodoListItem = (todo: DailyTodoType) => {
             <span className="text-sm mx-md flex i-center shrink-0">
               {formatTime(history_sum)}
             </span>
-            <ContextButton />
+            <OptionButton menu={menu} />
           </div>
         </div>
       </div>
