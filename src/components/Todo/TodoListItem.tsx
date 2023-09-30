@@ -6,9 +6,14 @@ import OptionButton from '../UI/button/OptionButton';
 import PlayPauseButton from '../UI/button/PlayPauseButton';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import MainSubTitle from '../UI/general/MainSubTitle';
+import { fetchRequest } from '../../util/request';
+import { useNavigate } from 'react-router';
 
 const TodoListItem = (todo: DailyTodoType) => {
-  const { title, category_name, todo_emoji, category_emoji, history_sum } = todo;
+  const navigate = useNavigate();
+
+  const { daily_todo_id, title, category_name, todo_emoji, category_emoji, history_sum } =
+    todo;
 
   const setTodoAtom = useSetRecoilState(todoAtom);
   const setIsPlaying = useSetRecoilState(isPlayingAtom);
@@ -29,7 +34,25 @@ const TodoListItem = (todo: DailyTodoType) => {
     return;
   };
 
-  const menu = [];
+  const menu = [
+    {
+      name: '상세보기',
+      action: () => {
+        // TODO: todo 상세 페이지로 이동
+        navigate('to todo detail page');
+      },
+    },
+    {
+      name: '삭제하기',
+      action: () => {
+        fetchRequest({
+          url: `/api/daily-todos/${daily_todo_id}`,
+          method: 'delete',
+        });
+        // TODO: 삭제 내용 반영하여 리스트 새로고침
+      },
+    },
+  ];
 
   return (
     <li>
