@@ -55,7 +55,7 @@ const TodoListItem = (todo: DailyTodoType) => {
   ];
 
   return (
-    <div className="flex i-center gap-sm">
+    <div onClick={setPlayerHandler} className="flex i-center gap-sm">
       <PlayPauseButton />
       <div className="w-100 flex j-between i-center">
         <div className="flex i-center gap-sm break-word m-sm">
