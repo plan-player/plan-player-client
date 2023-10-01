@@ -85,7 +85,7 @@ const TimeBlockTable = ({
     let checked = false;
     let checkable = targetTodoId ? true : false;
 
-    if (target && floorMinute(target.start) <= current && current < target.end) {
+    if (target && floorMinute(target.start) <= current) { // && current < target.end
       const { start, end, is_history, todo_id, category_icon, category_group_color } =
         target;
 
