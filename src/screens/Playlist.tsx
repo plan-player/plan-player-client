@@ -33,8 +33,8 @@ const Playlist = () => {
         className="flex-column"
       >
         {todos.map((todo, i) => (
-          <DraggableItem id={todo.daily_todo_id.toString()} idx={i}>
-            <TodoListItem key={todo.daily_todo_id} {...todo} />
+          <DraggableItem key={todo.daily_todo_id} id={todo.daily_todo_id.toString()} idx={i}>
+            <TodoListItem {...todo} />
           </DraggableItem>
         ))}
       </DraggableList>
