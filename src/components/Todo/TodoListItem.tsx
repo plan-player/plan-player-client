@@ -1,13 +1,13 @@
+import { useNavigate } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 import { DailyTodoType, todoAtom } from '../../atoms/todoAtom';
 import { isPlayingAtom, slideMainAtom } from '../../atoms/uiAtom';
+import { fetchRequest } from '../../util/request';
 import { formatTime } from '../../util/time';
 import OptionButton from '../UI/button/OptionButton';
 import PlayPauseButton from '../UI/button/PlayPauseButton';
 import IconImageHolder from '../UI/general/IconImageHolder';
 import MainSubTitle from '../UI/general/MainSubTitle';
-import { fetchRequest } from '../../util/request';
-import { useNavigate } from 'react-router';
 
 const TodoListItem = (todo: DailyTodoType) => {
   const navigate = useNavigate();
@@ -55,23 +55,21 @@ const TodoListItem = (todo: DailyTodoType) => {
   ];
 
   return (
-    <li>
-      <div className="flex i-center gap-sm">
-        <PlayPauseButton />
-        <div className="w-100 flex j-between i-center">
-          <div className="flex i-center gap-sm break-word">
-            <IconImageHolder>{todo_emoji || category_emoji}</IconImageHolder>
-            <MainSubTitle main={title} sub={category_name} />
-          </div>
-          <div className="flex">
-            <span className="text-sm mx-md flex i-center shrink-0">
-              {formatTime(history_sum)}
-            </span>
-            <OptionButton menu={menu} />
-          </div>
+    <div className="flex i-center gap-sm">
+      <PlayPauseButton />
+      <div className="w-100 flex j-between i-center">
+        <div className="flex i-center gap-sm break-word m-sm">
+          <IconImageHolder>{todo_emoji || category_emoji}</IconImageHolder>
+          <MainSubTitle main={title} sub={category_name} />
+        </div>
+        <div className="flex">
+          <span className="text-sm mx-md flex i-center shrink-0">
+            {formatTime(history_sum)}
+          </span>
+          <OptionButton menu={menu} />
         </div>
       </div>
-    </li>
+    </div>
   );
 };
 
