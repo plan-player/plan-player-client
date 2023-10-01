@@ -15,6 +15,7 @@
     "emoji-picker-react": "^4.4.12",
     "framer-motion": "^10.15.0",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-query": "^3.39.3",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.14",
+    "@types/react-beautiful-dnd": "^13.1.5",
     "@types/react-dom": "^18.2.6",
     "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.26",
