@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import IconImageHolder from '../../UI/general/IconImageHolder';
+import IconImageHolder from '../../../UI/general/IconImageHolder';
 import { styled } from 'styled-components';
 import EmojiPicker from 'emoji-picker-react';
 

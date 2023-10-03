@@ -4,16 +4,15 @@ import { CategoryProps } from './CategoryComponents';
 import Label from '../UI/general/Label';
 import { FaGripLines } from 'react-icons/fa';
 
-const squreSize = '8.25rem';
-const squreBigSize = '11.5rem';
+const categoryItemSquareSize = '8.25rem';
+const categoryItemSquareSizeBig = '11.5rem';
 
 const ItemWrapper = styled.div`
-  width: ${squreSize};
-  height: ${squreSize};
-
+  width: ${categoryItemSquareSize};
+  height: ${categoryItemSquareSize};
   @media screen and (min-width: 500px) {
-    width: ${squreBigSize};
-    height: ${squreBigSize};
+    width: ${categoryItemSquareSizeBig};
+    height: ${categoryItemSquareSizeBig};
   }
 `;
 const Tap = styled.div`
@@ -21,16 +20,12 @@ const Tap = styled.div`
 `;
 const ItemMain = styled.div`
   top: 3vh;
-
   span:last-child {
     -webkit-transform: scale(0.7);
-    white-space: nowrap;
   }
 `;
 const ItemTags = styled.div`
   bottom: -1.25rem;
-
-  flex-wrap: nowrap;
 `;
 
 const CategoryItem = ({
@@ -52,10 +47,10 @@ const CategoryItem = ({
 
       <ItemMain className="flex-column j-center i-center mx-auto h-60 w-80 relative gap-xs">
         <span className="text-md">{emoji}</span>
-        <span className="text-gray-300 extra-bold text-root">{category_name}</span>
+        <span className="text-gray-300 extra-bold text-root nowrap">{category_name}</span>
       </ItemMain>
 
-      <ItemTags className="mx-auto flex-center gap-xs w-100 h-20 relative scroll">
+      <ItemTags className="mx-auto flex-center gap-xs w-100 h-20 relative scroll nowrap-flex">
         {tagName?.map((tag: string, index: number) => (
           <Label key={index}>#{tag}</Label>
         ))}

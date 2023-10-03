@@ -1,28 +1,22 @@
 import { HiMenuAlt4 } from 'react-icons/hi';
 import { useNavigate } from 'react-router';
 import { styled } from 'styled-components';
-import { DailyTodoType } from '../../atoms/todoAtom';
-import IconImageHolder from '../UI/general/IconImageHolder';
-import { Barmargin, ItemSize } from './CategoryComponents';
+import { DailyTodoType } from '../../../../atoms/todoAtom';
+import IconImageHolder from '../../../UI/general/IconImageHolder';
+import { categoryBarMarginSize, categoryItemSize } from '../../CategoryComponents';
 
 const Wrapper = styled.div`
-  width: ${ItemSize};
-  height: ${ItemSize};
-
+  width: ${categoryItemSize};
+  height: ${categoryItemSize};
   flex-grow: 1;
 `;
 
 const Barstyle = styled.span`
-  top: ${Barmargin}rem;
-  right: ${Barmargin}rem;
+  top: ${categoryBarMarginSize};
+  right: ${categoryBarMarginSize};
 `;
 
-const CategoryDashlist = ({
-  todo_emoji,
-  title,
-  history_sum,
-  category_name,
-}: DailyTodoType) => {
+const CategoryDashlist = ({ todo_emoji, history_sum, category_name }: DailyTodoType) => {
   const navigate = useNavigate();
   return (
     <Wrapper

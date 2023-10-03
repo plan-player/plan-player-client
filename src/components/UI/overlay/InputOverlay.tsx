@@ -117,8 +117,10 @@ const InputOverlay = ({
     <InputWrapperContainer layout>
       <AnimatePresence>{isOpen && <Backdrop onClose={closeHandler} />}</AnimatePresence>
       {/* TODO: props로 바꾸기! && 애니메이션 유지될 수 있는 방법 연구 */}
+
+      {/* 아래 Form - action 메소드 한번 확인해주시고, 수정 가능하시면 수정 부탁드릴게요~! */}
       <Form
-        action="/playlist"
+        action={formAction ? formAction : '/playlist'}
         method="post"
         onSubmit={(event: React.FormEvent) => {
           event.preventDefault();

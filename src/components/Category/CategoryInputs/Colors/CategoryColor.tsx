@@ -1,16 +1,6 @@
 import { HiCheck } from 'react-icons/hi';
 import { styled } from 'styled-components';
 
-const CategoryColorWrapper = styled.div<CategoryColorStyledProps>`
-  background-color: ${({ $color }) => ($color ? $color : 'inherit')};
-`;
-
-const Check = styled.div`
-  svg {
-    fill: white;
-  }
-`;
-
 interface CategoryColorStyledProps {
   $color?: string;
 }
@@ -22,6 +12,16 @@ interface CategoryColorsProps {
   setChecked: (value: string) => void;
 }
 
+const CategoryColorWrapper = styled.div<CategoryColorStyledProps>`
+  background-color: ${({ $color }) => ($color ? $color : 'inherit')};
+`;
+
+const Check = styled.div`
+  svg {
+    fill: white;
+  }
+`;
+
 const CategoryColor = ({ name, color, checked, setChecked }: CategoryColorsProps) => {
   return (
     <CategoryColorWrapper
@@ -32,13 +32,7 @@ const CategoryColor = ({ name, color, checked, setChecked }: CategoryColorsProps
       }}
     >
       <label htmlFor={name} />
-      <input
-        className="hide"
-        id={name}
-        type="radio"
-        // checked={checked}
-        defaultChecked={checked}
-      />
+      <input className="hide" id={name} type="radio" defaultChecked={checked} />
       {checked && (
         <Check>
           <HiCheck />

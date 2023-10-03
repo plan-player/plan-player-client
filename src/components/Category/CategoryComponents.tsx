@@ -1,8 +1,8 @@
 import { styled } from 'styled-components';
 
-export const ItemSize = '6.125rem';
-export const ItemBigSize = '8.125rem';
-export const Barmargin = 0.375;
+export const categoryItemSize = '6.125rem';
+export const categoryItemSizeBig = '8.125rem';
+export const categoryBarMarginSize = '0.375rem';
 
 export const Circle = styled.div`
   width: 0.313rem;
@@ -27,3 +27,16 @@ export interface CategoryGroupsProps {
   color: string;
   category_list?: CategoryProps[];
 }
+
+export interface ViewProps {
+  todos: any;
+}
+
+export const ViewWrapper = styled.div`
+  margin: 0 auto;
+  margin-top: 1.25rem;
+  grid-row-gap: 0.75rem;
+  @media screen and (min-width: 500px) {
+    grid-row-gap: 1.5rem;
+  }
+`;
