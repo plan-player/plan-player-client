@@ -7,20 +7,13 @@ import { useState } from 'react';
 
 const ItemWrapper = styled.div`
   grid-row-gap: 2.25rem;
-
   @media screen and (max-width: 500px) {
     grid-row-gap: 1rem;
   }
-
-  margin-bottom: 1.25rem;
 `;
 
 const Title = styled.div`
   min-height: 1.25rem;
-
-  margin-top: 0.313rem;
-
-  margin: 1.25rem 0;
 `;
 
 const CategoryItems = ({
@@ -36,7 +29,7 @@ const CategoryItems = ({
 
   return (
     <div className="flex-column j-center i-center w-100 h-100 scroll">
-      <Title className="flex-i-center j-between w-85">
+      <Title className="flex-i-center j-between w-85 mt-sm my-sm">
         <CircleLabel className="extra-bold" color={color}>
           {category_group_name}
         </CircleLabel>
@@ -54,7 +47,7 @@ const CategoryItems = ({
             exit={{ opacity: 0.2, y: -30 }}
             transition={{ duration: '0.2' }}
           >
-            <ItemWrapper className="grid-cols-2 grid-center scroll w-100 p-xl border-box h-100">
+            <ItemWrapper className="grid-cols-2 grid-center scroll w-100 p-xl border-box h-100 mb-lg">
               {category_list?.map((item: CategoryProps, index: number) => (
                 <CategoryItem
                   key={index}

@@ -295,6 +295,18 @@ h6 {
   margin: 2rem 0;
 }
 
+.my-root {
+  margin: 1.75rem 0;
+}
+
+.my-md {
+  margin: 1.5rem 0;
+}
+
+.my-sm {
+  margin: 1.25rem 0;
+}
+
 .mb-3xxl {
   margin-bottom: 2.5rem;
 }
@@ -696,6 +708,11 @@ h6 {
 }
 
 /* classes - grid */
+.grid-cols-5 {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .grid-cols-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -761,6 +778,10 @@ h6 {
 /* flex wrap */
 .wrap {
   flex-wrap: wrap;
+}
+
+.nowrap-flex {
+  flex-wrap: nowrap;
 }
 
 /* position */
@@ -849,4 +870,8 @@ h6 {
 
 .nowrap {
   white-space: nowrap;
+}
+
+.visibility-hidden {
+  visibility: hidden;
 }

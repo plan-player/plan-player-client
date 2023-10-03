@@ -1,16 +1,14 @@
-import InputOverlay, { InputOverlayProps } from '../../UI/overlay/InputOverlay';
-import CategoryField from './CategoryField';
-import CategoryInput from './CategoryInput';
-import Backdrop from '../../UI/overlay/Backdrop';
+import { InputOverlayProps } from '../../UI/overlay/InputOverlay';
 import { useEffect, useState } from 'react';
-import CategoryAddGroups from './CategoryAddGroups';
-import { AnimatePresence, useAnimate } from 'framer-motion';
-import CategoryAddGroupColor from './CategoryAddGroupColor';
-import { ActionFunctionArgs, Form, useActionData } from 'react-router-dom';
+import { useAnimate } from 'framer-motion';
+import { ActionFunctionArgs, useActionData } from 'react-router-dom';
 import { fetchRequest } from '../../../util/request';
 import { styled } from 'styled-components';
 import { useQuery } from 'react-query';
 import { getCategoryGroups } from '../../../util/categoryQueries';
+import CategoryAddInput from './CategoryInputsComponents/CategoryAddInput';
+import CategoryAddGroupsWrapper from './CategoryInputsComponents/CategoryAddGroupsWrapper';
+import CategoryAddGroupsColorWrapper from './CategoryInputsComponents/CategoryAddGroupsColorWrapper';
 
 const Wrapper = styled.div`
   @media screen and (min-width: 960px) {
@@ -30,29 +28,29 @@ interface actionDataProps {
 }
 
 const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) => {
+  const [onGroups, setOnGroups] = useState(false);
+  const [onColors, setOnColors] = useState(false);
+  const [wrapper, setWrapper] = useAnimate();
+  const [groups, setGroups] = useAnimate();
+  const [colors, setColors] = useAnimate();
   const actionData = useActionData() as actionDataProps;
-  const { data: categoryGroups, refetch: getCategoryGroupsQuery } = useQuery(
+  const { data: categoryGroups, refetch: refreshCategoryGroups } = useQuery(
     ['categoryGroups'],
     getCategoryGroups
   );
 
-  const [onGroups, setOnGroups] = useState(false);
-  const [onColors, setOnColors] = useState(false);
-
-  const onAddGroups = () => {
+  const openAddGroups = () => {
     setHideNav(true);
     setOnGroups(true);
   };
-
   const closeAddGroups = () => {
     setOnGroups(false);
   };
 
-  const onAddColors: submitProps = (event) => {
+  const openAddColors: submitProps = (event) => {
     event.preventDefault();
     setOnColors(true);
   };
-
   const closeAddColors = () => {
     setOnColors(false);
   };
@@ -66,16 +64,12 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
   useEffect(() => {
     if (actionData?.addColorStatus) {
       closeAddColors();
-      getCategoryGroupsQuery();
+      refreshCategoryGroups();
     }
     if (actionData?.status) {
       window.location.reload();
     }
   }, [actionData]);
-
-  const [wrapper, setWrapper] = useAnimate();
-  const [groups, setGroups] = useAnimate();
-  const [colors, setColors] = useAnimate();
 
   useEffect(() => {
     if (onGroups) {
@@ -113,35 +107,23 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
 
   return (
     <Wrapper>
-      <div ref={wrapper}>
-        <InputOverlay
-          formAction="/category"
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          setHideNav={setHideNav}
-        >
-          <CategoryInput isOpen={isOpen} />
-          <CategoryField onClick={onAddGroups} />
-        </InputOverlay>
-      </div>
+      <CategoryAddInput
+        refProps={wrapper}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        setHideNav={setHideNav}
+        openAddGroups={openAddGroups}
+      />
 
-      <div className="hide" ref={groups}>
-        <CategoryAddGroups
-          categoryGroups={categoryGroups}
-          onClick={onAddColors}
-          selectGroup={closeAddGroups}
-        />
-        <AnimatePresence>
-          <Backdrop onClose={closeHandler} />
-        </AnimatePresence>
-      </div>
+      <CategoryAddGroupsWrapper
+        refProps={groups}
+        categoryGroups={categoryGroups}
+        openAddColors={openAddColors}
+        closeAddGroups={closeAddGroups}
+        closeHandler={closeHandler}
+      />
 
-      <Form method="POST" action="/category" className="hide" ref={colors}>
-        <CategoryAddGroupColor />
-        <AnimatePresence>
-          <Backdrop onClose={closeHandler} />
-        </AnimatePresence>
-      </Form>
+      <CategoryAddGroupsColorWrapper refProps={colors} closeHandler={closeHandler} />
     </Wrapper>
   );
 };

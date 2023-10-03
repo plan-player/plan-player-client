@@ -7,14 +7,12 @@ interface TagProps {
 }
 
 const TagsWrapper = styled.span`
-  min-height: 25px;
-
-  white-space: nowrap;
+  min-height: 1.563rem;
 `;
 
 const Tag = ({ children, onDelete }: PropsWithChildren<TagProps>) => {
   return (
-    <TagsWrapper className="flex-center gap-sm text-xs semi-bold border-box p-md bg-white round-lg">
+    <TagsWrapper className="flex-center gap-sm text-xs semi-bold border-box p-md bg-white round-lg nowrap">
       {children}
       <span onClick={onDelete} className="text-xs">
         <BsXLg />

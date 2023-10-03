@@ -1,19 +1,27 @@
 import { styled } from 'styled-components';
-import CircleLabel from '../../UI/label/CircleLabel';
+import CircleLabel from '../../../UI/label/CircleLabel';
 import { PropsWithChildren } from 'react';
 import { useSetRecoilState } from 'recoil';
 import {
   currentCategoryGroupAtom,
   currentCategoryGroupNameAtom,
-} from '../../../atoms/categoryAtom';
+} from '../../../../atoms/categoryAtom';
 
 interface CategoryAddGroupProps {
   categoryId: string;
   color: string;
   onClick: () => void;
 }
+const Wrapper = styled.div`
+  min-height: 3.125rem;
+  padding: 0 0.625rem 0 0.625rem;
 
-const CategoryAddGroup = ({
+  &:hover {
+    background-color: var(--gray-50);
+  }
+`;
+
+const CategoryGroup = ({
   children,
   categoryId,
   color,
@@ -31,21 +39,11 @@ const CategoryAddGroup = ({
   return (
     <Wrapper
       onClick={handleClick}
-      className="flex i-center text-root pointer round-md border-box"
+      className="flex i-center text-root pointer round-md border-box nowrap"
     >
       <CircleLabel color={color}>{children}</CircleLabel>
     </Wrapper>
   );
 };
 
-export default CategoryAddGroup;
-
-const Wrapper = styled.div`
-  min-height: 50px;
-  padding: 0 0.625rem 0 0.625rem;
-
-  white-space: nowrap;
-  &:hover {
-    background-color: var(--gray-50);
-  }
-`;
+export default CategoryGroup;

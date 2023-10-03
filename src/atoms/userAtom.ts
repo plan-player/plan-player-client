@@ -13,5 +13,5 @@ export interface UserType {
 
 export const authAtom = atom({
   key: 'auth',
-  default: false,
+  default: true,
 });

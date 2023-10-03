@@ -148,7 +148,11 @@ const Nav = ({
                   <Link
                     key={path}
                     className={getActiveClass(path)}
-                    to={`${path}/${today.toLocaleDateString('sv-SE')}`}
+                    to={
+                      path === '/schedule' || path === '/playlist'
+                        ? `${path}/${today.toLocaleDateString('sv-SE')}`
+                        : `${path}`
+                    }
                     onClick={() => {
                       setSlideMain(false);
                     }}
