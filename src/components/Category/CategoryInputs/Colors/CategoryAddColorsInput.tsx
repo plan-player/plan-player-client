@@ -1,5 +1,5 @@
 import { Form } from 'react-router-dom';
-import CategoryAddGroupColor from '../Colors/CategoryAddGroupColor';
+import CategoryAddGroupColor from './CategoryAddGroupColor';
 import { AnimatePresence } from 'framer-motion';
 import Backdrop from '../../../UI/overlay/Backdrop';
 
@@ -8,7 +8,7 @@ export interface CategoryAddGroupsColorWrapperProps {
   closeHandler: () => void;
 }
 
-const CategoryAddGroupsColorWrapper = (data: CategoryAddGroupsColorWrapperProps) => {
+const CategoryAddColorsInput = (data: CategoryAddGroupsColorWrapperProps) => {
   const { refProps, closeHandler } = data;
   return (
     <Form method="POST" action="/category" className="hide" ref={refProps}>
@@ -20,4 +20,4 @@ const CategoryAddGroupsColorWrapper = (data: CategoryAddGroupsColorWrapperProps)
   );
 };
 
-export default CategoryAddGroupsColorWrapper;
+export default CategoryAddColorsInput;
