@@ -4,7 +4,7 @@ import { CategoryGroupsProps } from '../CategoryComponents';
 import CategoryItems from '../CategoryItems';
 
 const CategoryGroups = () => {
-  const { data: categoryGroups } = useQuery(['categoryGroups'], getCategoryGroups);
+  const { data: categoryGroups } = useQuery<any>(['categoryGroups'], getCategoryGroups);
   return (
     <>
       {categoryGroups?.map(

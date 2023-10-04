@@ -3,9 +3,9 @@ import CategoryAddGroupColor from '../Colors/CategoryAddGroupColor';
 import { AnimatePresence } from 'framer-motion';
 import Backdrop from '../../../UI/overlay/Backdrop';
 
-interface CategoryAddGroupsColorWrapperProps {
-  refProps: any;
-  closeHandler: any;
+export interface CategoryAddGroupsColorWrapperProps {
+  refProps?: React.RefObject<HTMLFormElement>;
+  closeHandler: () => void;
 }
 
 const CategoryAddGroupsColorWrapper = (data: CategoryAddGroupsColorWrapperProps) => {

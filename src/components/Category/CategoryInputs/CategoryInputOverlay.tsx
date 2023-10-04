@@ -10,14 +10,6 @@ import CategoryAddInput from './CategoryInputsComponents/CategoryAddInput';
 import CategoryAddGroupsWrapper from './CategoryInputsComponents/CategoryAddGroupsWrapper';
 import CategoryAddGroupsColorWrapper from './CategoryInputsComponents/CategoryAddGroupsColorWrapper';
 
-const Wrapper = styled.div`
-  @media screen and (min-width: 960px) {
-    #backdrop {
-      background-color: var(--white);
-    }
-  }
-`;
-
 export interface submitProps {
   (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>): void;
 }
@@ -27,6 +19,14 @@ interface actionDataProps {
   addColorStatus?: boolean;
 }
 
+const Wrapper = styled.div`
+  @media screen and (min-width: 960px) {
+    #backdrop {
+      background-color: var(--white);
+    }
+  }
+`;
+
 const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) => {
   const [onGroups, setOnGroups] = useState(false);
   const [onColors, setOnColors] = useState(false);
@@ -34,7 +34,7 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
   const [groups, setGroups] = useAnimate();
   const [colors, setColors] = useAnimate();
   const actionData = useActionData() as actionDataProps;
-  const { data: categoryGroups, refetch: refreshCategoryGroups } = useQuery(
+  const { data: categoryGroups, refetch: refreshCategoryGroups } = useQuery<any>(
     ['categoryGroups'],
     getCategoryGroups
   );

@@ -61,7 +61,7 @@ const Wrapper = styled.div`
 const Colors = ({ checkedColor, setCheckedColor }: ColorsWrapperProps) => {
   return (
     <Wrapper className="bg-gray-50 border-box p-lg round-lg grid-cols-5 grid-center">
-      {defaultColors?.map(({ name, color }: any) => (
+      {defaultColors?.map(({ name, color }: ColorsProps) => (
         <CategoryColor
           key={name}
           name={name}

@@ -1,13 +1,15 @@
 import CategoryAddGroups from '../Groups/CategoryAddGroups';
 import { AnimatePresence } from 'framer-motion';
 import Backdrop from '../../../UI/overlay/Backdrop';
+import { LegacyRef } from 'react';
+import { CategoryGroupsProps } from '../../CategoryComponents';
 
 interface CategoryAddGroupsWrapperProps {
-  refProps: any;
-  categoryGroups: any;
-  openAddColors: any;
-  closeAddGroups: any;
-  closeHandler: any;
+  refProps: LegacyRef<HTMLDivElement>;
+  categoryGroups: CategoryGroupsProps[];
+  openAddColors: (event: any) => void;
+  closeAddGroups: () => void;
+  closeHandler: () => void;
 }
 
 const CategoryAddGroupsWrapper = (data: CategoryAddGroupsWrapperProps) => {

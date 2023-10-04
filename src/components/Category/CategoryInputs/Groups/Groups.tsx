@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import CategoryGroup from './CategoryGroup';
+import { CategoryGroupsProps } from '../../CategoryComponents';
 
 interface GroupsWrapperProps {
-  categoryGroups: any;
-  selectGroup: any;
+  categoryGroups: CategoryGroupsProps[];
+  selectGroup: () => void;
 }
 
 const Wrapper = styled.div`
@@ -13,10 +14,10 @@ const Wrapper = styled.div`
 const Groups = ({ categoryGroups, selectGroup }: GroupsWrapperProps) => {
   return (
     <Wrapper className="grid-cols-2 w-100 border-box grid-center">
-      {categoryGroups?.map((cateGroup: any) => (
+      {categoryGroups?.map((cateGroup: CategoryGroupsProps) => (
         <CategoryGroup
           onClick={selectGroup}
-          categoryId={cateGroup.category_group_id}
+          categoryId={cateGroup.category_group_id + ''}
           color={cateGroup.color}
           key={cateGroup.category_group_id}
         >

@@ -9,9 +9,9 @@ interface CategoryIndexBarProps {
   setSelectedView: (data: string) => void;
 }
 
-interface IndexsProps {
+export interface IndexsProps {
   indexName: string;
-  icon: any;
+  icon: React.ReactNode;
 }
 
 const Wrapper = styled.div`
@@ -39,7 +39,7 @@ const CategoryIndexBar = ({ selectedView, setSelectedView }: CategoryIndexBarPro
     <Wrapper className="w-100 flex-i-center j-between">
       <BiMenuAltLeft />
       <div className="flex">
-        {Indexs.map((data: any, idx: number) => (
+        {Indexs.map((data: IndexsProps, idx: number) => (
           <CategoryIndex
             key={idx}
             indexName={data.indexName}
