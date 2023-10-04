@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { useState } from 'react';
-import AddGroupColorInputWrapper from './AddGroupColorInputWrapper';
+import CategoryAddGroupColorInput from './CategoryAddGroupColorInput';
 import Colors from './Colors';
 
 const Wrapper = styled.div`
@@ -15,7 +15,7 @@ const CategoryAddGroupColor = () => {
   return (
     <Wrapper className="w-100 p-lg border-box bg-white absolute bottom-0">
       <div className="bg-gray-50 round-lg">
-        <AddGroupColorInputWrapper />
+        <CategoryAddGroupColorInput />
         <Colors checkedColor={checkedColor} setCheckedColor={setCheckedColor} />
       </div>
 

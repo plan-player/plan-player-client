@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const AddGroupColorInputWrapper = () => {
+const CategoryAddGroupColorInput = () => {
   return (
     <Wrapper className="flex-i-center j-between round-lg">
       <input
@@ -28,4 +28,4 @@ const AddGroupColorInputWrapper = () => {
   );
 };
 
-export default AddGroupColorInputWrapper;
+export default CategoryAddGroupColorInput;

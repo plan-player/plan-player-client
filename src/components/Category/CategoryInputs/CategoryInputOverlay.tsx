@@ -7,8 +7,8 @@ import { styled } from 'styled-components';
 import { useQuery } from 'react-query';
 import { getCategoryGroups } from '../../../util/categoryQueries';
 import CategoryAddInput from './CategoryInputsComponents/CategoryAddInput';
-import CategoryAddGroupsWrapper from './CategoryInputsComponents/CategoryAddGroupsWrapper';
-import CategoryAddGroupsColorWrapper from './CategoryInputsComponents/CategoryAddGroupsColorWrapper';
+import CategoryAddGroupsInput from './Groups/CategoryAddGroupsInput';
+import CategoryAddColorsInput from './Colors/CategoryAddColorsInput';
 
 export interface submitProps {
   (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>): void;
@@ -115,7 +115,7 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
         openAddGroups={openAddGroups}
       />
 
-      <CategoryAddGroupsWrapper
+      <CategoryAddGroupsInput
         refProps={groups}
         categoryGroups={categoryGroups}
         openAddColors={openAddColors}
@@ -123,7 +123,7 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
         closeHandler={closeHandler}
       />
 
-      <CategoryAddGroupsColorWrapper refProps={colors} closeHandler={closeHandler} />
+      <CategoryAddColorsInput refProps={colors} closeHandler={closeHandler} />
     </Wrapper>
   );
 };
