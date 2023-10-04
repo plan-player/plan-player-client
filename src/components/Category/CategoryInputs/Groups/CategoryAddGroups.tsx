@@ -1,12 +1,13 @@
 import { styled } from 'styled-components';
 import Groups from './Groups';
+import { CategoryGroupsProps } from '../../CategoryComponents';
 
 interface CategoryAddGroupsProps {
   onClick?: (
     event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => void;
   selectGroup: () => void;
-  categoryGroups: any;
+  categoryGroups: CategoryGroupsProps[];
 }
 
 const Wrapper = styled.div`

@@ -3,7 +3,7 @@ import Tag from './Tag';
 import { ChangeEvent, useState } from 'react';
 
 interface CategoryAddTagsProps {
-  onClick: any;
+  onClick?: () => void;
 }
 
 interface TagProps {

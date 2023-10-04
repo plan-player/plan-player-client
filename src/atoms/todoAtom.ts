@@ -32,7 +32,7 @@ export const todayAtom = atom({
 
 export const todosAtom = atom<DailyTodoType[]>({
   key: 'todos',
-  default: []
+  default: [],
 });
 
 export const todoAtom = atom<DailyTodoType | Record<string, never>>({

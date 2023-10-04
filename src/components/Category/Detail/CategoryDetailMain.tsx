@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 `;
 
 const CategoryDetailMain = () => {
-  const { data: getCategory } = useQuery(['categoryGroups'], getCategoryGroups);
+  const { data: getCategory } = useQuery<any>(['categoryGroups'], getCategoryGroups);
 
   const pathMatch = useMatch('/category/:groupId/:categoryId');
   const selectedGroupId = pathMatch?.params.groupId;

@@ -1,13 +1,11 @@
-import InputOverlay from '../../../UI/overlay/InputOverlay';
+import InputOverlay, { InputOverlayProps } from '../../../UI/overlay/InputOverlay';
 import CategoryInput from './CategoryInput';
 import CategoryField from './CategoryField';
+import { LegacyRef } from 'react';
 
-interface CategoryAddInputProps {
-  refProps: any;
-  isOpen: any;
-  setIsOpen: any;
-  setHideNav: any;
-  openAddGroups: any;
+interface CategoryAddInputProps extends InputOverlayProps {
+  refProps: LegacyRef<HTMLDivElement>;
+  openAddGroups: () => void;
 }
 
 const CategoryAddInput = ({

@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { DailyTodoType } from '../../atoms/todoAtom';
 
 export const categoryItemSize = '6.125rem';
 export const categoryItemSizeBig = '8.125rem';
@@ -13,11 +14,12 @@ export const Circle = styled.div`
 `;
 
 export interface CategoryProps {
-  category_group_id: number;
-  category_name: string;
-  tagName?: string[];
-  emoji?: string;
   category_id?: number;
+  category_name: string;
+  category_group_name?: string;
+  category_group_id?: number;
+  emoji?: string;
+  tagName?: string[];
   star?: boolean;
 }
 
@@ -29,7 +31,7 @@ export interface CategoryGroupsProps {
 }
 
 export interface ViewProps {
-  todos: any;
+  todos: DailyTodoType[];
 }
 
 export const ViewWrapper = styled.div`

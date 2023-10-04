@@ -1,6 +1,6 @@
-interface CategoryIndexProps {
-  indexName: string;
-  icon: any;
+import { IndexsProps } from './CategoryIndexBar';
+
+interface CategoryIndexProps extends IndexsProps {
   selectedView: string;
   setSelectedView: (data: string) => void;
 }

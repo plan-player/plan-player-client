@@ -22,7 +22,7 @@ const CategoryAddGroupColor = () => {
       <input
         className="visibility-hidden"
         value={checkedColor}
-        onChange={(event: any) => {
+        onChange={(event) => {
           setCheckedColor(event.currentTarget.value);
         }}
         name="color"
