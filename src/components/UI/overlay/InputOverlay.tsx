@@ -46,13 +46,19 @@ export interface InputOverlayProps {
   formAction?: string;
 }
 
+// TODO: 서버 작업 이후 제거
+interface TempInputOverlayProps extends InputOverlayProps {
+  submitHandler: () => void;
+}
+
 const InputOverlay = ({
   isOpen,
   setIsOpen,
   setHideNav,
   children,
+  submitHandler,
   formAction,
-}: PropsWithChildren<InputOverlayProps>) => {
+}: PropsWithChildren<TempInputOverlayProps>) => {
   const submit = useSubmit();
 
   const [browserWidth, setBrowserWidth] = useState(window.innerWidth);
@@ -125,7 +131,8 @@ const InputOverlay = ({
 
           const form = event.currentTarget as HTMLFormElement;
 
-          submit(form);
+          // submit(form);
+          submitHandler && submitHandler();
           form.reset();
         }}
       >

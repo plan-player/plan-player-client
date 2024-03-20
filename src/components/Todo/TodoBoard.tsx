@@ -15,7 +15,7 @@ const TodoBoard = ({ todos: propsTodos, onTodoClicked, className }: TodoBoardPro
   const [isEdit, setIsEdit] = useState(false);
 
   return (
-    <div className={`border-box p-root bg round-lg scroll ${className || ''}`}>
+    <div className={`border-box p-root bg round-lg max-h-16 scroll ${className || ''}`}>
       <ul className="flex-column gap-sm">
         {(propsTodos ? propsTodos : todos).map((todo) => (
           <li

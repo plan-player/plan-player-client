@@ -27,14 +27,14 @@ const NAV_DATA: NavItemType[] = [
     path: '/schedule',
     icon: <FaClock />,
   },
-  {
-    path: '/category',
-    icon: <FaFolder />,
-  },
-  {
-    path: '/statistics',
-    icon: <FaChartBar />,
-  },
+  // {
+  //   path: '/category',
+  //   icon: <FaFolder />,
+  // },
+  // {
+  //   path: '/statistics',
+  //   icon: <FaChartBar />,
+  // },
 ];
 
 const NavWrapper = styled(motion.div)`

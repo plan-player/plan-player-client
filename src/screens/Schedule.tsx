@@ -29,26 +29,31 @@ const Polyfill = styled.div`
 `;
 
 const Schedule = () => {
-  const submit = useSubmit();
+  // const submit = useSubmit();
 
   const [todos, setTodos] = useRecoilState(todosAtom);
   const setShowInput = useSetRecoilState(showInputAtom);
   const [prevRecords, setPrevRecords] = useRecoilState(recordsAtom);
   const date = useRecoilValue(todayAtom);
 
-  const { todoData, recordData } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
+  // const { todoData, recordData } = useLoaderData() as Awaited<ReturnType<typeof loader>>;
 
   // TODO: 사용자 입력에 따라 targetTodoId / timestamps 변경
   const [targetTodoId, setTargetTodoId] = useState<number | null>(null);
   const [todoBoardItems, setTodoBoardItems] = useState(todos);
   const [records, setRecords] = useState(prevRecords);
 
+  // TODO: 서버 작업 후 주석 해제
+  // useEffect(() => {
+  //   setPrevRecords(recordData);
+  //   setTodos(todoData);
+  //   setTodoBoardItems(todoData);
+  //   console.log(todoData);
+  // }, [recordData, todoData]);
+
   useEffect(() => {
-    setPrevRecords(recordData);
-    setTodos(todoData);
-    setTodoBoardItems(todoData);
-    console.log(todoData);
-  }, [recordData, todoData]);
+    setTodoBoardItems(todos);
+  }, [todos]);
 
   // NOTE: 타임테이블과 타임바의 높이 일치를 위한 처리 (컴포넌트 로드 후 진행되어야 함)
   const [tableHeight, setTableHeight] = useState('100%');
@@ -101,21 +106,24 @@ const Schedule = () => {
 
   // TODO: 백엔드로 데이터 전송 로직 작성
   const submitHandler = () => {
-    const schedules = records
-      .filter((record) => !record.is_history)
-      .map((record) => {
-        const { todo_id, start, end } = record;
-        return {
-          dailyTodoId: typeof todo_id === 'number' ? todo_id : undefined,
-          startDate: formatDateString(new Date(start)),
-          endDate: formatDateString(new Date(end)),
-        };
-      });
+    // const schedules = records
+    //   .filter((record) => !record.is_history)
+    //   .map((record) => {
+    //     const { todo_id, start, end } = record;
+    //     return {
+    //       dailyTodoId: typeof todo_id === 'number' ? todo_id : undefined,
+    //       startDate: formatDateString(new Date(start)),
+    //       endDate: formatDateString(new Date(end)),
+    //     };
+    //   });
 
-    submit(
-      { schedules: JSON.stringify(schedules), date: date.toLocaleDateString('sv-SE') },
-      { method: 'POST' }
-    );
+      // TODO: 서버 작업 후 삭제
+      setPrevRecords(records);
+
+    // submit(
+    //   { schedules: JSON.stringify(schedules), date: date.toLocaleDateString('sv-SE') },
+    //   { method: 'POST' }
+    // );
   };
 
   return (
@@ -274,7 +282,7 @@ const checkSchedule = (
         is_history: false,
         todo_id: daily_todo_id,
         category_icon: todo_emoji,
-        category_group_color: 'blue',
+        category_group_color: 'gray',
       } as RecordType,
     ].sort((a, b) => a.start - b.start);
   }

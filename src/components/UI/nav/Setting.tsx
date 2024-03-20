@@ -1,7 +1,8 @@
 import { FaGear } from 'react-icons/fa6';
 import { styled } from 'styled-components';
 
-const SETTING_PADDING = 2;
+// const SETTING_PADDING = 2;
+const SETTING_PADDING = 1.3;
 const SETTING_TEXT = 1;
 export const SETTING_SIZE = SETTING_PADDING * 2 + SETTING_TEXT;
 
@@ -15,7 +16,7 @@ const SettingWrapper = styled.div`
 const Setting = () => {
   return (
     <SettingWrapper className="w-100 flex j-end">
-      <FaGear />
+      <FaGear className="fill-white" />
     </SettingWrapper>
   );
 };

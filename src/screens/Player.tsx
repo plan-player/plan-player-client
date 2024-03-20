@@ -94,14 +94,34 @@ const Player = () => {
 
       <Timer className="my-md" defaultTime={history_sum} id={daily_todo_id} />
       <ProgressBar current={60} total={180} />
-      <span className="w-100 flex j-end">/{formatTime(schedule_sum || 0, true)}</span>
-      <div className="w-80 flex j-between i-center my-md">
+      {/* <span className="w-100 flex j-end">/{formatTime(schedule_sum || 0, true)}</span> */}
+      <div className="w-80 flex j-between i-center my-md mt-lg">
         <NavButton to="" />
         {/* finished 없음? */}
         <CheckButton id="player-check-button" defaultChecked={false} />
         <NavButton to="" isNext={true} />
       </div>
       <p className="w-100 break-word text-md">{memo || ''}</p>
+      {/* <div className="flex j-between w-100 gap-md">
+        <div className="w-100">
+          <h5 className="mb-xs text-sm">Schedule</h5>
+          <ol>
+            <li className="flex j-between i-center">
+              <p className="text-sm">00:00 ~ 00:00</p>
+              <strong className="text-smd">00:00:00</strong>
+            </li>
+          </ol>
+        </div>
+        <div className="w-100">
+          <h5 className="mb-xs text-sm">Schedule</h5>
+          <ol>
+            <li className="flex j-between i-center">
+              <p className="text-sm">00:00 ~ 00:00</p>
+              <strong className="text-smd">00:00:00</strong>
+            </li>
+          </ol>
+        </div>
+      </div> */}
     </PlayerWrapper>
   );
 };

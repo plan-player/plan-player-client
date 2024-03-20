@@ -1,49 +1,40 @@
 import { ErrorBoundary } from '@sentry/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { action as emailAuthAction } from './components/Auth/EmailForm';
-import SnsAuthRedirect, {
-  action as snsAuthAction,
-} from './components/Auth/SnsAuthRedirect';
-import { action as todoAction } from './components/Todo/TodoInputOverlay';
+import SnsAuthRedirect from './components/Auth/SnsAuthRedirect';
 import './css/_reset.css';
 import './css/color.css';
 import './css/global.css';
 import Index from './layout/Index';
-import RequireAuth, { loader as userLoader } from './layout/RequireAuth';
 import Root from './layout/Root';
 import CategoryDetail from './screens/CategoryDetail';
 import CategoryGroup from './screens/CategoryGroup';
 import Landing from './screens/Landing';
-import Playlist, { loader as todoLoader } from './screens/Playlist';
-import Schedule, {
-  action as scheduleAction,
-  loader as scheduleLoader,
-} from './screens/Schedule';
+import Playlist from './screens/Playlist';
+import Schedule from './screens/Schedule';
 import Statistics from './screens/Statistics';
-import { action as categoryAction } from './components/Category/CategoryInputs/CategoryInputOverlay';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 const today = new Date().toLocaleDateString('sv-SE');
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <RequireAuth>
+      // <RequireAuth>
         <Root />
-      </RequireAuth>
+      // </RequireAuth>
     ),
     errorElement: <ErrorBoundary />,
     children: [
       {
         path: '/landing',
         element: (
-          <RequireAuth>
+          // <RequireAuth>
             <Landing />
-          </RequireAuth>
+          // </RequireAuth>
         ),
-        loader: userLoader,
-        action: emailAuthAction,
+        // loader: userLoader,
+        // action: emailAuthAction,
       },
       {
         path: '/login/oauth2/code',
@@ -51,18 +42,18 @@ const router = createBrowserRouter([
           {
             path: '/login/oauth2/code/:provider',
             element: <SnsAuthRedirect />,
-            action: snsAuthAction,
+            // action: snsAuthAction,
           },
         ],
       },
       {
         path: '/',
         element: (
-          <RequireAuth authRequired={true}>
-            <Index />
-          </RequireAuth>
+          // <RequireAuth authRequired={true}>
+          <Index />
+          // </RequireAuth>
         ),
-        loader: userLoader,
+        // loader: userLoader,
         children: [
           {
             path: '/',
@@ -72,19 +63,19 @@ const router = createBrowserRouter([
             path: '/playlist/:today?',
             index: true,
             element: <Playlist />,
-            action: todoAction,
-            loader: todoLoader,
+            // action: todoAction,
+            // loader: todoLoader,
           },
           {
             path: '/schedule/:today?',
             element: <Schedule />,
-            action: scheduleAction,
-            loader: scheduleLoader,
+            // action: scheduleAction,
+            // loader: scheduleLoader,
           },
           {
             path: '/category',
             element: <CategoryGroup />,
-            action: categoryAction,
+            // action: categoryAction,
           },
           {
             path: '/category/:groupId/:categoryId',

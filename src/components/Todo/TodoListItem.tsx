@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
-import { useSetRecoilState } from 'recoil';
-import { DailyTodoType, todoAtom } from '../../atoms/todoAtom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { DailyTodoType, todoAtom, todosAtom } from '../../atoms/todoAtom';
 import { isPlayingAtom, slideMainAtom } from '../../atoms/uiAtom';
 import { fetchRequest } from '../../util/request';
 import { formatTime } from '../../util/time';
@@ -15,14 +15,15 @@ const TodoListItem = (todo: DailyTodoType) => {
   const { daily_todo_id, title, category_name, todo_emoji, category_emoji, history_sum } =
     todo;
 
-  const setTodoAtom = useSetRecoilState(todoAtom);
+  const [todos, setTodos] = useRecoilState(todosAtom);
+  const setCurrentTodo = useSetRecoilState(todoAtom);
   const setIsPlaying = useSetRecoilState(isPlayingAtom);
   const setSlideMain = useSetRecoilState(slideMainAtom);
 
   // TODO: DraggableItem 개발
 
   const setPlayerHandler = () => {
-    setTodoAtom(todo);
+    setCurrentTodo(todo);
 
     setIsPlaying(true);
 
@@ -35,30 +36,47 @@ const TodoListItem = (todo: DailyTodoType) => {
   };
 
   const menu = [
-    {
-      name: '상세보기',
-      action: () => {
-        // TODO: todo 상세 페이지로 이동
-        navigate('to todo detail page');
-      },
-    },
+    // {
+    //   name: '상세보기',
+    //   action: () => {
+    //     // TODO: todo 상세 페이지로 이동
+    //     navigate('to todo detail page');
+    //   },
+    // },
     {
       name: '삭제하기',
       action: () => {
-        fetchRequest({
-          url: `/api/daily-todos/${daily_todo_id}`,
-          method: 'delete',
+        // fetchRequest({
+        //   url: `/api/daily-todos/${daily_todo_id}`,
+        //   method: 'delete',
+        // });
+        
+        // NOTE: 삭제 내용 반영하여 리스트 새로고침
+        const currentIdx = todos.findIndex(
+          (todo) => todo.daily_todo_id === daily_todo_id
+        );
+        setTodos((state) => {
+          if (currentIdx === 0) {
+            return state.slice(1);
+          } else {
+            return [
+              ...state.slice(0, currentIdx),
+              ...state.slice(currentIdx + 1, state.length - 1),
+            ];
+          }
         });
-        // TODO: 삭제 내용 반영하여 리스트 새로고침
       },
     },
   ];
 
   return (
-    <div onClick={setPlayerHandler} className="flex i-center gap-sm">
-      <PlayPauseButton />
+    <div className="flex i-center gap-sm">
+      <PlayPauseButton onPlay={setPlayerHandler} />
       <div className="w-100 flex j-between i-center">
-        <div className="flex i-center gap-sm break-word m-sm">
+        <div
+          onClick={setPlayerHandler}
+          className="flex i-center gap-sm w-100 break-word m-sm"
+        >
           <IconImageHolder>{todo_emoji || category_emoji}</IconImageHolder>
           <MainSubTitle main={title} sub={category_name} />
         </div>

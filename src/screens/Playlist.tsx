@@ -11,11 +11,11 @@ import { fetchRequest } from '../util/request';
 const Playlist = () => {
   const [todos, setTodo] = useRecoilState(todosAtom);
 
-  const todoData = useLoaderData() as Awaited<ReturnType<typeof loader>>;
+  const todoData: DailyTodoType[] = [] //useLoaderData() as Awaited<ReturnType<typeof loader>>;
 
-  useEffect(() => {
-    setTodo(todoData);
-  }, [todoData]);
+  // useEffect(() => {
+  //   setTodo(todoData);
+  // }, [todoData]);
 
   const submitTodoOrder = () => {
     return;
