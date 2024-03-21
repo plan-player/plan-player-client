@@ -1,0 +1,16 @@
+.range-slider {
+  background-color: ;
+}
+
+.range-slider__thumb[data-lower='true'] {
+  display: none;
+}
+.range-slider__thumb[data-upper='true'] {
+  background-image: url('/svg/clock.svg');
+  background-color: #fff;
+}
+
+.range-slider .range-slider__range {
+  top: 1.36986%;
+  background-color: var(--primary);
+}

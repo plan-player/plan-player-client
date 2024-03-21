@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
-import ProgressBar from './ProgressBar';
 import { useRecoilState } from 'recoil';
+import { styled } from 'styled-components';
 import { timeSliderValueAtom } from '../../../atoms/timeSliderAtom';
+
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
+import '../../../css/timebar.css';
 
 interface TimeBarPros {
   height?: string;
@@ -19,6 +22,7 @@ const TimeBarWrapper = styled(motion.div)<TimeBarWrapperProps>`
 
 const TimeBar = ({ height }: TimeBarPros) => {
   const [timeValue, setTimeValue] = useRecoilState(timeSliderValueAtom);
+  const [sliderValue, setSliderValue] = useState([0, new Date(timeValue).getHours()]);
 
   // NOTE: 5분마다 타임바 자동 업데이트
   useEffect(() => {
@@ -27,9 +31,31 @@ const TimeBar = ({ height }: TimeBarPros) => {
     }, 300000);
   }, [timeValue]);
 
+  useEffect(() => {
+    setTimeValue((state) => {
+      const date = new Date(state);
+      date.setHours(sliderValue[1]);
+      return date.getTime();
+    });
+  }, [sliderValue]);
+
+  useEffect(() => {
+    const slider = document.getElementsByClassName(
+      'range-slider__range'
+    )[0] as HTMLDivElement;
+    slider.style.height = `${(sliderValue[1] / 24) * 100}%`;
+  }, []);
+
   return (
     <TimeBarWrapper layout $height={height}>
-      <ProgressBar isVertical={true} current={new Date(timeValue).getHours()} total={24} />
+      <RangeSlider
+        orientation="vertical"
+        value={sliderValue}
+        thumbsDisabled={[true, false]}
+        onInput={setSliderValue}
+        max={24}
+      />
+      {/* <ProgressBar isVertical={true} current={new Date(timeValue).getHours()} total={24} /> */}
     </TimeBarWrapper>
   );
 };
