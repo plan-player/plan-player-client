@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { ActionFunctionArgs } from 'react-router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
@@ -12,16 +12,26 @@ const StyledInput = styled.input`
   height: 1.875rem;
 `;
 
+const initialTodoData = {
+  title: '',
+  subtitle: '',
+  memo: '',
+};
+
 const TodoInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) => {
   const today = useRecoilValue(todayAtom);
   const setTodos = useSetRecoilState(todosAtom);
 
   // TODO: 서버 구현 이후 삭제
-  const [data, setData] = useState({
-    title: '',
-    subtitle: '',
-    memo: '',
-  });
+  const [data, setData] = useState(initialTodoData);
+
+  console.log(isOpen);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setData(initialTodoData);
+    }
+  }, [isOpen]);
 
   // TODO: 서버 구현 이후 삭제
   const temporarySubmitHandler = () => {
@@ -43,8 +53,7 @@ const TodoInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) 
   const formDataHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setData((state) => {
       const key = e.target.name as 'title' | 'subtitle' | 'memo';
-      state[key] = e.target.value;
-      return state;
+      return { ...state, [key]: e.target.value };
     });
   };
 
@@ -60,7 +69,13 @@ const TodoInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) 
         <IconImageHolder size="xl">📑</IconImageHolder>
         <div className="flex-column mt-sm">
           <span className="text-sm text-gray-200 bold">이름없는 카테고리</span>
-          <StyledInput onChange={formDataHandler} className="bold" placeholder="할 일을 입력하세요" name="title" />
+          <StyledInput
+            onChange={formDataHandler}
+            value={data.title}
+            className="bold"
+            placeholder="할 일을 입력하세요"
+            name="title"
+          />
         </div>
       </div>
       {/* todo field */}
@@ -70,6 +85,7 @@ const TodoInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) 
           <label>부제목</label>
           <textarea
             onChange={formDataHandler}
+            value={data.subtitle}
             className="w-100 h-100 text-md medium"
             rows={1}
             name="subtitle"
@@ -78,7 +94,13 @@ const TodoInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) 
         {/* memo */}
         <InputField isInnerLabel={true}>
           <label>메모</label>
-          <textarea onChange={formDataHandler} className="w-100 h-100 text-md medium" rows={4} name="memo" />
+          <textarea
+            onChange={formDataHandler}
+            value={data.memo}
+            className="w-100 h-100 text-md medium"
+            rows={4}
+            name="memo"
+          />
         </InputField>
         {/* date */}
         <input type="hidden" name="date" value={today.toLocaleDateString('sv-SE')} />
