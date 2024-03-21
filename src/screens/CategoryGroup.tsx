@@ -30,7 +30,7 @@ const CategoryGroup = () => {
         </div>
       </Title>
 
-      {categoryGroups?.map(
+      {/* {categoryGroups?.map(
         ({
           category_group_id,
           category_group_name,
@@ -45,7 +45,7 @@ const CategoryGroup = () => {
             color={color}
           />
         )
-      )}
+      )} */}
     </Wrapper>
   );
 };

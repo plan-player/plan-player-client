@@ -50,14 +50,14 @@ const CategoryDetail = () => {
   const selectedGroupId = pathMatch?.params.groupId;
   const selectedCategoryId = pathMatch?.params.categoryId;
 
-  const currentGroup = getCategory?.filter(
-    (current: { category_group_id: number | string }) =>
-      current.category_group_id == selectedGroupId
-  );
-  const data = currentGroup[0]?.category_list?.filter(
-    (current: { category_id: string | number }) =>
-      current.category_id == selectedCategoryId
-  );
+  // const currentGroup = getCategory?.filter(
+  //   (current: { category_group_id: number | string }) =>
+  //     current.category_group_id == selectedGroupId
+  // );
+  // const data = currentGroup[0]?.category_list?.filter(
+  //   (current: { category_id: string | number }) =>
+  //     current.category_id == selectedCategoryId
+  // );
 
   const [selectedView, setSelectedView] = useState('listview');
   const isListWrapper = selectedView === 'listview';
@@ -67,7 +67,7 @@ const CategoryDetail = () => {
   return (
     <div className="w-100 scroll flex-column border-box p-h-xl">
       <NavButton to="/category" />
-      <CategoryBox className="mx-auto flex-column i-center j-around">
+      {/* <CategoryBox className="mx-auto flex-column i-center j-around">
         <span className="text-xxl">{data[0]?.emoji}</span>
         <span className="text-3xl extra-bold text-black">{data[0]?.category_name}</span>
         <span className="flex regular text-sm text-black">
@@ -81,7 +81,7 @@ const CategoryDetail = () => {
             </Label>
           ))}
         </div>
-      </CategoryBox>
+      </CategoryBox> */}
 
       <IndexBar className="w-100 flex-i-center j-between">
         <BiMenuAltLeft />

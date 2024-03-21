@@ -119,6 +119,7 @@ const CategoryInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayPro
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           setHideNav={setHideNav}
+          submitHandler={() => {console.log('Todo: remove this')}}
         >
           <CategoryInput isOpen={isOpen} />
           <CategoryField onClick={onAddGroups} />
@@ -177,11 +178,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         tags: formData.get('tag'),
       };
 
-      await fetchRequest({
-        url: `/api/categories/add/${selectedCategoryId}`,
-        method: 'POST',
-        body: submission,
-      });
+      // await fetchRequest({
+      //   url: `/api/categories/add/${selectedCategoryId}`,
+      //   method: 'POST',
+      //   body: submission,
+      // });
 
       return { status: true };
     } catch {

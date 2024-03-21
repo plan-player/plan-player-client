@@ -108,14 +108,14 @@ const Statistics = () => {
           checked={selectedCategory === 'all'}
           onChange={() => setSelectedCategory('all')}
         />
-        <label
+        {/* <label
           className={`flex-center ${selectedCategory !== 'all' && 'o-3'}`}
           htmlFor="all"
         >
           <CircleLabel className="gap-xs" color="gray-200">
             <span className="text-xs">All</span>
           </CircleLabel>
-        </label>
+        </label> */}
 
         {categoriesSample.map((cate) => (
           <StatisticsCategory
@@ -137,7 +137,7 @@ const Statistics = () => {
           />
         </div>
 
-        <div className="w-35 ml-sm">
+        {/* <div className="w-35 ml-sm">
           <TodoBoard
             setTodo={(id: string) => {
               setTargetTodoId(id);
@@ -163,7 +163,7 @@ const Statistics = () => {
               );
             })}
           </WeekWrapper>
-        </div>
+        </div> */}
       </div>
     </div>
   );
