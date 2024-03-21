@@ -17,6 +17,7 @@ interface TimeBarWrapperProps {
 }
 
 const TimeBarWrapper = styled(motion.div)<TimeBarWrapperProps>`
+  padding-left: 0.5rem;
   height: ${({ $height }) => $height || '100%'};
 `;
 

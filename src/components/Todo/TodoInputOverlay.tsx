@@ -25,8 +25,6 @@ const TodoInputOverlay = ({ isOpen, setIsOpen, setHideNav }: InputOverlayProps) 
   // TODO: 서버 구현 이후 삭제
   const [data, setData] = useState(initialTodoData);
 
-  console.log(isOpen);
-
   useEffect(() => {
     if (!isOpen) {
       setData(initialTodoData);
