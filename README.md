@@ -1,5 +1,5 @@
-# Plan-Player-Client
-- plan player client 레포지토리 입니다.
+# Plot-Client
+- Plot Client 레포지토리 입니다.
 
 ## 기획/디자인 
 - pigma 
