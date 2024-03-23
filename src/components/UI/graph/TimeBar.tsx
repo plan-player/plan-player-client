@@ -44,7 +44,7 @@ const TimeBar = ({ height }: TimeBarPros) => {
     const slider = document.getElementsByClassName(
       'range-slider__range'
     )[0] as HTMLDivElement;
-    slider.style.height = `${(sliderValue[1] / 24) * 100}%`;
+    slider.style.height = `${(sliderValue[1] / 24) * 100 - 2}%`;
   }, []);
 
   return (
